@@ -3,51 +3,39 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 [DefaultExecutionOrder(-2)]
-public class PlayerController : MonoBehaviour, PlayerInputControls.IPlayerLocomotionMapActions
+public class PlayerController : MonoBehaviour
 {
-    public PlayerInputControls inputActions;
-    public Vector2 moveInput { get; private set; }
-    public Vector2 lookInput { get; private set; }
+    private InputController inputController;
     private PlayerModel playerModel;
+    private PlayerView playerView;
 
     private void Awake()
     {
+        inputController = GetComponent<InputController>();
         playerModel = GetComponent<PlayerModel>();
-        
-    }
-    public void OnEnable()
-    {
-        inputActions = new PlayerInputControls();
-
-        inputActions.Enable();
-
-        inputActions.PlayerLocomotionMap.Enable();
-
-        inputActions.PlayerLocomotionMap.SetCallbacks(this);
-    }
-
-    void OnDisable()
-    {
-        inputActions.PlayerLocomotionMap.Disable();
-        inputActions.PlayerLocomotionMap.RemoveCallbacks(this);
+        playerView = GetComponent<PlayerView>();
     }
 
     private void Update()
     {
-        playerModel.SetMovementInput(moveInput);
-    }
-    public void OnFire(InputAction.CallbackContext context)
-    {
-        print("Fire");
-    }
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        moveInput = context.ReadValue<Vector2>();
+        if (playerModel != null)
+        {
+            playerModel.SetMovementInput(CalculateMovementDirection());
+            if(inputController.lookInput != Vector2.zero)
+            {
+                playerView.LookDir(CalculateMovementDirection());
+            }
+        }
     }
 
-    public void OnLook(InputAction.CallbackContext context)
+    private Vector3 CalculateMovementDirection()
     {
-        lookInput = context.ReadValue<Vector2>();
+        // crear el vector de movimiento usando el input
+        // moveInput.y positivo (W) = adelante
+        // moveInput.x positivo (D) = derecha
+        Vector3 movement = transform.forward * -inputController.moveInput.y + transform.right * -inputController.moveInput.x;
+
+        return movement.normalized;
     }
 
 }
