@@ -18,8 +18,6 @@ public class PlayerModel : MonoBehaviour
 
     public void SetMovementInput(Vector3 input)
     {
-        Debug.Log("Input: " + input);
-
         input *= moveSpeed;
        input.y = rb.linearVelocity.y;
 

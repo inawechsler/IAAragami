@@ -21,10 +21,11 @@ public class PlayerController : MonoBehaviour
         if (playerModel != null)
         {
             playerModel.SetMovementInput(CalculateMovementDirection());
-            if(inputController.lookInput != Vector2.zero)
+            if (inputController.moveInput.magnitude > 0.1f)
             {
                 playerView.LookDir(CalculateMovementDirection());
             }
+
         }
     }
 

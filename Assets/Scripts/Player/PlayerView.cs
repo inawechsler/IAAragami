@@ -1,54 +1,83 @@
-using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerView : MonoBehaviour
 {
-    [Header("Camera")]
-    private float lookSenseH = .05f;
-    private float lookSenseV = .05f;
-    private float lookLimitV = 90f;
-    private Vector2 cameraRot = Vector2.zero;
-    private Vector2 playerTargetRotation = Vector2.zero;
-
     [Header("Rotation")]
-    [SerializeField] private float rotationSpeed = 10f; 
-    Quaternion targetRotation;
+    [SerializeField] private float rotationSpeed = 10f;
+
+    // Cache para evitar cálculos repetidos
+    private Vector3 targetDirection;
+    private Transform cachedTransform;
+    private Coroutine rotationCoroutine;
+
 
     [Header("Components")]
-    InputController inputController;
-    [SerializeField] Camera playerCamera;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private InputController inputController;
+    private Rigidbody rb;
+    [SerializeField] private Animator animator;
+
+
+    private void Awake()
     {
+        // cache el transform
+        cachedTransform = transform;
+
+        rb = GetComponent<Rigidbody>();
         inputController = GetComponent<InputController>();
     }
+    private void Update()
+    {
+        OnMoveAnim();
+    }
+
     public void LookDir(Vector3 inputDir)
     {
+        // Verificamos si la dirección tiene magnitud significativa
+        if (inputDir.sqrMagnitude > 0.01f)
+        {
+            inputDir.Normalize();
 
-        targetRotation = Quaternion.LookRotation(inputDir);
+            // verifico si la dirección cambió
+            bool directionChanged = (targetDirection == Vector3.zero) ||
+                                    (Vector3.Dot(targetDirection, inputDir) < 0.966f); // 15 grados masomenos
 
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            Quaternion.Euler(0, targetRotation.eulerAngles.y, 0),
-            Time.deltaTime * rotationSpeed
-        );
+            if (directionChanged)
+            {
+                //nueva dirección objetivo
+                targetDirection = inputDir;
 
+           
+                if (rotationCoroutine != null)
+                {
+                    StopCoroutine(rotationCoroutine);
+                }
+
+                rotationCoroutine = StartCoroutine(RotateToTarget());
+            }
+        }
     }
 
-    private void LateUpdate()
+
+    void OnMoveAnim()
     {
-        ManageCamera();
+        animator.SetFloat("Vel", rb.linearVelocity.magnitude);  
     }
 
-    private void ManageCamera()
+    private IEnumerator RotateToTarget()
     {
-        cameraRot.x += lookSenseH * inputController.lookInput.x;
-        cameraRot.y = Mathf.Clamp(cameraRot.y - lookSenseV * inputController.lookInput.y, -lookLimitV, lookLimitV);
+        // Mientras no estemos cerca de la dirección objetivo
+        while (Vector3.Dot(cachedTransform.forward, targetDirection) < 0.996f) // ~5 grados
+        {
+            // roto hacia la dirección objetivo
+            cachedTransform.forward = Vector3.Slerp(
+                cachedTransform.forward,
+                targetDirection,
+                Time.deltaTime * rotationSpeed);
 
-        playerTargetRotation.x += transform.eulerAngles.x + lookSenseH * inputController.lookInput.x;
-        transform.rotation = Quaternion.Euler(0f, playerTargetRotation.x, 0f);
-        //playerCamera.transform.rotation = Quaternion.Euler(cameraRot.y, cameraRot.x, 0f);
+            yield return null;
+        }
 
-
+        rotationCoroutine = null;
     }
 }
