@@ -15,6 +15,7 @@ public class PlayerView : MonoBehaviour
     [Header("Components")]
     private InputController inputController;
     private Rigidbody rb;
+    [SerializeField] private Camera mainCamera { get; set; }
     [SerializeField] private Animator animator;
 
 

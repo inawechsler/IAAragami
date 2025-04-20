@@ -5,38 +5,37 @@ using UnityEngine.InputSystem;
 [DefaultExecutionOrder(-2)]
 public class PlayerController : MonoBehaviour
 {
-    private InputController inputController;
-    private PlayerModel playerModel;
-    private PlayerView playerView;
+    public InputController inputController { get; private set; }
+    public PlayerModel playerModel{ get; private set; }
+    public PlayerView playerView { get; private set; }
+
+    private FSM<PSEnum> fsm;
 
     private void Awake()
     {
         inputController = GetComponent<InputController>();
         playerModel = GetComponent<PlayerModel>();
         playerView = GetComponent<PlayerView>();
+
+        InitFSM();
+    }
+
+    void InitFSM()
+    {
+        fsm = new FSM<PSEnum>();
+
+        var idle = new PSIDle<PSEnum>(inputController, PSEnum.Walk, fsm);
+        var walk = new PSWalk<PSEnum>(this, PSEnum.Idle, fsm);
+
+        idle.AddTransition(PSEnum.Walk, walk);
+        walk.AddTransition(PSEnum.Idle, idle);
+
+
+        fsm.SetInit(idle);
     }
 
     private void Update()
     {
-        if (playerModel != null)
-        {
-            playerModel.SetMovementInput(CalculateMovementDirection());
-            if (inputController.moveInput.magnitude > 0.1f)
-            {
-                playerView.LookDir(CalculateMovementDirection());
-            }
-
-        }
+        fsm.OnExecute();
     }
-
-    private Vector3 CalculateMovementDirection()
-    {
-        // crear el vector de movimiento usando el input
-        // moveInput.y positivo (W) = adelante
-        // moveInput.x positivo (D) = derecha
-        Vector3 movement = transform.forward * -inputController.moveInput.y + transform.right * -inputController.moveInput.x;
-
-        return movement.normalized;
-    }
-
 }
