@@ -13,7 +13,7 @@ public class Seek : ISteering
     }
     
 
-    public Vector3 GetDir()
+    public virtual Vector3 GetDir()
     {
         return(_target.position - _self.position).normalized;
     }

@@ -1,16 +1,14 @@
 using UnityEngine;
 
-public class Flee : MonoBehaviour
+public class Flee : Seek
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public Flee(Transform self, Transform target) : base(self, target)
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public override Vector3 GetDir()
     {
-        
+        return -base.GetDir();
     }
 }
