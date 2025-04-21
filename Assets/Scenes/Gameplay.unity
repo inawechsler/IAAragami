@@ -373,6 +373,9 @@ GameObject:
   m_Component:
   - component: {fileID: 304960758}
   - component: {fileID: 304960759}
+  - component: {fileID: 304960762}
+  - component: {fileID: 304960761}
+  - component: {fileID: 304960760}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -418,6 +421,49 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &304960760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304960757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b2da3e08346fe43b301d904a9aaba4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectUI: {fileID: 1984198204}
+--- !u!114 &304960761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304960757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54025925129487469cf3b4a4bb0b59e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angle: 90
+  range: 5
+  obsMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _target: {fileID: 467448064}
+--- !u!114 &304960762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304960757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d961edff01e65544870f4a140267ac2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &317861098
 GameObject:
   m_ObjectHideFlags: 0
