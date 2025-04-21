@@ -6,9 +6,8 @@ public class PlayerView : MonoBehaviour
     [Header("Rotation")]
     [SerializeField] private float rotationSpeed = 10f;
 
-    // Cache para evitar c·lculos repetidos
+    // Cache para evitar c√°lculos repetidos
     private Vector3 targetDirection;
-    private Transform cachedTransform;
     private Coroutine rotationCoroutine;
 
 
@@ -21,9 +20,7 @@ public class PlayerView : MonoBehaviour
 
     private void Awake()
     {
-        // cache el transform
-        cachedTransform = transform;
-
+       
         rb = GetComponent<Rigidbody>();
         inputController = GetComponent<InputController>();
     }
@@ -34,29 +31,26 @@ public class PlayerView : MonoBehaviour
 
     public void LookDir(Vector3 inputDir)
     {
-        // Verificamos si la direcciÛn tiene magnitud significativa
-        if (inputDir.sqrMagnitude > 0.01f)
+        inputDir.Normalize();
+
+        // verifico si la direcci√≥n cambi√≥
+        bool directionChanged = (targetDirection == Vector3.zero) ||
+                                (Vector3.Dot(targetDirection, inputDir) < 0.966f); // 15 grados masomenos
+
+        if (directionChanged)
         {
-            inputDir.Normalize();
+            //nueva direcci√≥n objetivo
+            targetDirection = inputDir;
 
-            // verifico si la direcciÛn cambiÛ
-            bool directionChanged = (targetDirection == Vector3.zero) ||
-                                    (Vector3.Dot(targetDirection, inputDir) < 0.966f); // 15 grados masomenos
 
-            if (directionChanged)
+            if (rotationCoroutine != null)
             {
-                //nueva direcciÛn objetivo
-                targetDirection = inputDir;
-
-           
-                if (rotationCoroutine != null)
-                {
-                    StopCoroutine(rotationCoroutine);
-                }
-
-                rotationCoroutine = StartCoroutine(RotateToTarget());
+                StopCoroutine(rotationCoroutine);
             }
+
+            rotationCoroutine = StartCoroutine(RotateToTarget());
         }
+
     }
 
 
@@ -67,12 +61,12 @@ public class PlayerView : MonoBehaviour
 
     private IEnumerator RotateToTarget()
     {
-        // Mientras no estemos cerca de la direcciÛn objetivo
-        while (Vector3.Dot(cachedTransform.forward, targetDirection) < 0.996f) // ~5 grados
+        // Mientras no estemos cerca de la direcci√≥n objetivo
+        while (Vector3.Dot(transform.forward, targetDirection) < 0.996f)
         {
-            // roto hacia la direcciÛn objetivo
-            cachedTransform.forward = Vector3.Slerp(
-                cachedTransform.forward,
+            // roto hacia la direcci√≥n objetivo
+            transform.forward = Vector3.Slerp(
+                transform.forward,
                 targetDirection,
                 Time.deltaTime * rotationSpeed);
 

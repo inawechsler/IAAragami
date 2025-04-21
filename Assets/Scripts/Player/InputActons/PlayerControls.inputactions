@@ -22,15 +22,6 @@
                     "processors": "InvertVector2",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Look",
-                    "type": "Value",
-                    "id": "b6d6507e-2733-49ae-8b6c-7b8d9978f897",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -90,9 +81,9 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "left",
-                    "id": "d24aca31-17e9-403b-be5e-8b68f28fbe4e",
-                    "path": "<Keyboard>/a",
+                    "name": "Down",
+                    "id": "82f7d64e-17f1-4025-8797-48a867f6197a",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -101,8 +92,8 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "right",
-                    "id": "76187086-3d98-4dbe-927e-eac5ffb12aee",
+                    "name": "Right",
+                    "id": "d696da2d-bf47-4746-8fba-73782b6c34a1",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -112,15 +103,15 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "4d908a6e-3d81-4836-a1f1-07228dc7b0c1",
-                    "path": "<Mouse>/delta",
+                    "name": "Left",
+                    "id": "819c9fa9-c6dc-444a-80b8-c50d8b83ddcc",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard",
-                    "action": "Look",
+                    "groups": "",
+                    "action": "Move",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
                 }
             ]
         }
