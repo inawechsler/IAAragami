@@ -19,7 +19,7 @@ public class Pursuit : ISteering
         _self = self;
         _target = target;
     }
-    public Vector3 GetDir()
+    public virtual Vector3 GetDir()
     {
         Vector3 point = _target.position + _target.transform.forward * _target.linearVelocity.magnitude * _timePrediction;
         Vector3 dirToPoint = (point - _self.position).normalized;
