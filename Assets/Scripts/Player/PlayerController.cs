@@ -3,51 +3,39 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 [DefaultExecutionOrder(-2)]
-public class PlayerController : MonoBehaviour, PlayerInputControls.IPlayerLocomotionMapActions
+public class PlayerController : MonoBehaviour
 {
-    public PlayerInputControls inputActions;
-    public Vector2 moveInput { get; private set; }
-    public Vector2 lookInput { get; private set; }
-    private PlayerModel playerModel;
+    public InputController inputController { get; private set; }
+    public PlayerModel playerModel{ get; private set; }
+    public PlayerView playerView { get; private set; }
+
+    private FSM<PSEnum> fsm;
 
     private void Awake()
     {
+        inputController = GetComponent<InputController>();
         playerModel = GetComponent<PlayerModel>();
-        
-    }
-    public void OnEnable()
-    {
-        inputActions = new PlayerInputControls();
+        playerView = GetComponent<PlayerView>();
 
-        inputActions.Enable();
-
-        inputActions.PlayerLocomotionMap.Enable();
-
-        inputActions.PlayerLocomotionMap.SetCallbacks(this);
+        InitFSM();
     }
 
-    void OnDisable()
+    void InitFSM()
     {
-        inputActions.PlayerLocomotionMap.Disable();
-        inputActions.PlayerLocomotionMap.RemoveCallbacks(this);
+        fsm = new FSM<PSEnum>();
+
+        var idle = new PSIDle<PSEnum>(inputController, PSEnum.Walk, fsm);
+        var walk = new PSWalk<PSEnum>(this, PSEnum.Idle, fsm);
+
+        idle.AddTransition(PSEnum.Walk, walk);
+        walk.AddTransition(PSEnum.Idle, idle);
+
+
+        fsm.SetInit(idle);
     }
 
     private void Update()
     {
-        playerModel.SetMovementInput(moveInput);
+        fsm.OnExecute();
     }
-    public void OnFire(InputAction.CallbackContext context)
-    {
-        print("Fire");
-    }
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        moveInput = context.ReadValue<Vector2>();
-    }
-
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        lookInput = context.ReadValue<Vector2>();
-    }
-
 }
