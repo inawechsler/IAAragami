@@ -5,9 +5,11 @@ public class PSIDle<T> : PSBase<T>
 
     private InputController inputController;
     T inputToWalk;
-    public PSIDle(T inputToWalk, InputController inputController) : base()
+    T inputToCrouch;
+    public PSIDle(T inputToWalk, T inputToCrouch, InputController inputController) : base()
     {
         this.inputController = inputController;
+        this.inputToCrouch = inputToCrouch;
         this.inputToWalk = inputToWalk;
     }
 
@@ -15,15 +17,18 @@ public class PSIDle<T> : PSBase<T>
     {
         base.Execute();
 
-        if (inputController != null)
+        if (inputController.moveInput.magnitude != 0)
         {
-            if (inputController.moveInput.magnitude != 0)
-            {
-                if (StateMachine != null)
-                {
-                    StateMachine.Transition(inputToWalk);
-                }
-            }
+
+            StateMachine.Transition(inputToWalk);
+
         }
+        else if (inputController.isCrouched)
+        {
+
+            StateMachine.Transition(inputToCrouch);
+
+        }
+
     }
 }

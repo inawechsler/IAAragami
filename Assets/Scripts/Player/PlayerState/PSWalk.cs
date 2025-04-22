@@ -29,7 +29,6 @@ public class PSWalk<T> : PSBase<T>
             {
                 StateMachine.Transition(inputToIdle);
             }
-
         }
     }
 

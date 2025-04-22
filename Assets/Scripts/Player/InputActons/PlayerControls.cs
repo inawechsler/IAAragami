@@ -92,7 +92,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""id"": ""d29f6155-231c-4939-9d5b-01b147acff49"",
             ""actions"": [
                 {
-                    ""name"": ""Fire"",
+                    ""name"": ""Crouch"",
                     ""type"": ""Button"",
                     ""id"": ""05ce5b77-3998-4702-96f6-b98a8ceaa416"",
                     ""expectedControlType"": """",
@@ -114,11 +114,11 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""23384ca1-9d2f-4543-a13b-697a921ce04b"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -129,7 +129,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Fire"",
+                    ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -178,6 +178,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""Down"",
+                    ""id"": ""02bae075-14dd-4d77-925a-802327b6d1ea"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""Left"",
                     ""id"": ""819c9fa9-c6dc-444a-80b8-c50d8b83ddcc"",
                     ""path"": ""<Keyboard>/a"",
@@ -207,7 +218,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
 }");
         // PlayerLocomotionMap
         m_PlayerLocomotionMap = asset.FindActionMap("PlayerLocomotionMap", throwIfNotFound: true);
-        m_PlayerLocomotionMap_Fire = m_PlayerLocomotionMap.FindAction("Fire", throwIfNotFound: true);
+        m_PlayerLocomotionMap_Crouch = m_PlayerLocomotionMap.FindAction("Crouch", throwIfNotFound: true);
         m_PlayerLocomotionMap_Move = m_PlayerLocomotionMap.FindAction("Move", throwIfNotFound: true);
     }
 
@@ -289,7 +300,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     // PlayerLocomotionMap
     private readonly InputActionMap m_PlayerLocomotionMap;
     private List<IPlayerLocomotionMapActions> m_PlayerLocomotionMapActionsCallbackInterfaces = new List<IPlayerLocomotionMapActions>();
-    private readonly InputAction m_PlayerLocomotionMap_Fire;
+    private readonly InputAction m_PlayerLocomotionMap_Crouch;
     private readonly InputAction m_PlayerLocomotionMap_Move;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerLocomotionMap".
@@ -303,9 +314,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public PlayerLocomotionMapActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "PlayerLocomotionMap/Fire".
+        /// Provides access to the underlying input action "PlayerLocomotionMap/Crouch".
         /// </summary>
-        public InputAction @Fire => m_Wrapper.m_PlayerLocomotionMap_Fire;
+        public InputAction @Crouch => m_Wrapper.m_PlayerLocomotionMap_Crouch;
         /// <summary>
         /// Provides access to the underlying input action "PlayerLocomotionMap/Move".
         /// </summary>
@@ -336,9 +347,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerLocomotionMapActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerLocomotionMapActionsCallbackInterfaces.Add(instance);
-            @Fire.started += instance.OnFire;
-            @Fire.performed += instance.OnFire;
-            @Fire.canceled += instance.OnFire;
+            @Crouch.started += instance.OnCrouch;
+            @Crouch.performed += instance.OnCrouch;
+            @Crouch.canceled += instance.OnCrouch;
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
@@ -353,9 +364,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="PlayerLocomotionMapActions" />
         private void UnregisterCallbacks(IPlayerLocomotionMapActions instance)
         {
-            @Fire.started -= instance.OnFire;
-            @Fire.performed -= instance.OnFire;
-            @Fire.canceled -= instance.OnFire;
+            @Crouch.started -= instance.OnCrouch;
+            @Crouch.performed -= instance.OnCrouch;
+            @Crouch.canceled -= instance.OnCrouch;
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
@@ -413,12 +424,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IPlayerLocomotionMapActions
     {
         /// <summary>
-        /// Method invoked when associated input action "Fire" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Crouch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnFire(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Move" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

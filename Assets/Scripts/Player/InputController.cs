@@ -5,14 +5,26 @@ using UnityEngine.InputSystem;
 public class InputController : MonoBehaviour, PlayerControls.IPlayerLocomotionMapActions
 {
     public PlayerControls inputActions;
+
+    public PlayerModel playerModel { get; private set; }
     public Vector2 moveInput { get; private set; }
+
+    public bool isCrouched { get; private set; } = false;
+
+
 
     private void Awake()
     {
+        playerModel = GetComponent<PlayerModel>();
+
         inputActions = new PlayerControls();
 
         inputActions.PlayerLocomotionMap.Move.performed += OnMove;
         inputActions.PlayerLocomotionMap.Move.canceled += OnMove;
+
+
+        inputActions.PlayerLocomotionMap.Crouch.performed += OnCrouch;
+        inputActions.PlayerLocomotionMap.Crouch.canceled += OnCrouch;
     }
     public void OnEnable()
     {
@@ -26,8 +38,16 @@ public class InputController : MonoBehaviour, PlayerControls.IPlayerLocomotionMa
     }
 
 
-    public void OnFire(InputAction.CallbackContext context)
+    public void OnCrouch(InputAction.CallbackContext context)
     {
+        if (context.performed)
+        {
+            if(moveInput != Vector2.zero)
+            {
+                return;
+            }
+            isCrouched = !isCrouched;
+        }
     }
     public void OnMove(InputAction.CallbackContext context)
     {

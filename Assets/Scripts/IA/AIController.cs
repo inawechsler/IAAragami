@@ -40,6 +40,7 @@ public class AIController : MonoBehaviour
         idle.AddTransition(AIEnum.Chase, walk);
         walk.AddTransition(AIEnum.Idle, idle);
 
+
         stateList.Add(idle);
         stateList.Add(walk);
 
