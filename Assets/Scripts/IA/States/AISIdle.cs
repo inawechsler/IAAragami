@@ -1,19 +1,17 @@
 using UnityEngine;
 
-public class AISIdle<T> : PSBase<T>
+public class AISIdle<T> : AISBase<T>
 {
-    T chaseInput;
-    public AISIdle(T input)
+    AIController AIController;
+    public AISIdle(AIController controller)
     {
-        chaseInput = input;
+        AIController = controller;
     }
     public override void Execute()
     {
         base.Execute();
 
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            fsm.Transition(chaseInput);
-        }
+        look.LookDir(Vector3.zero);
+
     }
 }

@@ -14,15 +14,14 @@ public class PlayerView : MonoBehaviour
 
     private void Update()
     {
-        OnMoveAnim();   
+        OnMoveAnim();
     }
     public void OnMoveAnim()
     {
         animator.SetFloat("Vel", rb.linearVelocity.magnitude);
     }
-
-    public void OnCrouchAnim(bool value)
+    public void OnCrouchAnim(bool isCrouched)
     {
-        animator.SetBool("isCrouch", value);
+        animator.SetBool("isCrouch", isCrouched);
     }
 }

@@ -23,7 +23,7 @@ public class State<T> : IState<T>
     }
     public virtual void Execute()
     {
-        Debug.Log("Executing " + GetType().Name);
+        //Debug.Log("Executing " + GetType().Name);
     }
     public virtual void Exit()
     {

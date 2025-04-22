@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
+
+
+
 [DefaultExecutionOrder(-1)]
 public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 {
@@ -25,7 +25,6 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
     private Vector3 originalCenter;
     private Vector3 crouchCenter;
     private CapsuleCollider characterCollider;
-    private bool isTransitioningCrouch = false;
 
     [Header("Components")]
     Rigidbody rb;
@@ -61,6 +60,8 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
             );
         }
     }
+
+
     public void Move(Vector3 input)
     {
 

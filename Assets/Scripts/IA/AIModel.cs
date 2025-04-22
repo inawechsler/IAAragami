@@ -1,22 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class AIModel : MonoBehaviour, IMove
+public class AIModel : MonoBehaviour, IMove, ILook
 {
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
 
-    float stopDistance = 0.2f;
-    [SerializeField] List<Transform> waypoints;
-    int currentWaypointIndex;
+    [Header("Rotation")]
+    [SerializeField] private float rotationSpeed = 10f;
+    private Vector3 targetDirection;
+    private Coroutine rotationCoroutine;
+
+    [Header("Line Of Sight")]
+    [Range(1, 360)]
+    public float angle;
+    public float range;
+    public LayerMask obsMask;
 
     [Header("Components")]
     Rigidbody rb;
     public Transform Position { get; set; }
 
-    // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -30,6 +35,15 @@ public class AIModel : MonoBehaviour, IMove
         rb.linearVelocity = input;
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, range);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, Quaternion.Euler(0, angle / 2, 0) * transform.forward * range);
+        Gizmos.DrawRay(transform.position, Quaternion.Euler(0, angle / -2, 0) * transform.forward * range);
+    }
     public Vector3 CalculateMovementDirection()
     {
         //    // crear el vector de movimiento usando el input
@@ -41,42 +55,48 @@ public class AIModel : MonoBehaviour, IMove
           return Vector3.zero;
     }
 
-    //public void WaypointsPatrol()
-    //{
-    //    if (waypoints.Count == 0) return;
 
-    //    Transform targetWaypoint = waypoints[currentWaypointIndex];
-    //    Vector3 direction = (targetWaypoint.position - transform.position).normalized;
-    //    transform.position += direction * moveSpeed * Time.deltaTime;
+    public void LookDir(Vector3 inputDir)
+    {
+        inputDir.Normalize();
 
-    //    // Rota hacia el waypoint
-    //    if (direction != Vector3.zero)
-    //    {
-    //        Quaternion lookRotation = Quaternion.LookRotation(direction);
-    //        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-    //    }
+        // verifico si la dirección cambió
+        bool directionChanged = (targetDirection == Vector3.zero) ||
+                                (Vector3.Dot(targetDirection, inputDir) < 0.966f); // 15 grados masomenos
 
-    //    // Verifica si llegó al waypoint
-    //    if (Vector3.Distance(transform.position, targetWaypoint.position) < stopDistance)
-    //    {
-    //        currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
-    //    }
-    //}
+        if (directionChanged)
+        {
+            //nueva dirección objetivo
+            targetDirection = inputDir;
 
-    //void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.blue;
-    //    for (int i = 0; i < waypoints.Count; i++)
-    //    {
-    //        if (waypoints[i] != null)
-    //        {
-    //            Gizmos.DrawSphere(waypoints[i].position, 0.2f);
 
-    //            if (i + 1 < waypoints.Count && waypoints[i + 1] != null)
-    //            {
-    //                Gizmos.DrawLine(waypoints[i].position, waypoints[i + 1].position);
-    //            }
-    //        }
-    //    }
-    //}
+            if (rotationCoroutine != null)
+            {
+                StopCoroutine(rotationCoroutine);
+            }
+
+            rotationCoroutine = StartCoroutine(RotateToTarget());
+        }
+
+    }
+
+
+    private IEnumerator RotateToTarget()
+    {
+        // Mientras no estemos cerca de la dirección objetivo
+        while (Vector3.Dot(transform.forward, targetDirection) < 0.996f)
+        {
+            // roto hacia la dirección objetivo
+            transform.forward = Vector3.Slerp(
+                transform.forward,
+                targetDirection,
+                Time.deltaTime * rotationSpeed);
+
+            yield return null;
+        }
+
+        rotationCoroutine = null;
+    }
+
+
 }

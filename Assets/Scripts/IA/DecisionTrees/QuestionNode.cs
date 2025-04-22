@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class QuestionNode : MonoBehaviour, ITreeNode
+public class QuestionNode : ITreeNode
 {
     Func<bool> question;
 

@@ -1,14 +1,12 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AISSteering<T> : PSBase<T>
+public class AISSteering<T> : AISBase<T>
 {
     private ISteering steering;
-    private T IdleInput;
-    public AISSteering(ISteering target, T idleInput)
+    public AISSteering(ISteering target)
     {
         steering = target;
-        IdleInput = idleInput;
     }
     public override void Execute()
     {
@@ -16,10 +14,5 @@ public class AISSteering<T> : PSBase<T>
         var dir = steering.GetDir();
         move.Move(dir.normalized);
         look.LookDir(dir.normalized);
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            fsm.Transition(IdleInput);
-        }
     }
 }

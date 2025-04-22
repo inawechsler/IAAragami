@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class PSBase<T> : State<T>
+public class AISBase<T> : State<T>
 {
     protected ILook look;
     protected IMove move;
-    protected ICrouch crouch;
+    protected LineOfSight LOS;
     public override void Initialize(params object[] args)
     {
         base.Initialize(args);
@@ -14,7 +14,7 @@ public class PSBase<T> : State<T>
             move = args[1] as IMove;
             fsm = args[2] as FSM<T>;
             if(args.Length > 3)
-                crouch = args[3] as ICrouch;
+                LOS = args[3] as LineOfSight;
             StateMachine = fsm;
         }
     }
