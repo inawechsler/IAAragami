@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AIController : MonoBehaviour
 {
-
+    private AIModel AiModel;
+    private WaypointPatrol prueba;    
     private FSM<AIEnum> fsm;
     private ILook look;
     private IMove move;
@@ -55,5 +56,7 @@ public class AIController : MonoBehaviour
     private void Update()
     {
         fsm.OnExecute();
+        //AiModel.WaypointsPatrol();
+        prueba.WaypointsPatrol();
     }
 }

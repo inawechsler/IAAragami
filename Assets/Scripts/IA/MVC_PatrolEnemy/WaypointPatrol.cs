@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class WaypointPatrol : MonoBehaviour
 {
-    float life = 10f;
     float speed = 2f;
     Rigidbody rb;
     //float speedRotation = 0;
@@ -20,6 +19,11 @@ public class EnemyController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        WaypointsPatrol();
+    }
+
+    public void WaypointsPatrol() 
     {
         if (waypoints.Count == 0) return;
 
