@@ -18,10 +18,10 @@ public class WaypointPatrol : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        WaypointsPatrol();
-    }
+    //void Update()
+    //{
+    //    WaypointsPatrol();
+    //}
 
     public void WaypointsPatrol() 
     {
