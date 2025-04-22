@@ -21,8 +21,6 @@ public class PSCrouch<T> : PSBase<T>
         playerView.OnCrouchAnim(true);
         controller.playerModel.onCrouch?.Invoke();
 
-
-        Debug.Log("ksajdksjdskjdd");
     }
 
     public override void Execute()
@@ -39,7 +37,7 @@ public class PSCrouch<T> : PSBase<T>
     {
         base.Exit();
 
-        controller.playerModel.onCrouch?.Invoke();
+        controller.playerModel.onCrouch?.Invoke(); //Invocamos otra vez a la salida, controlador se encarga de detectar si se agacha o se levanta
         playerView.OnCrouchAnim(false);
     }
 }

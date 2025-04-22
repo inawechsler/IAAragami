@@ -18,6 +18,17 @@ public class InputController : MonoBehaviour, PlayerControls.IPlayerLocomotionMa
         playerModel = GetComponent<PlayerModel>();
 
         inputActions = new PlayerControls();
+        inputActions.Enable();
+
+        inputActions.PlayerLocomotionMap.Enable();
+
+        inputActions.PlayerLocomotionMap.SetCallbacks(this);
+
+    }
+    public void OnEnable()
+    {
+        if (inputActions == null)
+            inputActions = new PlayerControls();
 
         inputActions.PlayerLocomotionMap.Move.performed += OnMove;
         inputActions.PlayerLocomotionMap.Move.canceled += OnMove;
@@ -25,16 +36,6 @@ public class InputController : MonoBehaviour, PlayerControls.IPlayerLocomotionMa
 
         inputActions.PlayerLocomotionMap.Crouch.performed += OnCrouch;
         inputActions.PlayerLocomotionMap.Crouch.canceled += OnCrouch;
-    }
-    public void OnEnable()
-    {
-        if (inputActions == null)
-            inputActions = new PlayerControls();
-        inputActions.Enable();
-
-        inputActions.PlayerLocomotionMap.Enable();
-
-        inputActions.PlayerLocomotionMap.SetCallbacks(this);
     }
 
 
