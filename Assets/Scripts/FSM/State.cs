@@ -19,7 +19,7 @@ public class State<T> : IState<T>
 
     public virtual void Enter()
     {
-        Debug.Log("Entering " + GetType().Name);
+        
     }
     public virtual void Execute()
     {
@@ -53,6 +53,10 @@ public class State<T> : IState<T>
         }
     }
 
+    public virtual void Initialize(params object[] args)
+    {
+
+    }
     public void RemoveTransitionByState(IState<T> state)
     {
         foreach (var transition in transitions)

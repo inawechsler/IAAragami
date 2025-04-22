@@ -28,11 +28,9 @@ public class InputController : MonoBehaviour, PlayerControls.IPlayerLocomotionMa
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        print("Fire");
     }
     public void OnMove(InputAction.CallbackContext context)
     {
-        print("Move");
         moveInput = context.ReadValue<Vector2>();
     }
 

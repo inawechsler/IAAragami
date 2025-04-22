@@ -1,16 +1,14 @@
 using UnityEngine;
 
-public class PSIDle<T> : State<T>
+public class PSIDle<T> : PSBase<T>
 {
 
     private InputController inputController;
     T inputToWalk;
-    public PSIDle(InputController inputController, T inputToWalk, FSM<T> fsm) : base()
+    public PSIDle(T inputToWalk, InputController inputController) : base()
     {
         this.inputController = inputController;
         this.inputToWalk = inputToWalk;
-        StateMachine = fsm;
-
     }
 
     public override void Execute()

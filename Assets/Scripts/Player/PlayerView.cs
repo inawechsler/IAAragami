@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerView : MonoBehaviour
+public class PlayerView : MonoBehaviour, ILook
 {
     [Header("Rotation")]
     [SerializeField] private float rotationSpeed = 10f;

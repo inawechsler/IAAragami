@@ -167,17 +167,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Down"",
-                    ""id"": ""82f7d64e-17f1-4025-8797-48a867f6197a"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""Right"",
                     ""id"": ""d696da2d-bf47-4746-8fba-73782b6c34a1"",
                     ""path"": ""<Keyboard>/d"",

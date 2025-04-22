@@ -1,28 +1,54 @@
+using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 public class AIController : MonoBehaviour
 {
 
-    private FSM<PSEnum> fsm;
-
+    private FSM<AIEnum> fsm;
+    private ILook look;
+    private IMove move;
+    private ISteering steering;
+    public float timePrediction;
+    [SerializeField] private Transform target;
+    [SerializeField] private Rigidbody rbTarget;
     private void Awake()
     {
-
+        look = GetComponent<ILook>();
+        move = GetComponent<IMove>();
+        InitSteering();
         InitFSM();
     }
 
+    void InitSteering()
+    {
+        var pursuit = new Pursuit(transform, rbTarget, timePrediction);
+        var evade = new Evade(transform, rbTarget, timePrediction);
+
+
+        steering = evade;
+    }
+    
     void InitFSM()
     {
-        //fsm = new FSM<PSEnum>();
+        fsm = new FSM<AIEnum>();
 
-        //var idle = new PSIDle<PSEnum>(inputController, PSEnum.Walk, fsm);
-        //var walk = new PSWalk<PSEnum>(this, PSEnum.Idle, fsm);
+        var stateList = new List<PSBase<AIEnum>>();
+        var idle = new AISIdle<AIEnum>(AIEnum.Chase);
+        var walk = new AISSteering<AIEnum>(steering, AIEnum.Idle);
 
-        //idle.AddTransition(PSEnum.Walk, walk);
-        //walk.AddTransition(PSEnum.Idle, idle);
+        idle.AddTransition(AIEnum.Chase, walk);
+        walk.AddTransition(AIEnum.Idle, idle);
 
+        stateList.Add(idle);
+        stateList.Add(walk);
 
-        //fsm.SetInit(idle);
+        for (int i = 0; i < stateList.Count; i++)
+        {
+            stateList[i].Initialize(look, move, fsm);
+        }
+
+        fsm.SetInit(idle);
     }
 
     private void Update()
