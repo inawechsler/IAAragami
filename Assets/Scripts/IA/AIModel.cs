@@ -1,9 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class AIModel : MonoBehaviour, IMove, ILook
+public class AIModel : MonoBehaviour, IMove, ILook, IAttack
 {
+
+    [Header("Animation")]
+    [SerializeField] private Collider attackCollider;
+    private bool _lastAttackHit = false;
+
+
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
 
@@ -16,11 +23,14 @@ public class AIModel : MonoBehaviour, IMove, ILook
     [Range(1, 360)]
     public float angle;
     public float range;
+    public float attackRange;
     public LayerMask obsMask;
 
     [Header("Components")]
     Rigidbody rb;
     public Transform Position { get; set; }
+
+    public Action onAttack { get; set;}
 
     void Awake()
     {
@@ -35,6 +45,32 @@ public class AIModel : MonoBehaviour, IMove, ILook
         rb.linearVelocity = input;
     }
 
+    public void EnableAttackCollider()
+    {
+        _lastAttackHit = false; // Reiniciar el estado del hit
+        attackCollider.enabled = true;
+    }
+
+    // Este método se llama desde el Animation Event
+    public void DisableAttackCollider()
+    {
+        attackCollider.enabled = false;
+    }
+
+    private void OnTriggerEnter(Collider player)
+    {
+        if (attackCollider.enabled && (player.CompareTag("Player")))
+        {
+            _lastAttackHit = true;
+            Debug.Log("¡Golpe conectado!");
+        }
+    }
+
+    public bool LastAttackHit()
+    {
+        return _lastAttackHit;
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
@@ -46,12 +82,6 @@ public class AIModel : MonoBehaviour, IMove, ILook
     }
     public Vector3 CalculateMovementDirection()
     {
-        //    // crear el vector de movimiento usando el input
-        //    // moveInput.y positivo (W) = adelante
-        //    // moveInput.x positivo (D) = derecha
-        //    Vector3 movement = Position.forward * -inputController.moveInput.y +
-        //        Position.right * -inputController.moveInput.x;
-
           return Vector3.zero;
     }
 
@@ -98,5 +128,8 @@ public class AIModel : MonoBehaviour, IMove, ILook
         rotationCoroutine = null;
     }
 
-
+    public void Attack()
+    {
+        onAttack?.Invoke();
+    }
 }

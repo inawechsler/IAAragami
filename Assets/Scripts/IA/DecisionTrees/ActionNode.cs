@@ -15,4 +15,9 @@ public class ActionNode : ITreeNode
     {
         action();
     }
+
+    public bool IsFinished()
+    {
+        return true;
+    }
 }

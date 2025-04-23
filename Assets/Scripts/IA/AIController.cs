@@ -9,22 +9,28 @@ public class AIController : MonoBehaviour
     private FSM<AIEnum> fsm;
     private ILook look;
     private IMove move;
+    private IAttack attack;
     private ITreeNode rootNode;
     public ISteering steering;
+    ISteering pursuit;
+    ISteering evade;
     private LineOfSight LineOfSight;
     public AIModel model { get; private set; }
-    public float timePrediction;
     [SerializeField] public Transform target;
     [SerializeField] public Rigidbody rbTarget;
+
+    [Header("Attributes")]
+    [SerializeField] private float timePrediction;
 
 
     private void Awake()
     {
         look = GetComponent<ILook>();
+        attack = GetComponent<IAttack>();
         move = GetComponent<IMove>();
         InitSteering();
-        InitFSM();
         InitTree();
+        InitFSM();
         LineOfSight = new LineOfSight();
         model = GetComponent<AIModel>();
 
@@ -33,12 +39,18 @@ public class AIController : MonoBehaviour
     {
         fsm.OnExecute();
         rootNode.Execute();
+
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            steering = steering == pursuit ? evade : pursuit;
+        }
     }
-    
+
     void InitSteering()
     {
-        var pursuit = new Pursuit(transform, rbTarget, timePrediction);
-        var evade = new Evade(transform, rbTarget, timePrediction);
+        pursuit = new Pursuit(transform, rbTarget, timePrediction);
+        evade = new Evade(transform, rbTarget, timePrediction);
 
         steering = pursuit;
 
@@ -46,44 +58,99 @@ public class AIController : MonoBehaviour
 
     void InitTree()
     {
-        var chase = new ActionNode(() => fsm.Transition(AIEnum.Chase));
-        var idle = new ActionNode(() => fsm.Transition(AIEnum.Idle));
+        var chaseAct = new ActionNode(() => fsm.Transition(AIEnum.Chase));
+        var idleAct = new ActionNode(() => fsm.Transition(AIEnum.Idle));
+        var attackAct = new ActionNode(() => fsm.Transition(AIEnum.Attack));
 
-        var qCanWatchPlayer = new QuestionNode(QLineOfSight, chase, idle);
+
+        var qHitTarget = new QuestionNode(QHitTarget, idleAct, chaseAct);
+        var attackAndCheckHit = new SequenceNode(new List<ITreeNode>
+        {
+            attackAct,
+            new WaitNode(1f),
+            qHitTarget
+        });
+        var qCanAttack = new QuestionNode(QPlayerInRange, attackAndCheckHit, chaseAct);
+        var qCanWatchPlayer = new QuestionNode(QLineOfSight, qCanAttack, idleAct);
+        var qStayOnIdle = new SequenceNode(new List<ITreeNode>
+        {
+            idleAct,
+            new WaitNode(2f),
+            qCanWatchPlayer
+        });
 
         rootNode = qCanWatchPlayer;
-        //Desde el root llegamos a los demas nodos 
     }
     void InitFSM()
     {
         fsm = new FSM<AIEnum>();
 
         var stateList = new List<AISBase<AIEnum>>();
-        var idle = new AISIdle<AIEnum>(this);
-        var walk = new AISSteering<AIEnum>(steering);
+        var idleSt = new AISIdle<AIEnum>(2f);
+        var chaseSt = new AISSteering<AIEnum>(steering);
+        var attackSt = new AISAttack<AIEnum>();
 
-        idle.AddTransition(AIEnum.Chase, walk);
-        walk.AddTransition(AIEnum.Idle, idle);
+        idleSt.AddTransition(AIEnum.Chase, chaseSt);
+        idleSt.AddTransition(AIEnum.Attack, attackSt);
+
+        chaseSt.AddTransition(AIEnum.Attack, attackSt);
+        chaseSt.AddTransition(AIEnum.Idle, idleSt);
+
+        attackSt.AddTransition(AIEnum.Idle, idleSt);
+        attackSt.AddTransition(AIEnum.Chase, chaseSt);
 
 
-        stateList.Add(idle);
-        stateList.Add(walk);
+
+        stateList.Add(idleSt);
+        stateList.Add(chaseSt);
+        stateList.Add(attackSt);
 
         for (int i = 0; i < stateList.Count; i++)
         {
-            stateList[i].Initialize(look, move, fsm, LineOfSight);
+            stateList[i].Initialize(look, move, fsm, attack, LineOfSight);
         }
 
-        fsm.SetInit(idle);
+        fsm.SetInit(idleSt);
+    }
+
+    private bool QHitTarget()
+    {
+        if (attack.LastAttackHit())
+        {
+            return true;
+        }
+        else
+        {
+
+            return false;
+        }
+    }
+
+    //private bool qKeepResting()
+    //{
+
+    //    return idleState.isResting;
+
+    //} 
+    private bool QPlayerInRange()
+    {
+        if (LineOfSight.CheckRange(transform, target, model.attackRange))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     private bool QLineOfSight()
     {
         if (LineOfSight.LOS(transform, target, model.range, model.angle, model.obsMask))
         {
             return true;
-        } else
+        } 
+        else
         {
-
             return false;
         }
     }

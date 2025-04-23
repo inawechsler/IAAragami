@@ -27,7 +27,7 @@ public class State<T> : IState<T>
     }
     public virtual void Exit()
     {
-        Debug.Log("Exiting " + GetType().Name);
+        //Debug.Log("Exiting " + GetType().Name);
     }
 
     public IState<T> GetTransition(T input)
@@ -37,7 +37,7 @@ public class State<T> : IState<T>
             return transitions[input];
         } else
         {
-            Debug.LogWarning("No se encontró  válida para el input: " + input);
+            //Debug.LogWarning("No se encontró  válida para el input: " + input);
             return null;
         }
     }

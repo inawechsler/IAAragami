@@ -10,6 +10,10 @@ public class FSM<T>
 
     }
 
+    public IState<T> getState()
+    {
+        return currentState;
+    }
 
     public void OnExecute()
     {
@@ -32,7 +36,7 @@ public class FSM<T>
         var nextState = currentState.GetTransition(input);
         if (nextState == null)
         {
-            Debug.LogWarning("No se encontró transición válida para el input: " + input);
+            //Debug.LogWarning("No se encontró transición válida para el input: " + input);
             return;
         }
 
