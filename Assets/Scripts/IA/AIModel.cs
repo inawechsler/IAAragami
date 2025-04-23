@@ -5,7 +5,14 @@ using UnityEngine.InputSystem;
 public class AIModel : MonoBehaviour, IMove, ILook
 {
     [Header("Movement")]
-    [SerializeField] private float moveSpeed;
+    public float moveSpeed;
+
+    [Header("Waypoints/patrol")]
+    public List<Transform> waypoints;
+    public float stopDistance = 0.2f;
+    public float minWaitTime =5f;
+    public float maxWaitTime = 10f;
+
 
     [Header("Rotation")]
     [SerializeField] private float rotationSpeed = 10f;

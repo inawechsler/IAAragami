@@ -1679,7 +1679,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40375d93a65c1cf48a5263e14f103b68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 10
   animator: {fileID: 338016452}
 --- !u!114 &1506472751
 MonoBehaviour:
@@ -1694,7 +1693,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  waypoints: []
+  waypoints:
+  - {fileID: 1610299768}
+  - {fileID: 608585650}
+  - {fileID: 1685024557}
+  - {fileID: 2056833139}
+  stopDistance: 0.2
+  minWaitTime: 12
+  maxWaitTime: 20
+  rotationSpeed: 10
+  angle: 1
+  range: 0
+  obsMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1506472752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1734,7 +1746,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1506472746}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de861dccbea619a4a8e171f98eb5480f, type: 3}
   m_Name: 

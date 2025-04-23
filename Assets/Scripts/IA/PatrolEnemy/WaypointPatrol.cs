@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,9 @@ public class WaypointPatrol : MonoBehaviour
     Rigidbody rb;
     //float speedRotation = 0;
     float stopDistance = 0.2f;
+    bool isWaiting;
+    float minWaitTime;
+    float maxWaitTime;
 
     [SerializeField] List<Transform> waypoints;
     int currentWaypointIndex;
@@ -41,8 +45,19 @@ public class WaypointPatrol : MonoBehaviour
         // Verifica si llegó al waypoint
         if (Vector3.Distance(transform.position, targetWaypoint.position) < stopDistance)
         {
-            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
+            WaitBeforeNextWaypoint();
         }
+    }
+
+    IEnumerator WaitBeforeNextWaypoint()
+    {
+        isWaiting = true;
+
+        float waitTime = Random.Range(minWaitTime, maxWaitTime);
+        yield return new WaitForSeconds(waitTime);
+
+        currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
+        isWaiting = false;
     }
 
     void OnDrawGizmos()
