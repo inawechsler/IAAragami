@@ -8,7 +8,7 @@ using UnityEngine;
 public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 {
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed;
 
     [Header("Rotation")]
     [SerializeField] private float rotationSpeed = 10f;

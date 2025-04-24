@@ -14,7 +14,7 @@ public class AIController : MonoBehaviour
     public ISteering steering;
     ISteering pursuit;
     ISteering evade;
-    private LineOfSight LineOfSight;
+    private LineOfSightMono LineOfSight;
     public AIModel model { get; private set; }
     [SerializeField] public Transform target;
     [SerializeField] public Rigidbody rbTarget;
@@ -29,7 +29,7 @@ public class AIController : MonoBehaviour
         attack = GetComponent<IAttack>();
         move = GetComponent<IMove>();
         
-        LineOfSight = new LineOfSight();
+        LineOfSight = GetComponent<LineOfSightMono>();
         model = GetComponent<AIModel>();
 
     }
@@ -116,6 +116,7 @@ public class AIController : MonoBehaviour
 
         patrolSt.AddTransition(AIEnum.Idle, idleSt);
         patrolSt.AddTransition(AIEnum.Chase, chaseSt);
+        patrolSt.AddTransition(AIEnum.Attack, attackSt);
 
 
 
@@ -149,7 +150,7 @@ public class AIController : MonoBehaviour
 
     private bool QPlayerInRange()
     {
-        if (LineOfSight.CheckRange(transform, target, model.attackRange))
+        if (LineOfSight.CheckRange(target, model.attackRange))
         {
             return true;
         }
@@ -160,7 +161,7 @@ public class AIController : MonoBehaviour
     }
     private bool QLineOfSight()
     {
-        //Debug.Log(LineOfSight.LOS(transform, target, model.range, model.angle, model.obsMask));
+        Debug.Log(LineOfSight.LOS(transform, target, model.range, model.angle, model.obsMask));
         if (LineOfSight.LOS(transform, target, model.range, model.angle, model.obsMask))
         {
             return true;

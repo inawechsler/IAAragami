@@ -38,8 +38,6 @@ public class AISPatrol<T> : AISBase<T>
         Vector3 direction = (target - controller.transform.position).normalized;
         move.Move(direction);
 
-        Debug.Log(_currentWaypointIndex + "WP: " + waypoints[_currentWaypointIndex].gameObject.name);
-
         look.LookDir(direction);
 
 

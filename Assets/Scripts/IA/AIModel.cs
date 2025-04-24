@@ -97,7 +97,7 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, angle / 2, 0) * transform.forward * range);
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, angle / -2, 0) * transform.forward * range);
 
-        }
+    }
 
 
     
