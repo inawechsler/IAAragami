@@ -18,6 +18,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
     [Header("Crouch")]
     [SerializeField] private float crouchHeightReduction; // Cuánto reducir la altura
     [SerializeField] private float crouchTransitionSpeed; // Velocidad de transición
+    [SerializeField] private float crouchSpeed; // Velocidad de transición
 
     // Variables privadas para el crouch
     private float originalHeight;
@@ -55,7 +56,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
             // Calcular el centro cuando está agachado
             crouchCenter = new Vector3(
                 originalCenter.x,
-                .33f,
+                .36f,
                 originalCenter.z
             );
         }
@@ -64,7 +65,13 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 
     public void Move(Vector3 input)
     {
-
+        if (input == Vector3.zero)
+        {
+            Vector3 stopVelocity = Vector3.zero;
+            stopVelocity.y = rb.linearVelocity.y; // Conservamos solo la velocidad vertical
+            rb.linearVelocity = stopVelocity;
+            return;
+        }
         Vector3 movementVelocity = transform.forward * moveSpeed;
 
         movementVelocity.y = rb.linearVelocity.y;
@@ -76,6 +83,8 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
     {
 
         Vector2 input = inputController.moveInput;
+
+        if (input == Vector2.zero) return Vector3.zero; // No hay movimiento
 
         Vector3 direction = Vector3.zero;
 
@@ -98,7 +107,6 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
     {
         if (inputDir == Vector3.zero) return;
 
-        // Verifico si la dirección cambió significativamente
         bool directionChanged = (targetDirection == Vector3.zero) ||
                                (Vector3.Dot(transform.forward, inputDir) < 0.966f); // 15 grados masomenos
 
@@ -139,11 +147,11 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 
     public void ToggleCrouch()
     {
-
+        moveSpeed = inputController.isCrouched ? crouchSpeed : 5f;
 
         // Alternamos entre agachado y de pie
         targetHeight = inputController.isCrouched ?
-            originalHeight - .6F : originalHeight;
+            originalHeight - crouchHeightReduction : originalHeight;
 
         Vector3 targetCenter = inputController.isCrouched ?
             crouchCenter : originalCenter;

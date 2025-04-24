@@ -6,10 +6,12 @@ public class PlayerView : MonoBehaviour
     [Header("Components")]
     private Rigidbody rb;
     [SerializeField] private Animator animator;
+    private InputController input;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        input = GetComponent<InputController>();
     }
 
     private void Update()
@@ -18,7 +20,7 @@ public class PlayerView : MonoBehaviour
     }
     public void OnMoveAnim()
     {
-        animator.SetFloat("Vel", rb.linearVelocity.magnitude);
+        animator.SetFloat("Vel", input.moveInput.magnitude);
     }
     public void OnCrouchAnim(bool isCrouched)
     {

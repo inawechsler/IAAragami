@@ -41,7 +41,7 @@ public class AIController : MonoBehaviour
     }
     private void Update()
     {
-        if(target!=null && fsm != null && rootNode != null)
+        if (target != null && fsm != null && rootNode != null)
         {
             fsm.OnExecute();
             rootNode.Execute();
@@ -105,6 +105,7 @@ public class AIController : MonoBehaviour
         chaseSt.AddTransition(AIEnum.Attack, attackSt);
         chaseSt.AddTransition(AIEnum.Idle, idleSt);
         chaseSt.AddTransition(AIEnum.Evade, evadeSt);
+        chaseSt.AddTransition(AIEnum.Patrol, patrolSt);
 
         evadeSt.AddTransition(AIEnum.Idle, idleSt);
         evadeSt.AddTransition(AIEnum.Chase, chaseSt);
@@ -159,6 +160,7 @@ public class AIController : MonoBehaviour
     }
     private bool QLineOfSight()
     {
+        //Debug.Log(LineOfSight.LOS(transform, target, model.range, model.angle, model.obsMask));
         if (LineOfSight.LOS(transform, target, model.range, model.angle, model.obsMask))
         {
             return true;

@@ -43,10 +43,10 @@ public class InputController : MonoBehaviour, PlayerControls.IPlayerLocomotionMa
     {
         if (context.performed)
         {
-            if(moveInput != Vector2.zero)
-            {
-                return;
-            }
+            //if(moveInput != Vector2.zero)
+            //{
+            //    return;
+            //}
             isCrouched = !isCrouched;
         }
     }

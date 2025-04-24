@@ -19,15 +19,16 @@ public class PSCrouch<T> : PSBase<T>
         base.Enter();
 
         playerView.OnCrouchAnim(true);
-        controller.playerModel.onCrouch?.Invoke();
-
+        crouch.ToggleCrouch();
     }
 
     public override void Execute()
     {
         //base.Execute();
+        move.Move(move.CalculateMovementDirection());
+        look.LookDir(move.CalculateMovementDirection());
 
-        if(!controller.inputController.isCrouched)
+        if (!controller.inputController.isCrouched)
         {
             StateMachine.Transition(inputToIdle);
         }
@@ -37,7 +38,7 @@ public class PSCrouch<T> : PSBase<T>
     {
         base.Exit();
 
-        controller.playerModel.onCrouch?.Invoke(); //Invocamos otra vez a la salida, controlador se encarga de detectar si se agacha o se levanta
+        crouch.ToggleCrouch();
         playerView.OnCrouchAnim(false);
     }
 }
