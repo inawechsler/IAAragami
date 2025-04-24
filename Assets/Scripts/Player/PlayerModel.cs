@@ -32,6 +32,8 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
     InputController inputController;
     [SerializeField] private Camera mainCamera;
 
+    
+
     public Transform Position { get; set; }
     public Action onCrouch { get; set; }
 
@@ -65,6 +67,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 
     public void Move(Vector3 input)
     {
+        
         if (input == Vector3.zero)
         {
             Vector3 stopVelocity = Vector3.zero;

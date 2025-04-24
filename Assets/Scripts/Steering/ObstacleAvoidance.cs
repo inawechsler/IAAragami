@@ -9,27 +9,61 @@ public class ObstacleAvoidance : MonoBehaviour
 
     [Min(0)]
     public float radius;
+
+    [Min(1)]
+    public float angle;
+
+    public float personalArea;
     public LayerMask obsMask;
     Collider[] _colls;
 
     private void Awake()
     {
         _colls = new Collider[maxObs];
+        //GetComponent<Collider>().bounds.extents.magnitude;
     }
-    public Vector3 GetDir()
+    public Vector3 GetDir(Vector3 currDir)
     {
-        var count = Physics.OverlapSphereNonAlloc(transform.position, radius, _colls, obsMask);
+        var count = Physics.OverlapSphereNonAlloc(Self, radius, _colls, obsMask);
 
         Collider nearColl = null;
-        for(int i = 0; i < count; i++)
+        float nearCollDistance = 0;
+        Vector3 nearClosestPoint = Vector3.zero;
+        for (int i = 0; i < count; i++)
         {
-            Collider currCol = _colls[i];
-            if(nearColl == null)
+            Collider currColl = _colls[i];
+            Vector3 closestPoint = currColl.ClosestPoint(Self);
+            Vector3 dir = closestPoint - Self;
+            float distance = dir.magnitude;
+
+            var currAngle = Vector3.Angle(dir, currDir);
+            if (currAngle > angle / 2) continue;
+            if (nearColl == null || distance < nearCollDistance)
             {
-                nearColl = currCol;
+                nearColl = currColl;
+                nearCollDistance = distance;
+                nearClosestPoint = closestPoint;
             }
 
         }
-        return Vector3.zero;
+        if(nearColl == null)
+        {
+            return currDir;
+        }
+
+        Vector3 relativePos = transform.InverseTransformPoint(nearClosestPoint);
+        Vector3 dirToColl = (nearClosestPoint - Self).normalized;
+        Vector3 avoidanceDir;
+        if (relativePos.x < 0)
+        {
+            avoidanceDir = Vector3.Cross(transform.up, dirToColl);
+        }
+        else
+        {
+            avoidanceDir = -Vector3.Cross(transform.up, dirToColl);
+        }
+
+        return Vector3.Lerp(currDir, avoidanceDir, (radius - Mathf.Clamp(nearCollDistance - personalArea, 0 , radius))/radius);
     }
+    public Vector3 Self => transform.position;
 }
