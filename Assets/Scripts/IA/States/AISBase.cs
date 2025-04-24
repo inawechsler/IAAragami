@@ -7,6 +7,7 @@ public class AISBase<T> : State<T>
     protected LineOfSight LOS;
     protected AIController controller;
     protected IAttack attack;
+    protected ObstacleAvoidance _obs;
     public override void Initialize(params object[] args)
     {
         base.Initialize(args);
@@ -20,6 +21,8 @@ public class AISBase<T> : State<T>
                 LOS = args[4] as LineOfSight;
             if(args.Length > 5)
                 controller = args[5] as AIController;
+            if (args.Length > 6)
+                _obs = args[6] as ObstacleAvoidance;
             StateMachine = fsm;
         }
     }

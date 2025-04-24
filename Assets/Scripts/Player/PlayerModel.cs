@@ -65,7 +65,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
     }
 
 
-    public void Move(Vector3 input)
+    public  void Move(Vector3 input)
     {
         
         if (input == Vector3.zero)

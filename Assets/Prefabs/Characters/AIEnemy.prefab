@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1181142095234798104}
   - component: {fileID: 8391321596396108205}
   - component: {fileID: 6306465464506774487}
+  - component: {fileID: -1596652615356882650}
   m_Layer: 8
   m_Name: AIEnemy
   m_TagString: Untagged
@@ -118,6 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackCollider: {fileID: 0}
   moveSpeed: 2
+  waypoints: []
   rotationSpeed: 10
   angle: 68
   range: 6.29
@@ -155,6 +157,25 @@ MonoBehaviour:
   obsMask:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &-1596652615356882650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4130704623105064144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c44f22eac3188f74e8d5f0d30d25872e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxObs: 2
+  radius: 0
+  angle: 0
+  personalArea: 0
+  obsMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &940080400798001376
 PrefabInstance:
   m_ObjectHideFlags: 0

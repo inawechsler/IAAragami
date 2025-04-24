@@ -128,7 +128,7 @@ public class AIController : MonoBehaviour
 
         for (int i = 0; i < stateList.Count; i++)
         {
-            stateList[i].Initialize(look, move, fsm, attack, LineOfSight, this);
+            stateList[i].Initialize(look, move, fsm, attack, LineOfSight, this, model._obs);
         }
 
         fsm.SetInit(idleSt);

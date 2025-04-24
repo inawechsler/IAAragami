@@ -53,17 +53,27 @@ public class ObstacleAvoidance : MonoBehaviour
 
         Vector3 relativePos = transform.InverseTransformPoint(nearClosestPoint);
         Vector3 dirToColl = (nearClosestPoint - Self).normalized;
-        Vector3 avoidanceDir;
-        if (relativePos.x < 0)
+        Vector3 avoidanceDir = Vector3.Cross(transform.up, dirToColl);
+        if (relativePos.x > 0)
         {
-            avoidanceDir = Vector3.Cross(transform.up, dirToColl);
+            avoidanceDir = -avoidanceDir;
         }
-        else
-        {
-            avoidanceDir = -Vector3.Cross(transform.up, dirToColl);
-        }
+      
 
         return Vector3.Lerp(currDir, avoidanceDir, (radius - Mathf.Clamp(nearCollDistance - personalArea, 0 , radius))/radius);
     }
     public Vector3 Self => transform.position;
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, radius);
+
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, personalArea);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, Quaternion.Euler(0, angle / 2, 0) * transform.forward * radius);
+        Gizmos.DrawRay(transform.position, Quaternion.Euler(0, -angle / 2, 0) * transform.forward * radius);
+    }
 }

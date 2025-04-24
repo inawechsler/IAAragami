@@ -36,11 +36,12 @@ public class AISPatrol<T> : AISBase<T>
 
         Vector3 target = waypoints[_currentWaypointIndex].Position;
         Vector3 direction = (target - controller.transform.position).normalized;
-        move.Move(direction);
+        move.Move(_obs.GetDir(direction));
+        
 
         Debug.Log(_currentWaypointIndex + "WP: " + waypoints[_currentWaypointIndex].gameObject.name);
 
-        look.LookDir(direction);
+        look.LookDir(_obs.GetDir(direction));
 
 
         if (Vector3.Distance(controller.transform.position, target) < stopDistance)

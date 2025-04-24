@@ -38,17 +38,24 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
 
     public Action onAttack { get; set; }
 
+    public ObstacleAvoidance _obs;
+    ILook _look;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        _obs = GetComponent<ObstacleAvoidance>();
+        _look = GetComponent<ILook>();
         Position = transform;
     }
     public void Move(Vector3 input)
     {
+       
         input *= moveSpeed;
         input.y = rb.linearVelocity.y;
 
         rb.linearVelocity = input;
+        
     }
 
     public void EnableAttackCollider()
@@ -109,6 +116,7 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
 
     public void LookDir(Vector3 inputDir)
     {
+       
         inputDir.Normalize();
         inputDir.y = 0;
 
