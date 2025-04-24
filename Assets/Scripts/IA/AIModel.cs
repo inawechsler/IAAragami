@@ -28,6 +28,7 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
 
     [Header("Components")]
     Rigidbody rb;
+    Coroutine lastAttackHitSCor;
     public Transform Position { get; set; }
 
     public Action onAttack { get; set;}
@@ -48,6 +49,7 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
     public void EnableAttackCollider()
     {
         _lastAttackHit = false; // Reiniciar el estado del hit
+        attackCollider.isTrigger = true; 
         attackCollider.enabled = true;
     }
 
@@ -59,13 +61,24 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
 
     private void OnTriggerEnter(Collider player)
     {
-        if (attackCollider.enabled && (player.CompareTag("Player")))
+        if (player.CompareTag("Player"))
         {
-            _lastAttackHit = true;
-            Debug.Log("¡Golpe conectado!");
+            if (lastAttackHitSCor == null)
+                StopCoroutine(lastAttackHitSet());
+
+            lastAttackHitSCor = StartCoroutine(lastAttackHitSet());
         }
     }
 
+    private IEnumerator lastAttackHitSet()
+    {
+        _lastAttackHit = true;
+        yield return new WaitForSeconds(.5f);
+        _lastAttackHit = false;
+
+        lastAttackHitSCor = null;
+
+    }
     public bool LastAttackHit()
     {
         return _lastAttackHit;

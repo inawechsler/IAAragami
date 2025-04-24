@@ -19,11 +19,12 @@ public class State<T> : IState<T>
 
     public virtual void Enter()
     {
-        
+        //Debug.Log("Enter " + GetType().Name);
+
     }
     public virtual void Execute()
     {
-        //Debug.Log("Executing " + GetType().Name);
+
     }
     public virtual void Exit()
     {

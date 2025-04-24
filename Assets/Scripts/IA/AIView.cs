@@ -20,6 +20,7 @@ public class AIView : MonoBehaviour
 
     public void OnAttackAnim()
     {
+        Debug.Log("s");
         animator.SetTrigger("Attack");
     }
 

@@ -22,6 +22,7 @@ public class AISIdle<T> : AISBase<T>
 
     public override void Execute()
     {
+        base.Execute();
         timer += Time.deltaTime;
 
         // Cuando termina el tiempo de descanso, vuelve a Idle

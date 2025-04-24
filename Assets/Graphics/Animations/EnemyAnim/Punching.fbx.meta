@@ -62,7 +62,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.7648903
+      - time: 0.81140196
         functionName: DisableAttackCollider
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 121b181d02f0c8745a2f3b8bc73fc5b5, type: 3}

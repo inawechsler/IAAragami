@@ -15,7 +15,7 @@ public class PSIDle<T> : PSBase<T>
 
     public override void Execute()
     {
-        base.Execute();
+        //base.Execute();
 
         if (inputController.moveInput.magnitude != 0)
         {

@@ -7,7 +7,7 @@ public class AnimationEventReceiver : MonoBehaviour
     private void Awake()
     {
 
-        aiModel = GetComponentInParent<AIModel>() ?? GetComponent<AIModel>();
+        aiModel = GetComponentInParent<AIModel>();
 
         if (aiModel == null)
         {

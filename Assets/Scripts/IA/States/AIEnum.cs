@@ -4,5 +4,6 @@ public enum AIEnum
 {
     Idle,
     Attack,
-    Chase
+    Chase,
+    Evade
 }
