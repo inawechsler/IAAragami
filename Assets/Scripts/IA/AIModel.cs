@@ -7,11 +7,11 @@ public class AIModel : MonoBehaviour, IMove, ILook
     [Header("Movement")]
     public float moveSpeed;
 
-    [Header("Waypoints/patrol")]
-    public List<Transform> waypoints;
-    public float stopDistance = 0.2f;
-    public float minWaitTime =5f;
-    public float maxWaitTime = 10f;
+    //[Header("Waypoints/patrol")]
+    //public List<Transform> waypoints;
+    //public float stopDistance = 0.2f;
+    //public float minWaitTime =5f;
+    //public float maxWaitTime = 10f;
 
 
     [Header("Rotation")]

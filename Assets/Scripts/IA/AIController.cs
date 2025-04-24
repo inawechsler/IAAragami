@@ -17,6 +17,11 @@ public class AIController : MonoBehaviour
     [SerializeField] public Transform target;
     [SerializeField] public Rigidbody rbTarget;
 
+    [Header("Waypoints/patrol")]
+    public List<Transform> waypoints;
+    public float stopDistance = 0.2f;
+    public float minWaitTime = 5f;
+    public float maxWaitTime = 10f;
 
     private void Awake()
     {

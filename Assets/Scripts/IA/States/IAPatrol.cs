@@ -6,37 +6,22 @@ using System.Collections.Generic;
 public class IAPatrol<T> : AISBase<T>
 {
     //private List<> waypoints;
-    private AIModel enemy;
+    private AIController enemy;
+    private AIModel model;
     private int currentWaypointIndex = 0;
     private bool isWaiting = false;
 
     private Coroutine waitCoroutine;
 
-    public IAPatrol(AIModel enemyController)
+    public IAPatrol(AIController enemyController, AIModel model)
     {
         this.enemy = enemyController;
+        this.model = model;
     }
 
     public void Update()
     {
-        if (enemy.waypoints.Count == 0 || isWaiting) return;
-
-        Transform target = enemy.waypoints[currentWaypointIndex];
-        Vector3 direction = (target.position - enemy.transform.position).normalized;
-        enemy.transform.position += direction * enemy.moveSpeed * Time.deltaTime;
-
-        // Rota hacia el waypoint
-        if (direction != Vector3.zero)
-        {
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, lookRotation, Time.deltaTime * 5f);
-        }
-
-        if (Vector3.Distance(enemy.transform.position, target.position) < enemy.stopDistance)
-        {
-            isWaiting = true;
-            waitCoroutine = enemy.StartCoroutine(WaitAndMoveToNext());
-        }
+        
     }
 
     
@@ -54,6 +39,28 @@ public class IAPatrol<T> : AISBase<T>
         base.Execute();
         isWaiting = false;
         currentWaypointIndex = 0;
+       
+
+        if (enemy.waypoints.Count == 0 || isWaiting) return;
+
+        Transform target = enemy.waypoints[currentWaypointIndex];
+        Vector3 direction = (target.position - enemy.transform.position).normalized;
+        move.Move(direction);
+        //enemy.transform.position += direction * model.moveSpeed * Time.deltaTime;
+
+        // Rota hacia el waypoint
+        if (direction != Vector3.zero)
+        {
+            //Quaternion lookRotation = Quaternion.LookRotation(direction);
+            //enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, lookRotation, Time.deltaTime * 5f);
+            look.LookDir(direction);
+        }
+
+        if (Vector3.Distance(enemy.transform.position, target.position) < enemy.stopDistance)
+        {
+            isWaiting = true;
+            waitCoroutine = enemy.StartCoroutine(WaitAndMoveToNext());
+        }
 
     }
     public override void Exit()

@@ -2,30 +2,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaypointPatrol : MonoBehaviour
+public class WaypointPatrol : MonoBehaviour, ILook, IMove
 {
-    float speed = 2f;
+    float moveSpeed = 2f;
     Rigidbody rb;
-    //float speedRotation = 0;
+
+    float rotationSpeed = 0;
+    private Coroutine rotationCoroutine;
+    private Vector3 targetDirection;
+
     float stopDistance = 0.2f;
-    bool isWaiting;
+    bool isWaiting = false;
     float minWaitTime;
     float maxWaitTime;
+    public Transform Position { get; set; }
+
 
     [SerializeField] List<Transform> waypoints;
     int currentWaypointIndex;
 
-
-    private void Awake()
+    //Update is called once per frame
+    void Update()
     {
-        rb = GetComponent<Rigidbody>();
+        WaypointsPatrol();
     }
 
-    // Update is called once per frame
-    //void Update()
-    //{
-    //    WaypointsPatrol();
-    //}
+    public void Move(Vector3 input)
+    {
+        input *= moveSpeed;
+        input.y = rb.linearVelocity.y;
+
+        rb.linearVelocity = input;
+    }
+    public Vector3 CalculateMovementDirection()
+    {
+        return Vector3.zero;
+    }
+
+    public void LookDir(Vector3 inputDir)
+    {
+        inputDir.Normalize();
+
+        // verifico si la dirección cambió
+        bool directionChanged = (targetDirection == Vector3.zero) ||
+                                (Vector3.Dot(targetDirection, inputDir) < 0.966f); // 15 grados masomenos
+
+        if (directionChanged)
+        {
+            //nueva dirección objetivo
+            targetDirection = inputDir;
+
+
+            if (rotationCoroutine != null)
+            {
+                StopCoroutine(rotationCoroutine);
+            }
+
+            rotationCoroutine = StartCoroutine(RotateToTarget());
+        }
+
+    }
 
     public void WaypointsPatrol() 
     {
@@ -33,20 +69,41 @@ public class WaypointPatrol : MonoBehaviour
 
         Transform targetWaypoint = waypoints[currentWaypointIndex];
         Vector3 direction = (targetWaypoint.position - transform.position).normalized;
-        transform.position += direction * speed * Time.deltaTime;
+        transform.position += direction * moveSpeed * Time.deltaTime;
+        //Move(direction);
 
         // Rota hacia el waypoint
         if (direction != Vector3.zero)
         {
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+            //LookDir(direction);
         }
 
         // Verifica si llegó al waypoint
         if (Vector3.Distance(transform.position, targetWaypoint.position) < stopDistance)
         {
-            WaitBeforeNextWaypoint();
+
+            //WaitBeforeNextWaypoint();
+            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
         }
+    }
+
+    private IEnumerator RotateToTarget()
+    {
+        // Mientras no estemos cerca de la dirección objetivo
+        while (Vector3.Dot(transform.forward, targetDirection) < 0.996f)
+        {
+            // roto hacia la dirección objetivo
+            transform.forward = Vector3.Slerp(
+                transform.forward,
+                targetDirection,
+                Time.deltaTime * rotationSpeed);
+
+            yield return null;
+        }
+
+        rotationCoroutine = null;
     }
 
     IEnumerator WaitBeforeNextWaypoint()
