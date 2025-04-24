@@ -20,8 +20,10 @@ public class AISIdle<T> : AISBase<T>
         move.Move(Vector3.zero);
     }
 
+
     public override void Execute()
     {
+      
         base.Execute();
         timer += Time.deltaTime;
 

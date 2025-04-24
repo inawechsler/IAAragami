@@ -64,6 +64,7 @@ public class AIController : MonoBehaviour
         var idleAct = new ActionNode(() => fsm.Transition(AIEnum.Idle));
         var attackAct = new ActionNode(() => fsm.Transition(AIEnum.Attack));
         var evadeAct = new ActionNode(() => fsm.Transition(AIEnum.Evade));
+        var patrolAct = new ActionNode(() => fsm.Transition(AIEnum.Patrol));
         //var qStayOnIdle = new SequenceNode(new List<ITreeNode>
         //{
         //    idleAct,
@@ -78,7 +79,7 @@ public class AIController : MonoBehaviour
             qHitTarget
         });
         var qCanAttack = new QuestionNode(QPlayerInRange, attackAndCheckHit, chaseAct);
-        var qCanWatchPlayer = new QuestionNode(QLineOfSight, qCanAttack, idleAct);
+        var qCanWatchPlayer = new QuestionNode(QLineOfSight, qCanAttack, patrolAct);
 
 
 
@@ -93,11 +94,13 @@ public class AIController : MonoBehaviour
         var idleSt = new AISIdle<AIEnum>(2f);
         var chaseSt = new AISSteering<AIEnum>(pursuit);
         var evadeSt = new AISSteering<AIEnum>(evade);
-        var attackSt = new AISAttack<AIEnum>(target, this);
+        var patrolSt = new AISPatrol<AIEnum>(model.waypoints);
+        var attackSt = new AISAttack<AIEnum>(target);
 
         idleSt.AddTransition(AIEnum.Chase, chaseSt);
         idleSt.AddTransition(AIEnum.Attack, attackSt);
         idleSt.AddTransition(AIEnum.Evade, evadeSt);
+        idleSt.AddTransition(AIEnum.Patrol, patrolSt);
 
         chaseSt.AddTransition(AIEnum.Attack, attackSt);
         chaseSt.AddTransition(AIEnum.Idle, idleSt);
@@ -110,8 +113,13 @@ public class AIController : MonoBehaviour
         attackSt.AddTransition(AIEnum.Chase, chaseSt);
         attackSt.AddTransition(AIEnum.Evade, evadeSt);
 
+        patrolSt.AddTransition(AIEnum.Idle, idleSt);
+        patrolSt.AddTransition(AIEnum.Chase, chaseSt);
 
 
+
+
+        stateList.Add(patrolSt);
         stateList.Add(idleSt);
         stateList.Add(chaseSt);
         stateList.Add(attackSt);
@@ -119,7 +127,7 @@ public class AIController : MonoBehaviour
 
         for (int i = 0; i < stateList.Count; i++)
         {
-            stateList[i].Initialize(look, move, fsm, attack, LineOfSight);
+            stateList[i].Initialize(look, move, fsm, attack, LineOfSight, this);
         }
 
         fsm.SetInit(idleSt);

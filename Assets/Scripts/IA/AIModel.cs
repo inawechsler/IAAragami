@@ -14,11 +14,9 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
     [Header("Movement")]
     public float moveSpeed;
 
-    //[Header("Waypoints/patrol")]
-    //public List<Transform> waypoints;
-    //public float stopDistance = 0.2f;
-    //public float minWaitTime =5f;
-    //public float maxWaitTime = 10f;
+    [Header("Waypoints/patrol")]
+    public List<PatrolPoint> waypoints = new List<PatrolPoint>();
+
 
 
     [Header("Rotation")]
@@ -38,7 +36,7 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
     Coroutine lastAttackHitSCor;
     public Transform Position { get; set; }
 
-    public Action onAttack { get; set;}
+    public Action onAttack { get; set; }
 
     void Awake()
     {
@@ -56,7 +54,7 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
     public void EnableAttackCollider()
     {
         _lastAttackHit = false; // Reiniciar el estado del hit
-        attackCollider.isTrigger = true; 
+        attackCollider.isTrigger = true;
         attackCollider.enabled = true;
     }
 
@@ -76,7 +74,6 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
             lastAttackHitSCor = StartCoroutine(lastAttackHitSet());
         }
     }
-
     private IEnumerator lastAttackHitSet()
     {
         _lastAttackHit = true;
@@ -109,6 +106,7 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
     public void LookDir(Vector3 inputDir)
     {
         inputDir.Normalize();
+        inputDir.y = 0;
 
         // verifico si la dirección cambió
         bool directionChanged = (targetDirection == Vector3.zero) ||

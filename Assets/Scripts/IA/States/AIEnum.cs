@@ -5,5 +5,6 @@ public enum AIEnum
     Idle,
     Attack,
     Chase,
-    Evade
+    Evade,
+    Patrol
 }
