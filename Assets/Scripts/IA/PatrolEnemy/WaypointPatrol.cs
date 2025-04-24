@@ -8,13 +8,18 @@ public class WaypointPatrol : MonoBehaviour, ILook, IMove
     Rigidbody rb;
 
     float rotationSpeed = 0;
-    private Coroutine rotationCoroutine;
-    private Vector3 targetDirection;
+    Coroutine rotationCoroutine;
+    Vector3 targetDirection;
 
     float stopDistance = 0.2f;
     bool isWaiting = false;
-    float minWaitTime;
-    float maxWaitTime;
+    bool movingForward = true;
+    float minWaitTime=1f;
+    float maxWaitTime=3f;
+
+    float waitTimer;
+    float waitDuration;
+
     public Transform Position { get; set; }
 
 
@@ -67,6 +72,45 @@ public class WaypointPatrol : MonoBehaviour, ILook, IMove
     {
         if (waypoints.Count == 0) return;
 
+        if (isWaiting)
+        {
+            waitTimer += Time.deltaTime;
+            if (waitTimer >= waitDuration)
+            {
+                /*
+                  currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
+                isWaiting = false;
+                 */
+                if (movingForward)
+                {
+                    if (currentWaypointIndex >= waypoints.Count - 1)
+                    {
+                        movingForward = false;
+                        currentWaypointIndex--;
+                    }
+                    else
+                    {
+                        currentWaypointIndex++;
+                    }
+                }
+                else
+                {
+                    if (currentWaypointIndex <= 0)
+                    {
+                        movingForward = true;
+                        currentWaypointIndex++;
+                    }
+                    else
+                    {
+                        currentWaypointIndex--;
+                    }
+                }
+
+                isWaiting = false;
+            }
+            return;
+        }
+
         Transform targetWaypoint = waypoints[currentWaypointIndex];
         Vector3 direction = (targetWaypoint.position - transform.position).normalized;
         transform.position += direction * moveSpeed * Time.deltaTime;
@@ -81,11 +125,14 @@ public class WaypointPatrol : MonoBehaviour, ILook, IMove
         }
 
         // Verifica si llegó al waypoint
-        if (Vector3.Distance(transform.position, targetWaypoint.position) < stopDistance)
+        //Vector3.Distance(transform.position, targetWaypoint.position
+        if (direction.magnitude < stopDistance)
         {
-
+            isWaiting = true;
+            waitTimer = 0f;
+            waitDuration = Random.Range(minWaitTime, maxWaitTime);
             //WaitBeforeNextWaypoint();
-            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
+            //currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
         }
     }
 
@@ -112,8 +159,8 @@ public class WaypointPatrol : MonoBehaviour, ILook, IMove
 
         float waitTime = Random.Range(minWaitTime, maxWaitTime);
         yield return new WaitForSeconds(waitTime);
-
         currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
+
         isWaiting = false;
     }
 
