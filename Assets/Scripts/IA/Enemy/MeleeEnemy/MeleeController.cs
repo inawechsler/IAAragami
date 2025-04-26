@@ -79,6 +79,13 @@ public class MeleeController : AIController
         fsm.SetInit(idleSt);
     }
 
+    private bool QHitTarget()
+    {
+        Debug.Log(attack.LastAttackHit());
+        return attack.LastAttackHit();
+    }
+
+   
     protected override void ExecuteFSM()
     {
         fsm.OnExecute();
