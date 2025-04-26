@@ -6,4 +6,6 @@ public interface ITreeNode
     //Ejecutan algo al llegar aquí
     void Execute();
 
+    bool IsFinished();
+
 }

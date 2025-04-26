@@ -19,15 +19,16 @@ public class State<T> : IState<T>
 
     public virtual void Enter()
     {
-        Debug.Log("Entering " + GetType().Name);
+        //Debug.Log("Enter " + GetType().Name);
+
     }
     public virtual void Execute()
     {
-        Debug.Log("Executing " + GetType().Name);
+
     }
     public virtual void Exit()
     {
-        Debug.Log("Exiting " + GetType().Name);
+        //Debug.Log("Exiting " + GetType().Name);
     }
 
     public IState<T> GetTransition(T input)
@@ -37,7 +38,7 @@ public class State<T> : IState<T>
             return transitions[input];
         } else
         {
-            Debug.LogWarning("No se encontró  válida para el input: " + input);
+            //Debug.LogWarning("No se encontró  válida para el input: " + input);
             return null;
         }
     }
@@ -53,6 +54,10 @@ public class State<T> : IState<T>
         }
     }
 
+    public virtual void Initialize(params object[] args)
+    {
+
+    }
     public void RemoveTransitionByState(IState<T> state)
     {
         foreach (var transition in transitions)

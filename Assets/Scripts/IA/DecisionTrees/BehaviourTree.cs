@@ -11,19 +11,17 @@ public class BehaviourTree : MonoBehaviour
 
     void InitTree()
     {
-        var shoot = new ActionNode(()=> Debug.Log("Shoot"));
         var patrol = new ActionNode(()=> Debug.Log("Patrol"));
         var reload = new ActionNode(()=> Debug.Log("Reload"));
         var died = new ActionNode(()=> Debug.Log("Died"));
 
-        var qHasAmmo = new QuestionNode(QHasBullets, shoot, reload);
-        var qHasLife = new QuestionNode(() => 100 < 9, died, qHasAmmo);
+        var qHasLife = new QuestionNode(QHasLife, died, patrol);
 
         rootNode = qHasLife;
         //Desde el root llegamos a los demas nodos 
     }
 
-    bool QHasBullets()
+    bool QHasLife()
     {
         return 1 > 9;
     }

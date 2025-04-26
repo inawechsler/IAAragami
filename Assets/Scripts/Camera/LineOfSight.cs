@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Schema;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class LineOfSight
 {
@@ -22,6 +24,7 @@ public class LineOfSight
         Vector3 dir = target.position - self.position;
         float angleToTarget = Vector3.Angle(front, dir);
         return angleToTarget < angle / 2;
+
     }
 
     public static bool CheckView(Transform self, Transform target, LayerMask obsMask)

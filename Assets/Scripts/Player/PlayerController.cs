@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -17,19 +19,40 @@ public class PlayerController : MonoBehaviour
         playerModel = GetComponent<PlayerModel>();
         playerView = GetComponent<PlayerView>();
 
+
+
         InitFSM();
     }
 
     void InitFSM()
     {
+
         fsm = new FSM<PSEnum>();
 
-        var idle = new PSIDle<PSEnum>(inputController, PSEnum.Walk, fsm);
-        var walk = new PSWalk<PSEnum>(this, PSEnum.Idle, fsm);
+        var move = GetComponent<IMove>();
+        var look = GetComponent<ILook>(); 
+        var crouch = GetComponent<ICrouch>();
+
+        var stateList = new List<PSBase<PSEnum>>();
+        var idle = new PSIDle<PSEnum>(PSEnum.Walk, PSEnum.Crouch, inputController);
+        var walk = new PSWalk<PSEnum>(this, PSEnum.Idle);
+        var crouching = new PSCrouch<PSEnum>(this, PSEnum.Idle);
 
         idle.AddTransition(PSEnum.Walk, walk);
-        walk.AddTransition(PSEnum.Idle, idle);
+        idle.AddTransition(PSEnum.Crouch, crouching);
 
+        walk.AddTransition(PSEnum.Idle, idle);
+        crouching.AddTransition(PSEnum.Idle, idle);
+
+        stateList.Add(idle);
+        stateList.Add(walk);
+        stateList.Add(crouching);
+
+        for (int i = 0; i < stateList.Count; i++)
+        {
+            stateList[i].Initialize(look, move, fsm, crouch
+                );
+        }
 
         fsm.SetInit(idle);
     }

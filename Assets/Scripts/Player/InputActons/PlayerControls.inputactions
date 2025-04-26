@@ -6,7 +6,7 @@
             "id": "d29f6155-231c-4939-9d5b-01b147acff49",
             "actions": [
                 {
-                    "name": "Fire",
+                    "name": "Crouch",
                     "type": "Button",
                     "id": "05ce5b77-3998-4702-96f6-b98a8ceaa416",
                     "expectedControlType": "",
@@ -28,11 +28,11 @@
                 {
                     "name": "",
                     "id": "23384ca1-9d2f-4543-a13b-697a921ce04b",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",
-                    "action": "Fire",
+                    "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -43,7 +43,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Fire",
+                    "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -81,9 +81,9 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Down",
-                    "id": "82f7d64e-17f1-4025-8797-48a867f6197a",
-                    "path": "<Keyboard>/s",
+                    "name": "Right",
+                    "id": "d696da2d-bf47-4746-8fba-73782b6c34a1",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -92,9 +92,9 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Right",
-                    "id": "d696da2d-bf47-4746-8fba-73782b6c34a1",
-                    "path": "<Keyboard>/d",
+                    "name": "Down",
+                    "id": "02bae075-14dd-4d77-925a-802327b6d1ea",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

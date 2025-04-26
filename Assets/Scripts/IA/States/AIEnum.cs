@@ -2,7 +2,9 @@ using UnityEngine;
 
 public enum AIEnum
 {
-    Patrol,
+    Idle,
     Attack,
-    Evade
+    Chase,
+    Evade,
+    Patrol
 }
