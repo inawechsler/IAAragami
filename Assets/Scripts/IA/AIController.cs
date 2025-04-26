@@ -15,6 +15,7 @@ public class AIController : MonoBehaviour
     ISteering pursuit;
     ISteering evade;
     private LineOfSightMono LineOfSight;
+    private ObstacleAvoidance obstacleAvoidance;
     public AIModel model { get; private set; }
     [SerializeField] public Transform target;
     [SerializeField] public Rigidbody rbTarget;
@@ -25,10 +26,10 @@ public class AIController : MonoBehaviour
 
     private void Awake()
     {
+        obstacleAvoidance = GetComponent<ObstacleAvoidance>();
         look = GetComponent<ILook>();
         attack = GetComponent<IAttack>();
         move = GetComponent<IMove>();
-        
         LineOfSight = GetComponent<LineOfSightMono>();
         model = GetComponent<AIModel>();
 
@@ -71,17 +72,19 @@ public class AIController : MonoBehaviour
         //    new WaitNode(1f),
         //    new ActionNode(()=> Debug.Log("False 2"))
         //});
-        var qHitTarget = new QuestionNode(QHitTarget, evadeAct , chaseAct);
-        var attackAndCheckHit = new SequenceNode(new List<ITreeNode>
-        {
-            attackAct,
-            new WaitNode(1f),
-            qHitTarget
-        });
-        var qCanAttack = new QuestionNode(QPlayerInRange, attackAndCheckHit, chaseAct);
-        var qCanWatchPlayer = new QuestionNode(QLineOfSight, qCanAttack, patrolAct);
+        //var attackAndCheckHit = new SequenceNode(new List<ITreeNode>
+        //{
+        //    attackAct,
+        //    new WaitNode(1f),
+        //    qHitTarget
+        //});
 
 
+        var qHitTarget = new QuestionNode(QHitTarget, idleAct, attackAct);
+        var qCanAttack = new QuestionNode(QPlayerInRange, qHitTarget, chaseAct);
+        var qHasToWaitOnPatrol = new QuestionNode(QAIHasToWait, idleAct, patrolAct);
+        var qHasLostPlayerRecently = new QuestionNode(QHasLostPlayer, chaseAct, qHasToWaitOnPatrol);
+        var qCanWatchPlayer = new QuestionNode(QLineOfSight, qCanAttack, qHasLostPlayerRecently);
 
 
         rootNode = qCanWatchPlayer;
@@ -113,11 +116,11 @@ public class AIController : MonoBehaviour
         attackSt.AddTransition(AIEnum.Idle, idleSt);
         attackSt.AddTransition(AIEnum.Chase, chaseSt);
         attackSt.AddTransition(AIEnum.Evade, evadeSt);
+        attackSt.AddTransition(AIEnum.Patrol, patrolSt);
 
         patrolSt.AddTransition(AIEnum.Idle, idleSt);
         patrolSt.AddTransition(AIEnum.Chase, chaseSt);
         patrolSt.AddTransition(AIEnum.Attack, attackSt);
-
 
 
 
@@ -129,47 +132,33 @@ public class AIController : MonoBehaviour
 
         for (int i = 0; i < stateList.Count; i++)
         {
-            stateList[i].Initialize(look, move, fsm, attack, LineOfSight, this);
+            stateList[i].Initialize(look, move, fsm, attack, LineOfSight, this, obstacleAvoidance);
         }
 
         fsm.SetInit(idleSt);
     }
+    private bool QAIHasToWait()
+    {
+        return model.GetHasToWaitOnIdle();
+    }
+    private bool QHasLostPlayer()
+    {
+        return model.GetHasLostSighRecently();
+    }
 
     private bool QHitTarget()
     {
-        if (attack.LastAttackHit())
-        {
-            return true;
-        }
-        else
-        {
-
-            return false;
-        }
+        return attack.LastAttackHit();
     }
 
     private bool QPlayerInRange()
     {
-        if (LineOfSight.CheckRange(target, model.attackRange))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return LineOfSight.CheckRange(target, model.attackRange);
+
     }
     private bool QLineOfSight()
     {
-        Debug.Log(LineOfSight.LOS(transform, target, model.range, model.angle, model.obsMask));
-        if (LineOfSight.LOS(transform, target, model.range, model.angle, model.obsMask))
-        {
-            return true;
-        } 
-        else
-        {
-            return false;
-        }
+        return LineOfSight.LOS(transform, target, model.range, model.angle, model.obsMask);
     }
 
 }

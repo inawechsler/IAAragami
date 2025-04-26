@@ -9,6 +9,15 @@ public class LineOfSightMono : MonoBehaviour
     public float angle;
     [SerializeField] private Transform headPos;
     public LayerMask obsMask;
+    public AIModel model;
+
+        private bool wasInRange = false;
+    private bool eventFired = false;
+    
+    private void Awake()
+    {
+        model = GetComponent<AIModel>();
+    }
 
     public bool CheckRange(Transform target)
     {
@@ -39,12 +48,13 @@ public class LineOfSightMono : MonoBehaviour
     {
         Vector3 dir = target.position - transform.position;
 
-        var isLOSfromFeet = !Physics.Raycast(transform.position, dir.normalized, dir.magnitude, obsMask); 
-        // Primer intento: Desde la posición original
-        if (isLOSfromFeet) //True sería que no hay obstaculo
-            return true;
-            //Dibujar rayo desde cabeza del jugador
-        Vector3 headPlayer = headPos.transform.position; // Altura de la cabeza
+        //Primero tira ray normal (altura de pies)
+        if (!Physics.Raycast(transform.position, dir.normalized, dir.magnitude, obsMask)) //Lo niego porque el ray devuelve verdadero cuando choca, 
+            return true;                                                                  //nosotros queremos que sea verdadero cuando nada lo bloquea.
+        
+        
+        //Dibujar rayo desde cabeza del jugador para saber si no está parado detrás de un obstáculo bajo
+        Vector3 headPlayer = headPos.transform.position; // Altura de la cabeza del PJ
 
         Vector3 headPosition = transform.position + Vector3.up * 1.8f; // Altura aproximada de una cabeza
         Vector3 dirFromHead = headPlayer - headPosition;
@@ -52,11 +62,35 @@ public class LineOfSightMono : MonoBehaviour
         
 
     }
+    public void CheckLostSight(Transform target)
+    {
+        bool isInRange = CheckRange(target);
+
+        // Si estaba en rango pero ahora no lo está, dispara el evento onLostSight
+        if (wasInRange && !isInRange && !eventFired)
+        {
+        Debug.Log("LOS:" + wasInRange);
+            model.onLostSight?.Invoke();
+            eventFired = true; // evita que el evento se vuelva a ejecutar
+        }
+        // si vuelve a estar en rango, resetea el flag para que pueda dispararse de nuevo cuando salga del rango
+        if (isInRange)
+        {
+            wasInRange = true;
+            eventFired = false;
+        }
+        else
+        {
+            wasInRange = false;
+        }
+    }
 
     public bool LOS(Transform self, Transform target, float range, float angle, LayerMask obsMask)
     {
-        return CheckRange(target)
-            && CheckAngle(target)
-            && CheckView(target);
+        bool inSight = CheckRange(target) && CheckAngle(target) && CheckView(target);
+
+        CheckLostSight(target);
+
+        return inSight;
     }
 }

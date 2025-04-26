@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,6 +14,13 @@ public class AISSteering<T> : AISBase<T>
         base.Execute();
         var dir = steering.GetDir();
         move.Move(dir.normalized);
-        look.LookDir(dir.normalized);
+        //look.LookDir(dir.normalized);
     }
+
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
+
 }
