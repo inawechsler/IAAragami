@@ -5,12 +5,11 @@ public class AIView : MonoBehaviour
 {
     [Header("Components")]
     private Rigidbody rb;
-    [SerializeField] private Animator animator;
+    [SerializeField] protected Animator animator;
 
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        GetComponent<IAttack>().onAttack += OnAttackAnim;
         rb = GetComponent<Rigidbody>();
     }
     private void Update()
@@ -18,13 +17,7 @@ public class AIView : MonoBehaviour
         OnMoveAnim();
     }
 
-    public void OnAttackAnim()
-    {
-        animator.SetTrigger("Attack");
-    }
-
-
-    void OnMoveAnim()
+    private void OnMoveAnim()
     {
         animator.SetFloat("Vel", rb.linearVelocity.magnitude);
     }

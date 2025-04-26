@@ -37,7 +37,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 
     void Awake()
     {
-        GameObject.FindWithTag("Enemy").GetComponent<MeleeModel>().onHitPlayer += ManagePlayerLoss;
+        GameObject.FindWithTag("Melee").GetComponent<MeleeModel>().onHitPlayer += ManagePlayerLoss;
         rb = GetComponent<Rigidbody>();
         inputController = GetComponent<InputController>();
         Position = transform;

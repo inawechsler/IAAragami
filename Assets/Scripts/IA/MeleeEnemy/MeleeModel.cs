@@ -10,15 +10,12 @@ public class MeleeModel : AIModel, IAttack
     public Action onAttack { get; set; }
     protected Coroutine lastAttackHitSCor;
     public Action onHitPlayer;
-    [HideInInspector] public float attackRange = 1f;
 
     protected override void Awake()
     {
         base.Awake();
-        // Inicializaciones específicas para MeleeEnemy
     }
 
-    // Este método se llama desde el Animation Event
     public void EnableAttackCollider()
     {
         _lastAttackHit = false; // Reiniciar el estado del hit

@@ -11,7 +11,7 @@ public class AnimationEventReceiver : MonoBehaviour
 
         if (aiModel == null)
         {
-            Debug.LogError("No se encontró el componente AIModel. Los eventos de animación no funcionarán.");
+            
         }
 
     }

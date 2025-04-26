@@ -5,46 +5,31 @@ using UnityEngine;
 
 public class LineOfSightMono : MonoBehaviour 
 {
-    public float range;
-    public float angle;
     [SerializeField] private Transform headPos;
-    public LayerMask obsMask;
-    public MeleeModel model;
 
-        private bool wasInRange = false;
+    private bool wasInRange = false;
     private bool eventFired = false;
     
-    private void Awake()
-    {
-        model = GetComponent<MeleeModel>();
-    }
 
-    public bool CheckRange(Transform target)
+    public bool CheckRange(Transform target, float rangle)
     {
         Vector3 dir = target.position - transform.position;
         float distance = dir.magnitude;
-        return distance <= range;
+        return distance <= rangle;
     }
 
-    public bool CheckRange(Transform target, float attackRange)
+    public bool CheckAngle(Transform target, float angle)
     {
-        Vector3 dir = target.position - transform.position;
-        float distance = dir.magnitude;
-        return distance <= attackRange;
+        return CheckAngle(target, transform.forward, angle);
     }
 
-    public bool CheckAngle(Transform target)
-    {
-        return CheckAngle(target, transform.forward);
-    }
-
-    public bool CheckAngle(Transform target, Vector3 front)
+    public bool CheckAngle(Transform target, Vector3 front, float angle)
     {
         Vector3 dir = target.position - transform.position;
         float angleToTarget = Vector3.Angle(front, dir);
         return angleToTarget < angle / 2;
     }
-    public bool CheckView(Transform target, float enemyHeight = 10)
+    public bool CheckView(Transform target, LayerMask obsMask)
     {
         Vector3 dir = target.position - transform.position;
 
@@ -63,9 +48,9 @@ public class LineOfSightMono : MonoBehaviour
 
     }
 
-    public bool LOS(Transform self, Transform target, float range, float angle, LayerMask obsMask)
+    public bool LOS(Transform self, Transform target, float range, float angle, LayerMask obsMask, AIModel model)
     {
-        bool inSight = CheckRange(target) && CheckAngle(target) && CheckView(target);
+        bool inSight = CheckRange(target, range) && CheckAngle(target, angle) && CheckView(target, obsMask);
 
         if (wasInRange && !inSight && !eventFired)
         {

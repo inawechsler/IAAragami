@@ -8,7 +8,7 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook
 
 
     [Header("Movement")]
-    public float moveSpeed;
+    [HideInInspector] public float moveSpeed = 3f;
 
     [Header("Waypoints/patrol")]
     public List<PatrolPoint> waypoints = new List<PatrolPoint>();
@@ -31,6 +31,7 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook
     public LayerMask obsMask;
     [HideInInspector] public bool hasLostRecently;
     public Action onLostSight;
+    public float attackRange;
     private float lostSightDuration = 5f;
     Coroutine lostSightCor;
 
