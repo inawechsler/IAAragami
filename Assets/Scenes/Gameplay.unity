@@ -2664,6 +2664,10 @@ PrefabInstance:
       value: 156.3
       objectReference: {fileID: 0}
     - target: {fileID: 6306465464506774487, guid: e6cb349ac11bdd94693565fc7905aecf, type: 3}
+      propertyPath: model
+      value: 
+      objectReference: {fileID: 1603807890}
+    - target: {fileID: 6306465464506774487, guid: e6cb349ac11bdd94693565fc7905aecf, type: 3}
       propertyPath: headPos
       value: 
       objectReference: {fileID: 990810400}
@@ -2719,11 +2723,15 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 1622452413}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1181142095234798104, guid: e6cb349ac11bdd94693565fc7905aecf, type: 3}
     m_RemovedGameObjects:
     - {fileID: 3918622040023736937, guid: e6cb349ac11bdd94693565fc7905aecf, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4130704623105064144, guid: e6cb349ac11bdd94693565fc7905aecf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1603807890}
   m_SourcePrefab: {fileID: 100100000, guid: e6cb349ac11bdd94693565fc7905aecf, type: 3}
 --- !u!1 &407760123
 GameObject:
@@ -6846,6 +6854,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1603807881 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4130704623105064144, guid: e6cb349ac11bdd94693565fc7905aecf, type: 3}
+  m_PrefabInstance: {fileID: 406851909}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1603807890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603807881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8e6ec816097b2443bff9fd4f0e48d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 4.39
+  waypoints:
+  - {fileID: 1240482084}
+  - {fileID: 298463992}
+  - {fileID: 161005755}
+  - {fileID: 1563912431}
+  waitOnIdleTime: 3
+  rotationSpeed: 10
+  angle: 145
+  range: 3.53
+  obsMask:
+    serializedVersion: 2
+    m_Bits: 64
+  hasLostRecently: 0
+  attackCollider: {fileID: 2009056584}
+  attackRange: 1
 --- !u!1 &1621367909
 GameObject:
   m_ObjectHideFlags: 0
