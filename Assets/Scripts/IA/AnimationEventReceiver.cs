@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class AnimationEventReceiver : MonoBehaviour
 {
-    private AIModel aiModel;
+    private MeleeModel aiModel;
 
     private void Awake()
     {
 
-        aiModel = GetComponentInParent<AIModel>();
+        aiModel = GetComponentInParent<MeleeModel>();
 
         if (aiModel == null)
         {

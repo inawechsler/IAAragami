@@ -16,7 +16,7 @@ public class AIController : MonoBehaviour
     ISteering evade;
     private LineOfSightMono LineOfSight;
     private ObstacleAvoidance obstacleAvoidance;
-    public AIModel model { get; private set; }
+    public MeleeModel model { get; private set; }
     [SerializeField] public Transform target;
     [SerializeField] public Rigidbody rbTarget;
 
@@ -31,7 +31,7 @@ public class AIController : MonoBehaviour
         attack = GetComponent<IAttack>();
         move = GetComponent<IMove>();
         LineOfSight = GetComponent<LineOfSightMono>();
-        model = GetComponent<AIModel>();
+        model = GetComponent<MeleeModel>();
 
     }
     private void Start()
@@ -149,6 +149,7 @@ public class AIController : MonoBehaviour
 
     private bool QHitTarget()
     {
+        Debug.Log(attack.LastAttackHit());
         return attack.LastAttackHit();
     }
 

@@ -18,9 +18,6 @@ public class PlayerController : MonoBehaviour
         inputController = GetComponent<InputController>();
         playerModel = GetComponent<PlayerModel>();
         playerView = GetComponent<PlayerView>();
-
-
-
         InitFSM();
     }
 

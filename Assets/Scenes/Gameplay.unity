@@ -2597,7 +2597,7 @@ PrefabInstance:
       objectReference: {fileID: 762478704}
     - target: {fileID: 1181142095234798104, guid: e6cb349ac11bdd94693565fc7905aecf, type: 3}
       propertyPath: attackRange
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1181142095234798104, guid: e6cb349ac11bdd94693565fc7905aecf, type: 3}
       propertyPath: attackCollider
@@ -2639,17 +2639,25 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4130704623105064144, guid: e6cb349ac11bdd94693565fc7905aecf, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 5856353753321163941, guid: e6cb349ac11bdd94693565fc7905aecf, type: 3}
       propertyPath: angle
-      value: 269.4
+      value: 153.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5856353753321163941, guid: e6cb349ac11bdd94693565fc7905aecf, type: 3}
+      propertyPath: maxObs
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5856353753321163941, guid: e6cb349ac11bdd94693565fc7905aecf, type: 3}
       propertyPath: radius
-      value: 0.79
+      value: 1.69
       objectReference: {fileID: 0}
     - target: {fileID: 5856353753321163941, guid: e6cb349ac11bdd94693565fc7905aecf, type: 3}
       propertyPath: personalArea
-      value: 2.33
+      value: 1.81
       objectReference: {fileID: 0}
     - target: {fileID: 6306465464506774487, guid: e6cb349ac11bdd94693565fc7905aecf, type: 3}
       propertyPath: angle

@@ -3,15 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class AIModel : MonoBehaviour, IMove, ILook, IAttack
+public abstract class AIModel : MonoBehaviour, IMove, ILook
 {
-
-    [Header("Attack")]
-    [SerializeField] private Collider attackCollider;
-    private bool _lastAttackHit = false;
-    public Action onAttack { get; set; }
-    Coroutine lastAttackHitSCor;
-
 
 
     [Header("Movement")]
@@ -35,11 +28,10 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
     [Range(1, 360)]
     public float angle;
     public float range;
-    public float attackRange;
     public LayerMask obsMask;
-    public bool hasLostRecently;
+    [HideInInspector] public bool hasLostRecently;
     public Action onLostSight;
-    private float lostSightDuration = 3f;
+    private float lostSightDuration = 5f;
     Coroutine lostSightCor;
 
 
@@ -47,7 +39,7 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
     Rigidbody rb;
     public Transform Position { get; set; }
 
-    void Awake()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
         Position = transform;
@@ -64,43 +56,6 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
         input.y = rb.linearVelocity.y;
 
         rb.linearVelocity = input;
-    }
-
-    public void EnableAttackCollider()
-    {
-        _lastAttackHit = false; // Reiniciar el estado del hit
-        attackCollider.isTrigger = true;
-        attackCollider.enabled = true;
-    }
-
-    // Este método se llama desde el Animation Event
-    public void DisableAttackCollider()
-    {
-        attackCollider.enabled = false;
-    }
-
-    private void OnTriggerEnter(Collider player)
-    {
-        if (player.CompareTag("Player"))
-        {
-            if (lastAttackHitSCor == null)
-                StopCoroutine(lastAttackHitSet());
-
-            lastAttackHitSCor = StartCoroutine(lastAttackHitSet());
-        }
-    }
-
-    private IEnumerator lastAttackHitSet()
-    {
-        _lastAttackHit = true;
-        yield return new WaitForSeconds(.5f);
-        _lastAttackHit = false;
-
-        lastAttackHitSCor = null;
-    }
-    public bool LastAttackHit()
-    {
-        return _lastAttackHit;
     }
 
     private void ManageLostSight()
@@ -215,8 +170,4 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
         rotationCoroutine = null;
     }
 
-    public void Attack()
-    {
-        onAttack?.Invoke();
-    }
 }

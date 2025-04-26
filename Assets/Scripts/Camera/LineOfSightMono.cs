@@ -9,14 +9,14 @@ public class LineOfSightMono : MonoBehaviour
     public float angle;
     [SerializeField] private Transform headPos;
     public LayerMask obsMask;
-    public AIModel model;
+    public MeleeModel model;
 
         private bool wasInRange = false;
     private bool eventFired = false;
     
     private void Awake()
     {
-        model = GetComponent<AIModel>();
+        model = GetComponent<MeleeModel>();
     }
 
     public bool CheckRange(Transform target)
