@@ -21,7 +21,7 @@ public class AIController : MonoBehaviour
     [SerializeField] public Rigidbody rbTarget;
 
     [Header("Attributes")]
-    [SerializeField] private float timePrediction;
+    private float timePrediction = 2f;
 
 
     private void Awake()
@@ -80,11 +80,12 @@ public class AIController : MonoBehaviour
         //});
 
 
-        var qHitTarget = new QuestionNode(QHitTarget, idleAct, attackAct);
-        var qCanAttack = new QuestionNode(QPlayerInRange, qHitTarget, chaseAct);
-        var qHasToWaitOnPatrol = new QuestionNode(QAIHasToWait, idleAct, patrolAct);
-        var qHasLostPlayerRecently = new QuestionNode(QHasLostPlayer, chaseAct, qHasToWaitOnPatrol);
-        var qCanWatchPlayer = new QuestionNode(QLineOfSight, qCanAttack, qHasLostPlayerRecently);
+        var qHitTarget = new QuestionNode(QHitTarget, idleAct, attackAct);//Cambiar para entrega
+        var qCanAttack = new QuestionNode(QPlayerInRange, qHitTarget, chaseAct);//Chequea si puede atacar o no, true chequea si en el frame anterior conectó con el PJ
+        var qHasToWaitOnPatrol = new QuestionNode(QAIHasToWait, idleAct, patrolAct);//Chequea si no debe estar en idle luego de x rondas de patrol
+        var qHasLostPlayerRecently = new QuestionNode(QHasLostPlayer, chaseAct, qHasToWaitOnPatrol);//Esta pregunta funciona para que luego de perder al PJ, el enemigo siga buscando por unos segundos
+        var qCanWatchPlayer = new QuestionNode(QLineOfSight, qCanAttack, qHasLostPlayerRecently); //Si LOS true chequea si puede atacar o no,si false, verifica si lo perdió 
+                                                                                                    //de vista hace poco
 
 
         rootNode = qCanWatchPlayer;
@@ -143,7 +144,7 @@ public class AIController : MonoBehaviour
     }
     private bool QHasLostPlayer()
     {
-        return model.GetHasLostSighRecently();
+        return model.hasLostRecently; //Hay un get en el model pero no me funciona
     }
 
     private bool QHitTarget()

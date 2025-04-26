@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1181142095234798104}
   - component: {fileID: 8391321596396108205}
   - component: {fileID: 6306465464506774487}
+  - component: {fileID: 5856353753321163941}
   m_Layer: 8
   m_Name: AIEnemy
   m_TagString: Untagged
@@ -103,7 +104,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   rbTarget: {fileID: 0}
-  timePrediction: 10
 --- !u!114 &1181142095234798104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +118,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackCollider: {fileID: 0}
   moveSpeed: 2
+  waypoints: []
+  waitOnIdleTime: 3
   rotationSpeed: 10
   angle: 68
   range: 6.29
@@ -125,6 +127,7 @@ MonoBehaviour:
   obsMask:
     serializedVersion: 2
     m_Bits: 64
+  hasLostRecently: 0
 --- !u!114 &8391321596396108205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,6 +155,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 7.41
   angle: 94.3
+  headPos: {fileID: 0}
+  obsMask:
+    serializedVersion: 2
+    m_Bits: 64
+  model: {fileID: 0}
+--- !u!114 &5856353753321163941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4130704623105064144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887323911195443459a031f328e34631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxObs: 5
+  radius: 1.55
+  angle: 314.73
+  personalArea: 1.16
   obsMask:
     serializedVersion: 2
     m_Bits: 64

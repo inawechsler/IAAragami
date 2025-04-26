@@ -39,7 +39,7 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
     public LayerMask obsMask;
     public bool hasLostRecently;
     public Action onLostSight;
-    public float lostSightDuration = 3f;
+    private float lostSightDuration = 3f;
     Coroutine lostSightCor;
 
 
@@ -189,7 +189,15 @@ public class AIModel : MonoBehaviour, IMove, ILook, IAttack
 
     }
 
-
+    public void LookDirWithLerp(Vector3 target, float speed)
+    {
+        target.y = 0;
+        // roto hacia la dirección objetivo
+        transform.forward = Vector3.Slerp(
+            transform.forward,
+            target,
+            Time.deltaTime * speed);
+    }
     private IEnumerator RotateToTarget()
     {
         // Mientras no estemos cerca de la dirección objetivo

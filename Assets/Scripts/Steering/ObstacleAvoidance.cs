@@ -20,7 +20,6 @@ public class ObstacleAvoidance : MonoBehaviour
     private void Awake()
     {
         _colls = new Collider[maxObs];
-        //GetComponent<Collider>().bounds.extents.magnitude;
     }
     public Vector3 GetDir(Vector3 currDir)
     {

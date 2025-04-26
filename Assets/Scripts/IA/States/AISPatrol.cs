@@ -12,8 +12,8 @@ public class AISPatrol<T> : AISBase<T>
     public int _currentWaypointIndex = 0;
     private bool _isWaiting = false;
     private float stopDistance = 1f;
-    private float minWaitTime = .2f;
-    private float maxWaitTime = 1f;
+    private float minWaitTime = 1f;
+    private float maxWaitTime = 1.3f;
     private int lapsCompleted = 0;
     private int lapsToWaitOnIdle = 2;
     private Coroutine waitCoroutine;
@@ -40,6 +40,7 @@ public class AISPatrol<T> : AISBase<T>
         move.Move(direction);
 
         look.LookDir(direction);
+        controller.model.LookDirWithLerp(target, 1);
 
 
         if (Vector3.Distance(controller.transform.position, target) < stopDistance)
@@ -52,6 +53,7 @@ public class AISPatrol<T> : AISBase<T>
     {
         float waitTime = UnityEngine.Random.Range(minWaitTime, maxWaitTime);
         yield return new WaitForSeconds(waitTime);
+
 
         if (_currentWaypointIndex == waypoints.Capacity - 1)
         {

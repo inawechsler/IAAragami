@@ -62,19 +62,18 @@ public class LineOfSightMono : MonoBehaviour
         
 
     }
-    public void CheckLostSight(Transform target)
-    {
-        bool isInRange = CheckRange(target);
 
-        // Si estaba en rango pero ahora no lo está, dispara el evento onLostSight
-        if (wasInRange && !isInRange && !eventFired)
+    public bool LOS(Transform self, Transform target, float range, float angle, LayerMask obsMask)
+    {
+        bool inSight = CheckRange(target) && CheckAngle(target) && CheckView(target);
+
+        if (wasInRange && !inSight && !eventFired)
         {
-        Debug.Log("LOS:" + wasInRange);
             model.onLostSight?.Invoke();
             eventFired = true; // evita que el evento se vuelva a ejecutar
         }
         // si vuelve a estar en rango, resetea el flag para que pueda dispararse de nuevo cuando salga del rango
-        if (isInRange)
+        if (inSight)
         {
             wasInRange = true;
             eventFired = false;
@@ -83,14 +82,7 @@ public class LineOfSightMono : MonoBehaviour
         {
             wasInRange = false;
         }
-    }
-
-    public bool LOS(Transform self, Transform target, float range, float angle, LayerMask obsMask)
-    {
-        bool inSight = CheckRange(target) && CheckAngle(target) && CheckView(target);
-
-        CheckLostSight(target);
-
+        Debug.Log("LOS:" + wasInRange);
         return inSight;
     }
 }
