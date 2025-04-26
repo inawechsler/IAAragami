@@ -5,8 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-[System.Serializable]
-public class AISPatrol<T> : AISBase<T>
+public class MAISPatrol<T> : AISBase<T>
 {
     private List<PatrolPoint> waypoints = new();
     public int _currentWaypointIndex = 0;
@@ -17,7 +16,7 @@ public class AISPatrol<T> : AISBase<T>
     private int lapsCompleted = 0;
     private int lapsToWaitOnIdle = 2;
     private Coroutine waitCoroutine;
-    public AISPatrol(List<PatrolPoint> patrolPoints)
+    public MAISPatrol(List<PatrolPoint> patrolPoints)
     {   
         waypoints = patrolPoints;
     }

@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 778d39b40488d8447853a1ec0ef00af1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headPos: {fileID: 0}
+  headPos: {fileID: 6696287147427061128}
 --- !u!114 &5856353753321163941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,3 +313,8 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.107908845
   m_Center: {x: 0.002091163, y: 0.09, z: -0.0000000012330833}
+--- !u!4 &6696287147427061128 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3321919801592875672, guid: d448f6908e0826b45ad6c7a2da2bd5b0, type: 3}
+  m_PrefabInstance: {fileID: 940080400798001376}
+  m_PrefabAsset: {fileID: 0}

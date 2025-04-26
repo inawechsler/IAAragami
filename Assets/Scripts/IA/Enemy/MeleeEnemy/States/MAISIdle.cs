@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class AISIdle<T> : AISBase<T>
+public class MAISIdle<T> : AISBase<T>
 {
     private float _restTime;
     private float timer = 0f;
     public bool isResting { get; private set; }
 
-    public AISIdle(float restTime)
+    public MAISIdle(float restTime)
     {
         _restTime = restTime;
     }

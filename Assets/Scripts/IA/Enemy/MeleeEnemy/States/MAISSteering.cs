@@ -2,10 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AISSteering<T> : AISBase<T>
+public class MAISSteering<T> : AISBase<T>
 {
     private ISteering steering;
-    public AISSteering(ISteering target)
+    public MAISSteering(ISteering target)
     {
         steering = target;
     }

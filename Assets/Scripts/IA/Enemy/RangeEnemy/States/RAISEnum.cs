@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum RaisEnum
+public enum RAIEnum
 {
     Idle,
     Patrol,

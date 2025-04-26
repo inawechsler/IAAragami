@@ -37,11 +37,11 @@ public class MeleeController : AIController
         fsm = new FSM<MAIEnum>();
 
         var stateList = new List<AISBase<MAIEnum>>();
-        var idleSt = new AISIdle<MAIEnum>(2f);
-        var chaseSt = new AISSteering<MAIEnum>(pursuit);
-        var evadeSt = new AISSteering<MAIEnum>(evade);
-        var patrolSt = new AISPatrol<MAIEnum>(model.waypoints);
-        var attackSt = new AISAttack<MAIEnum>(target);
+        var idleSt = new MAISIdle<MAIEnum>(2f);
+        var chaseSt = new MAISSteering<MAIEnum>(pursuit);
+        var evadeSt = new MAISSteering<MAIEnum>(evade);
+        var patrolSt = new MAISPatrol<MAIEnum>(model.waypoints);
+        var attackSt = new MAISAttack<MAIEnum>(target);
 
         idleSt.AddTransition(MAIEnum.Chase, chaseSt);
         idleSt.AddTransition(MAIEnum.Attack, attackSt);
@@ -77,30 +77,6 @@ public class MeleeController : AIController
         }
 
         fsm.SetInit(idleSt);
-    }
-    private bool QAIHasToWait()
-    {
-        return model.GetHasToWaitOnIdle();
-    }
-    private bool QHasLostPlayer()
-    {
-        return model.hasLostRecently; //Hay un get en el model pero no me funciona
-    }
-
-    private bool QHitTarget()
-    {
-        Debug.Log(attack.LastAttackHit());
-        return attack.LastAttackHit();
-    }
-
-    private bool QPlayerInRange()
-    {
-        return LineOfSight.CheckRange(target, model.attackRange);
-
-    }
-    private bool QLineOfSight()
-    {
-        return LineOfSight.LOS(transform, target, model.range, model.angle, model.obsMask, model);
     }
 
     protected override void ExecuteFSM()

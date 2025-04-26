@@ -48,6 +48,23 @@ public abstract class AIController : MonoBehaviour
         }
 
     }
+    protected bool QAIHasToWait()
+    {
+        return model.GetHasToWaitOnIdle();
+    }
+    protected bool QHasLostPlayer()
+    {
+        return model.hasLostRecently; //Hay un get en el model pero no me funciona
+    }
+    protected bool QPlayerInRange()
+    {
+        return LineOfSight.CheckRange(target, model.attackRange);
+
+    }
+    protected bool QLineOfSight()
+    {
+        return LineOfSight.LOS(transform, target, model.range, model.angle, model.obsMask, model);
+    }
     protected abstract void ExecuteFSM();
     //Estos tres se definen en las clases hijas
     protected abstract void InitFSM();

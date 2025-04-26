@@ -37,6 +37,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 
     void Awake()
     {
+
         GameObject.FindWithTag("Melee").GetComponent<MeleeModel>().onHitPlayer += ManagePlayerLoss;
         rb = GetComponent<Rigidbody>();
         inputController = GetComponent<InputController>();
@@ -44,6 +45,17 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
         onCrouch += ToggleCrouch;
         characterCollider = GetComponent<CapsuleCollider>();
         SetCapsuleParam();
+    }
+
+    public void ManagePlayerLoss()
+    {
+#if UNITY_EDITOR
+        // Application.Quit() does not work in the editor so
+        // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     public void SetCapsuleParam()
@@ -60,18 +72,6 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
                 originalCenter.z
             );
         }
-    }
-
-    public void ManagePlayerLoss()
-    {
-        Debug.Log("asd");
-#if UNITY_EDITOR
-        // Application.Quit() does not work in the editor so
-        // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
-        UnityEditor.EditorApplication.isPlaying = false;
-    #else
-        Application.Quit();
-#endif
     }
 
     public void Move(Vector3 input)

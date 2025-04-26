@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.Windows;
 
-public class AISAttack<T> : AISBase<T>
+public class MAISAttack<T> : AISBase<T>
 {
     float _elapsedTime;
     float _seconds = 2f;
     Transform _transform;
-    public AISAttack(Transform transform)
+    public MAISAttack(Transform transform)
     {
         _transform = transform;
     }
