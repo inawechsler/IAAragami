@@ -3,8 +3,6 @@ using UnityEngine.Windows;
 
 public class MAISAttack<T> : AISBase<T>
 {
-    float _elapsedTime;
-    float _seconds = 2f;
     Transform _transform;
     public MAISAttack(Transform transform)
     {

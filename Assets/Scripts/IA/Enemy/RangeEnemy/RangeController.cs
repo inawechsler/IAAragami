@@ -8,38 +8,68 @@ public class RangeController : AIController
     private FSM<RAIEnum> fsm;
     ISteering pursuit;
     ISteering evade;
+    public RangeModel rangeModel;
 
     protected override void Awake()
     {
         base.Awake();
+        rangeModel = GetComponent<RangeModel>();
     }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void InitTree()
     {
-        //var chaseAct = new ActionNode(() => fsm.Transition(MAIEnum.Chase));
-        //var idleAct = new ActionNode(() => fsm.Transition(MAIEnum.Idle));
-        //var attackAct = new ActionNode(() => fsm.Transition(MAIEnum.Attack));
-        //var evadeAct = new ActionNode(() => fsm.Transition(MAIEnum.Evade));
-        //var patrolAct = new ActionNode(() => fsm.Transition(MAIEnum.Patrol));
+        var idleAct = new ActionNode(() => fsm.Transition(RAIEnum.Idle));
+        var mineDropAct = new ActionNode(() => fsm.Transition(RAIEnum.MineDrop));
+        var evadeAct = new ActionNode(() => fsm.Transition(RAIEnum.Evade));
+        var patrolAct = new ActionNode(() => fsm.Transition(RAIEnum.Patrol));
 
-        //var qHitTarget = new QuestionNode(QHitTarget, idleAct, attackAct);
-        //var qCanAttack = new QuestionNode(QPlayerInRange, qHitTarget, chaseAct);
-        //var qHasToWaitOnPatrol = new QuestionNode(QAIHasToWait, idleAct, patrolAct);
-        //var qHasLostPlayerRecently = new QuestionNode(QHasLostPlayer, chaseAct, qHasToWaitOnPatrol);
-        //var qCanWatchPlayer = new QuestionNode(QLineOfSight, qCanAttack, qHasLostPlayerRecently);
 
-        //rootNode = qCanWatchPlayer;
+        var qCanDropMine = new QuestionNode(QTimeToDropMine, mineDropAct, evadeAct);
+        var qHasToWaitOnPatrol = new QuestionNode(QAIHasToWait, idleAct, patrolAct);
+        var qHasLostPlayerRecently = new QuestionNode(QHasLostPlayer, evadeAct, qHasToWaitOnPatrol);
+        var qCanWatchPlayer = new QuestionNode(QLineOfSight, qCanDropMine, qHasLostPlayerRecently);
+
+        rootNode = qCanWatchPlayer;
     }
 
     protected override void InitFSM()
     {
         fsm = new FSM<RAIEnum>();
+        var stateList = new List<AISBase<RAIEnum>>();
+        var idleSt = new MAISIdle<RAIEnum>(2f);
+        var evadeSt = new RAISSteering<RAIEnum>(evade);
+        var patrolSt = new MAISPatrol<RAIEnum>(model.waypoints);
+        var mineDropSt = new RAISAttack<RAIEnum>(target);
+
+        idleSt.AddTransition(RAIEnum.Evade, evadeSt);
+        idleSt.AddTransition(RAIEnum.MineDrop, mineDropSt);
+        idleSt.AddTransition(RAIEnum.Patrol, patrolSt);
+
+        evadeSt.AddTransition(RAIEnum.Idle, idleSt);
+        evadeSt.AddTransition(RAIEnum.MineDrop, mineDropSt);
+
+        mineDropSt.AddTransition(RAIEnum.Idle, idleSt);
+        mineDropSt.AddTransition(RAIEnum.Evade, evadeSt);
+
+        patrolSt.AddTransition(RAIEnum.Idle, idleSt);
+        patrolSt.AddTransition(RAIEnum.Evade, mineDropSt);
+
+        stateList.Add(patrolSt);
+        stateList.Add(idleSt);
+        stateList.Add(mineDropSt);
+        stateList.Add(evadeSt);
+
+        for (int i = 0; i < stateList.Count; i++)
+        {
+            stateList[i].Initialize(look, move, fsm, attack, LineOfSight, this, obstacleAvoidance);
+        }
 
 
     }
 
-
+    private bool QTimeToDropMine()
+    {
+        return rangeModel.isTimeToDropMine;
+    }
     protected override void ExecuteFSM()
     {
         fsm.OnExecute();
@@ -47,8 +77,6 @@ public class RangeController : AIController
 
     protected override void InitSteering()
     {
-        // Che, acá inicializamos los comportamientos de steering para el melee
-        pursuit = new Pursuit(transform, rbTarget, timePrediction);
         evade = new Evade(transform, rbTarget, timePrediction);
 
         steering = evade;

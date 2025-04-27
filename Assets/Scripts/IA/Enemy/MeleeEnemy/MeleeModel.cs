@@ -2,14 +2,11 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class MeleeModel : AIModel, IAttack
+public class MeleeModel : AIModel
 {
     [Header("Attack")]
     [SerializeField] private Collider attackCollider;
-    private bool _lastAttackHit = false;
-    public Action onAttack { get; set; }
     protected Coroutine lastAttackHitSCor;
-    public Action onHitPlayer;
 
     protected override void Awake()
     {
@@ -48,15 +45,5 @@ public class MeleeModel : AIModel, IAttack
         _lastAttackHit = false;
 
         lastAttackHitSCor = null;
-    }
-
-    public bool LastAttackHit()
-    {
-        return _lastAttackHit;
-    }
-
-    public void Attack()
-    {
-        onAttack?.Invoke();
     }
 }

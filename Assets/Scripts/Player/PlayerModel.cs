@@ -9,6 +9,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 {
     [Header("Movement")]
     private float moveSpeed = 3f;
+    private float originalMoveSpeed => moveSpeed;
 
     [Header("Rotation")]
     [SerializeField] private float rotationSpeed = 10f;
@@ -37,8 +38,8 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 
     void Awake()
     {
-
-        GameObject.FindWithTag("Melee").GetComponent<MeleeModel>().onHitPlayer += ManagePlayerLoss;
+        GameObject.FindWithTag("Melee").GetComponent<AIModel>().onHitPlayer += ManagePlayerLoss;
+        GameObject.FindWithTag("Range").GetComponent<AIModel>().onHitPlayer += ManagePlayerLoss;
         rb = GetComponent<Rigidbody>();
         inputController = GetComponent<InputController>();
         Position = transform;
@@ -50,8 +51,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
     public void ManagePlayerLoss()
     {
 #if UNITY_EDITOR
-        // Application.Quit() does not work in the editor so
-        // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
+
         UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit();
@@ -158,7 +158,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 
     public void ToggleCrouch()
     {
-        moveSpeed = inputController.isCrouched ? crouchSpeed : 5f;
+        moveSpeed = inputController.isCrouched ? crouchSpeed : originalMoveSpeed;
 
         // Alternamos entre agachado y de pie
         targetHeight = inputController.isCrouched ?

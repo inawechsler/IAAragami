@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public abstract class AIModel : MonoBehaviour, IMove, ILook
+public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
 {
 
 
@@ -39,6 +39,9 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook
     [Header("Components")]
     Rigidbody rb;
     public Transform Position { get; set; }
+    public Action onAttack { get; set; }
+    protected bool _lastAttackHit = false;
+    public Action onHitPlayer { get; set; }
 
     protected virtual void Awake()
     {
@@ -171,4 +174,13 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook
         rotationCoroutine = null;
     }
 
+    public void Attack()
+    {
+        onAttack?.Invoke();
+    }
+
+    public bool LastAttackHit()
+    {
+        return _lastAttackHit;
+    }
 }
