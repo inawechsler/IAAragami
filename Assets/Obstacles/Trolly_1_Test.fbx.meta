@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6078177c556eac84b9d78d02b0d4f7b3
+guid: bed74738194e78b4da73d64cef7ca8cd
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,12 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: CounterTop
-    second: {fileID: 2100000, guid: 3c97bfa83dd982947943e5d93a4948aa, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: CounterWood
+      name: lambert6
     second: {fileID: 2100000, guid: 3c97bfa83dd982947943e5d93a4948aa, type: 2}
   materials:
     materialImportMode: 2

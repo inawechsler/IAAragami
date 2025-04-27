@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6078177c556eac84b9d78d02b0d4f7b3
+guid: bcdf6ec3c338bab40b465a6ebf985090
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: CounterTop
-    second: {fileID: 2100000, guid: 3c97bfa83dd982947943e5d93a4948aa, type: 2}
+    second: {fileID: 2100000, guid: f2a9e103dd479e641901b056dde3e603, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
