@@ -37,7 +37,7 @@ public class MeleeController : AIController
         fsm = new FSM<MAIEnum>();
 
         var stateList = new List<AISBase<MAIEnum>>();
-        var idleSt = new MAISIdle<MAIEnum>(2f);
+        var idleSt = new MAISIdle<MAIEnum>();
         var chaseSt = new MAISSteering<MAIEnum>(pursuit);
         var evadeSt = new MAISSteering<MAIEnum>(evade);
         var patrolSt = new MAISPatrol<MAIEnum>(model.waypoints);

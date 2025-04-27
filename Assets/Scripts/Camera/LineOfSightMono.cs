@@ -9,7 +9,7 @@ public class LineOfSightMono : MonoBehaviour
 
     private bool wasInRange = false;
     private bool eventFired = false;
-    
+    private bool gainSightEventFired = false;
 
     public bool CheckRange(Transform target, float rangle)
     {
@@ -57,6 +57,12 @@ public class LineOfSightMono : MonoBehaviour
             model.onLostSight?.Invoke();
             eventFired = true; // evita que el evento se vuelva a ejecutar
         }
+        if (!wasInRange && inSight && !gainSightEventFired)
+        {
+            model.onSightAcheived?.Invoke();
+            gainSightEventFired = true; // evita que el evento se vuelva a ejecutar
+        }
+
         // si vuelve a estar en rango, resetea el flag para que pueda dispararse de nuevo cuando salga del rango
         if (inSight)
         {
@@ -67,7 +73,7 @@ public class LineOfSightMono : MonoBehaviour
         {
             wasInRange = false;
         }
-        Debug.Log("LOS:" + wasInRange);
+        //Debug.Log("LOS:" + wasInRange);
         return inSight;
     }
 }

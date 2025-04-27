@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 5079511407768495401}
   - component: {fileID: 6990546353996651051}
   - component: {fileID: 2410270064694917744}
-  - component: {fileID: 8131880672583822417}
   - component: {fileID: 3135503712476251513}
   - component: {fileID: 3393704205265351144}
+  - component: {fileID: 7782711588729755966}
   m_Layer: 0
   m_Name: RangeEnemy
-  m_TagString: Enemy
+  m_TagString: Range
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,21 +121,6 @@ MonoBehaviour:
   obsMask:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &8131880672583822417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7656993911583351950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d83f8ce890f34a2489d8dfdb0f998ca4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  model: {fileID: 0}
-  target: {fileID: 0}
-  rbTarget: {fileID: 0}
 --- !u!114 &3135503712476251513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +148,8 @@ MonoBehaviour:
     m_Bits: 64
   hasLostRecently: 0
   attackRange: 0.34
+  isTimeToDropMine: 0
+  minePrefab: {fileID: 7958294495044879523, guid: 5e1bbcea8ff7a9645ae17b985788cb43, type: 3}
 --- !u!114 &3393704205265351144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +163,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4480448138450295160}
+--- !u!114 &7782711588729755966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7656993911583351950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d2652d29f355b9429b426aadd8035cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  model: {fileID: 0}
+  target: {fileID: 0}
+  rbTarget: {fileID: 0}
+  rangeModel: {fileID: 0}
 --- !u!1001 &8018424382565344489
 PrefabInstance:
   m_ObjectHideFlags: 0

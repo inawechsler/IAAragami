@@ -10,12 +10,15 @@ public class RAISAttack<T> : AISBase<T>
     }
     public override void Enter()
     {
+
         base.Enter();
         attack.Attack();
+        Debug.Log("Attack");
     }
 
     public override void Execute()
     {
+
         base.Execute();
     }
 }

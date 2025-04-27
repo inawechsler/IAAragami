@@ -10,6 +10,7 @@ public class MeleeModel : AIModel
 
     protected override void Awake()
     {
+        lostSightDuration = 3f;
         base.Awake();
     }
 

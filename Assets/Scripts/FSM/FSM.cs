@@ -36,7 +36,7 @@ public class FSM<T>
         var nextState = currentState.GetTransition(input);
         if (nextState == null)
         {
-            //Debug.LogWarning("No se encontró transición válida para el input: " + input);
+            //Debug.LogWarning("No se encontró transición válida para el input: " + input + " del estado " + currentState.GetType().Name);
             return;
         }
 

@@ -31,15 +31,16 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
     public LayerMask obsMask;
     [HideInInspector] public bool hasLostRecently;
     public Action onLostSight;
+    public Action onSightAcheived;
+    protected float lostSightDuration;
     public float attackRange;
-    private float lostSightDuration = 5f;
     Coroutine lostSightCor;
 
 
     [Header("Components")]
     Rigidbody rb;
-    public Transform Position { get; set; }
     public Action onAttack { get; set; }
+    public Transform Position { get; set; }
     protected bool _lastAttackHit = false;
     public Action onHitPlayer { get; set; }
 
@@ -71,7 +72,7 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
         }
         lostSightCor = StartCoroutine(HasLostSightRecently());
 
-        Debug.Log("Event:" + hasLostRecently);
+        //Debug.Log("Event:" + hasLostRecently);
     }
 
     private IEnumerator HasLostSightRecently()

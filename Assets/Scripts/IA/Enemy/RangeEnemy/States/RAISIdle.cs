@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class MAISIdle<T> : AISBase<T>
+public class RAISIdle<T> : AISBase<T>
 {
 
-    public MAISIdle()
+    public RAISIdle()
     {
     }
 

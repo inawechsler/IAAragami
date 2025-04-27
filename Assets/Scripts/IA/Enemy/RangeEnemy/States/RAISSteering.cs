@@ -15,7 +15,7 @@ public class RAISSteering<T> : AISBase<T>
         var dir = steering.GetDir();
         move.Move(dir.normalized);
 
-        Debug.Log(steering.GetType().Name);
+        //Debug.Log(steering.GetType().Name);
         //look.LookDir(dir.normalized);
     }
 
