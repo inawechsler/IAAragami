@@ -8,7 +8,7 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
 
 
     [Header("Movement")]
-    [HideInInspector] public float moveSpeed = 3f;
+    [HideInInspector] public float moveSpeed = 2f;
 
     [Header("Waypoints/patrol")]
     public List<PatrolPoint> waypoints = new List<PatrolPoint>();

@@ -18,7 +18,7 @@ public abstract class AIController : MonoBehaviour
     [HideInInspector] public Rigidbody rbTarget;
 
     [Header("Attributes")]
-    protected float timePrediction = 2f;
+    protected float timePrediction = 1f;
     protected virtual void Awake()
     {
         target = GameObject.FindWithTag("Player").GetComponent<Transform>();

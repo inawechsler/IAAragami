@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 {
     [Header("Movement")]
-    private float moveSpeed = 3f;
+    private float moveSpeed = 4f;
     private float originalMoveSpeed => moveSpeed;
 
     [Header("Rotation")]
