@@ -12,7 +12,6 @@ public class PatrolRoulette : MonoBehaviour
 
         foreach (var patrolPoint in patrolRoutesList)
         {
-           
             if (!patrolRoutes.ContainsKey(patrolPoint.rarity))
             {
                 patrolRoutes[patrolPoint.rarity] = patrolPoint;

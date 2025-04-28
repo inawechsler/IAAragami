@@ -99,7 +99,6 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
     {
         if (patrolRoute != null)
         {
-            var prevRoute = waypoints;
             waypoints = patrolRoute.SetRoutes();
         }
     }
