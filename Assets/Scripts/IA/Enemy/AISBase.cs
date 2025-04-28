@@ -17,12 +17,9 @@ public class AISBase<T> : State<T>
             move = args[1] as IMove;
             fsm = args[2] as FSM<T>;
             attack = args[3] as IAttack;
-            if (args.Length > 4)
-                LOS = args[4] as LineOfSightMono;
-            if (args.Length > 5)
-                controller = args[5] as AIController;
-            if (args.Length > 6)
-                obs = args[6] as ObstacleAvoidance;
+            LOS = args[4] as LineOfSightMono;
+            controller = args[5] as AIController;
+            obs = args[6] as ObstacleAvoidance;
             StateMachine = fsm;
         }
     }

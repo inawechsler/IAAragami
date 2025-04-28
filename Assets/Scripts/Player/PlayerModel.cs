@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -200,4 +201,47 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 
     }
 
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("Key"))
+        {
+            GameManager.Instance.onKeyZone?.Invoke();
+        }
+        if (collider.gameObject.CompareTag("Door"))
+        {
+            GameManager.Instance.onDoorZone?.Invoke();
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Key"))
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                GameManager.Instance.SetPlayerHasKey();
+                Destroy(other.gameObject); // Destruye el objeto de la llave
+            }
+
+        }
+        if (other.gameObject.CompareTag("Key"))
+        {
+            if (Input.GetKeyDown(KeyCode.E) && GameManager.Instance.playerHasKey)
+            {
+                
+            }
+
+        }
+    }
+    void OnTriggerExit(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("Key"))
+        {
+            GameManager.Instance.onKeyZone?.Invoke();
+        }
+        if (collider.gameObject.CompareTag("Door"))
+        {
+            GameManager.Instance.onDoorZone?.Invoke();
+        }
+    }
 }

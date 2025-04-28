@@ -9,7 +9,6 @@ public class PatrolRandom : MonoBehaviour
 
     void Awake()
     {
-
         patrolRoulette = GetComponent<PatrolRoulette>();
         rarityRoutes = patrolRoulette.patrolRoutesList;
 

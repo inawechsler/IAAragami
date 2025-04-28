@@ -13,8 +13,7 @@ public class PSBase<T> : State<T>
             look = args[0] as ILook;
             move = args[1] as IMove;
             fsm = args[2] as FSM<T>;
-            if(args.Length > 3)
-                crouch = args[3] as ICrouch;
+            crouch = args[3] as ICrouch;
             StateMachine = fsm;
         }
     }
