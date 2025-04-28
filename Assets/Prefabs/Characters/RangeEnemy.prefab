@@ -115,9 +115,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxObs: 5
-  radius: 1.55
+  radius: 0.76
   angle: 314.73
-  personalArea: 1.16
+  personalArea: 0.76
   obsMask:
     serializedVersion: 2
     m_Bits: 64
@@ -149,7 +149,7 @@ MonoBehaviour:
   hasLostRecently: 0
   attackRange: 0.34
   isTimeToDropMine: 0
-  minePrefab: {fileID: 7958294495044879523, guid: 5e1bbcea8ff7a9645ae17b985788cb43, type: 3}
+  minePrefab: {fileID: 1034224813007499894, guid: f0efe229e97220948a8117e08ee31f05, type: 3}
 --- !u!114 &3393704205265351144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,8 +176,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 0}
-  target: {fileID: 0}
-  rbTarget: {fileID: 0}
+  target: {fileID: 6743742031277289149, guid: ab462efddedbab0408bce6c8f3e58f18, type: 3}
+  rbTarget: {fileID: 6659482131947657850, guid: ab462efddedbab0408bce6c8f3e58f18, type: 3}
   rangeModel: {fileID: 0}
 --- !u!1001 &8018424382565344489
 PrefabInstance:
@@ -242,6 +242,10 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 36fafbd75f9d6254ebdb5db96673ca94, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6749314087805099976, guid: 36fafbd75f9d6254ebdb5db96673ca94, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 23.74
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
