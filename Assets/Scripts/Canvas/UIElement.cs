@@ -12,10 +12,6 @@ public class UIElement : MonoBehaviour, IUIElement
     private void Awake()
     {
         canvas = GetComponent<Canvas>();
-        if (canvas == null)
-        {
-            Debug.LogError($"No se encontró componente Canvas en {gameObject.name}");
-        }
     }
 
     public void Show()

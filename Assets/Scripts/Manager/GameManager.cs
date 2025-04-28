@@ -46,8 +46,8 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.HideUI(DOOR_CANVAS_ID);
 
         // Conectar eventos
-        onKeyZone = KeyVisibility;
-        onDoorZone = DoorVisibility;
+        onKeyZone += KeyVisibility;
+        onDoorZone += DoorVisibility;
         onGameEnd += OnGameEnding;
     }
 

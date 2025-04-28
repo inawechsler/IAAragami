@@ -63,7 +63,6 @@ public class AISPatrol<T> : AISBase<T>
         }
         _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Count;
         _isWaiting = false;
-        Debug.Log("Laps Complete: " + _lapsCompleted);
     }
 
     public override void Exit()

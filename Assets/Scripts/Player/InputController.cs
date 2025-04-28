@@ -12,33 +12,23 @@ public class InputController : MonoBehaviour, PlayerControls.IPlayerLocomotionMa
     public bool isCrouched { get; private set; } = false;
 
 
-
     private void Awake()
     {
         playerModel = GetComponent<PlayerModel>();
 
         inputActions = new PlayerControls();
-        inputActions.Enable();
-
-        inputActions.PlayerLocomotionMap.Enable();
-
         inputActions.PlayerLocomotionMap.SetCallbacks(this);
-
     }
-    public void OnEnable()
+
+    private void OnEnable()
     {
-        if (inputActions == null)
-            inputActions = new PlayerControls();
-
-        inputActions.PlayerLocomotionMap.Move.performed += OnMove;
-        inputActions.PlayerLocomotionMap.Move.canceled += OnMove;
-
-
-        inputActions.PlayerLocomotionMap.Crouch.performed += OnCrouch;
-        inputActions.PlayerLocomotionMap.Crouch.canceled += OnCrouch;
+        inputActions.PlayerLocomotionMap.Enable();
     }
 
-
+    private void OnDisable()
+    {
+        inputActions.PlayerLocomotionMap.Disable();
+    }
     public void OnCrouch(InputAction.CallbackContext context)
     {
         if (context.performed)

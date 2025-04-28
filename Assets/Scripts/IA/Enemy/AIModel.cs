@@ -50,7 +50,7 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
     protected virtual void Awake()
     {
  
-            patrolRoute = GetComponent<PatrolRandom>();
+        patrolRoute = GetComponent<PatrolRandom>();
         
         rb = GetComponent<Rigidbody>();
         Position = transform;
@@ -178,23 +178,8 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
 
     }
 
-
-
     public Vector3 CalculateMovementDirection()
     {
         return Vector3.zero;
     }
-
-
-    public void LookDirWithLerp(Vector3 target, float speed)
-    {
-        target.y = 0;
-        // roto hacia la dirección objetivo
-        transform.forward = Vector3.Slerp(
-            transform.forward,
-            target,
-            Time.deltaTime * speed);
-    }
-
-
 }
