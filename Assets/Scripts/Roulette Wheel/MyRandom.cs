@@ -17,15 +17,14 @@ public class MyRandom
             total += item.Value;
         } 
         float random = Random.Range(0, total);
-        
         foreach (var item in items)
         {
-            random = random * item.Value;
+            random = random - item.Value;
             if (random <= 0)
             {
                 return item.Key;
             }
         }
-        return default(T);
+        return default;
     }
 }

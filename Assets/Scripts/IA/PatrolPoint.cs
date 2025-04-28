@@ -8,7 +8,10 @@ public class PatrolPoint : MonoBehaviour
     {
         get { return position; }
     }
+
+
     //public PatrolPoint nextPoint;
+
 
 
 }

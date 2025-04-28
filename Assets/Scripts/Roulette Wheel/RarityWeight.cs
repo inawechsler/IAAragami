@@ -4,5 +4,5 @@ using UnityEngine;
 public class RarityWeight : MonoBehaviour
 {
     public float weight;
-    public Enum rarity;
+    public RarityEnum rarity;
 }

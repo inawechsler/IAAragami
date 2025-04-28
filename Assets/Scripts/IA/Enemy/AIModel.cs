@@ -15,7 +15,10 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
     Coroutine waitOnIdleCor;
     private bool _hasToWaitOnIdle;
     public float waitOnIdleTime = 3f;
+    public Action onPatrolCompleted { get; set; }
     public Action waitOnIdleAction { get; set; }
+
+    public PatrolRandom patrolRoute;
 
     private ObstacleAvoidance _obs;
 
@@ -46,11 +49,15 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
 
     protected virtual void Awake()
     {
+ 
+            patrolRoute = GetComponent<PatrolRandom>();
+        
         rb = GetComponent<Rigidbody>();
         Position = transform;
         _obs = GetComponent<ObstacleAvoidance>();
         onLostSight += ManageLostSight;
         waitOnIdleAction += ManageWaitOnIdle;
+        onPatrolCompleted += SetNewPatrolRoute;
     }
     public void Move(Vector3 input)
     {
@@ -88,6 +95,18 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
 
     }
 
+    public void SetNewPatrolRoute()
+    {
+        if (patrolRoute != null)
+        {
+            var prevRoute = waypoints;
+            waypoints = patrolRoute.SetRoutes();
+        }
+        else
+        {
+            Debug.LogError("Patrol route not found" + gameObject.name);
+        }
+    }
     public void Attack()
     {
         onAttack?.Invoke();//Al ser llamado invoca onAttack

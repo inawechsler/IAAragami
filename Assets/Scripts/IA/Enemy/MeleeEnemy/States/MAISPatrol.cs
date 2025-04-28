@@ -56,6 +56,8 @@ public class MAISPatrol<T> : AISBase<T>
         if (_currentWaypointIndex == _waypoints.Count - 1)
         {
             _lapsCompleted++;
+            controller.model.onPatrolCompleted?.Invoke();
+            _waypoints = controller.model.waypoints;
             if (_lapsCompleted == _lapsToWaitOnIdle)
             {
                 _lapsCompleted = 0;
