@@ -2,46 +2,53 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [DefaultExecutionOrder(-3)]
-public class InputController : MonoBehaviour, PlayerInputControls.IPlayerLocomotionMapActions
+public class InputController : MonoBehaviour, PlayerControls.IPlayerLocomotionMapActions
 {
-    public PlayerInputControls inputActions;
+    public PlayerControls inputActions;
+
+    public PlayerModel playerModel { get; private set; }
     public Vector2 moveInput { get; private set; }
-    public Vector2 lookInput { get; private set; }
+
+    public bool isCrouched { get; private set; } = false;
+
+
 
     private void Awake()
     {
-        inputActions = new PlayerInputControls();
+        playerModel = GetComponent<PlayerModel>();
 
-        inputActions.PlayerLocomotionMap.Move.performed += OnMove;
-        inputActions.PlayerLocomotionMap.Move.canceled += OnMove;
-
-        inputActions.PlayerLocomotionMap.Look.performed += OnLook;
-        inputActions.PlayerLocomotionMap.Look.canceled += OnLook;
-    }
-    public void OnEnable()
-    {
-        if (inputActions == null)
-            inputActions = new PlayerInputControls();
+        inputActions = new PlayerControls();
         inputActions.Enable();
 
         inputActions.PlayerLocomotionMap.Enable();
 
         inputActions.PlayerLocomotionMap.SetCallbacks(this);
+
+    }
+    public void OnEnable()
+    {
+        if (inputActions == null)
+            inputActions = new PlayerControls();
+
+        inputActions.PlayerLocomotionMap.Move.performed += OnMove;
+        inputActions.PlayerLocomotionMap.Move.canceled += OnMove;
+
+
+        inputActions.PlayerLocomotionMap.Crouch.performed += OnCrouch;
+        inputActions.PlayerLocomotionMap.Crouch.canceled += OnCrouch;
     }
 
 
-    public void OnFire(InputAction.CallbackContext context)
+    public void OnCrouch(InputAction.CallbackContext context)
     {
-        print("Fire");
+        if (context.performed)
+        {
+            isCrouched = !isCrouched; //Si estaba agachado se desagacha, si no, se agacha
+        }
     }
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-    }
-
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        lookInput = context.ReadValue<Vector2>();
     }
 
 }

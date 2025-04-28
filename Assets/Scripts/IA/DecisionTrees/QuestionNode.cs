@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class QuestionNode : MonoBehaviour, ITreeNode
+public class QuestionNode : ITreeNode
 {
     Func<bool> question;
 
@@ -25,5 +25,10 @@ public class QuestionNode : MonoBehaviour, ITreeNode
         {
             falseNode.Execute();
         }
+    }
+
+    public bool IsFinished()
+    {
+        return true;
     }
 }
