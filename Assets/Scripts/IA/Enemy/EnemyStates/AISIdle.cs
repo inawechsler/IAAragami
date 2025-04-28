@@ -1,9 +1,8 @@
 using UnityEngine;
-//MAISAttack = Melee AI State Attack 
-public class MAISIdle<T> : AISBase<T>
+public class AISIdle<T> : AISBase<T>
 {
 
-    public MAISIdle()
+    public AISIdle()
     {
     }
 

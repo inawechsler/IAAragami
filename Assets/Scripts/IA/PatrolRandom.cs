@@ -23,7 +23,7 @@ public class PatrolRandom : MonoBehaviour
     public List<PatrolPoint> SetRoutes()
     {
         RarityEnum rarity = MyRandom.Roulette(routes);
-        PatrolRoute patrolRoute = patrolRoulette.patrolRoutes[rarity];
+        PatrolRoute patrolRoute = patrolRoulette.patrolRoutes[rarity]; //Obtengo el patrolRoute del diccionario de routes con la key obtenida (RarityEnum)
         return patrolRoute.patrolPoints;
     }
 

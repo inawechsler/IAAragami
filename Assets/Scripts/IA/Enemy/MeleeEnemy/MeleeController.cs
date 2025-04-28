@@ -37,11 +37,11 @@ public class MeleeController : AIController
         fsm = new FSM<MAIEnum>();
 
         var stateList = new List<AISBase<MAIEnum>>();
-        var idleSt = new MAISIdle<MAIEnum>();
-        var chaseSt = new MAISSteering<MAIEnum>(pursuit);
-        var evadeSt = new MAISSteering<MAIEnum>(evade);
-        var patrolSt = new MAISPatrol<MAIEnum>(model.waypoints);
-        var attackSt = new MAISAttack<MAIEnum>(target);
+        var idleSt = new AISIdle<MAIEnum>();
+        var chaseSt = new AISSteering<MAIEnum>(pursuit);
+        var evadeSt = new AISSteering<MAIEnum>(evade);
+        var patrolSt = new AISPatrol<MAIEnum>(model.waypoints);
+        var attackSt = new AISAttack<MAIEnum>(target);
 
         idleSt.AddTransition(MAIEnum.Chase, chaseSt);
         idleSt.AddTransition(MAIEnum.Attack, attackSt);

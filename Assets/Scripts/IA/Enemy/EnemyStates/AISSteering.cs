@@ -2,10 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 //MAISAttack = Melee AI State Attack 
-public class MAISSteering<T> : AISBase<T>
+public class AISSteering<T> : AISBase<T>
 {
     private ISteering _steering;
-    public MAISSteering(ISteering target)
+    public AISSteering(ISteering target)
     {
         _steering = target;
     }
