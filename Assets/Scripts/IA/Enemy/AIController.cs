@@ -14,13 +14,15 @@ public abstract class AIController : MonoBehaviour
 
 
     [Header("References")]
-    [SerializeField] public Transform target;
-    [SerializeField] public Rigidbody rbTarget;
+    [HideInInspector] public Transform target;
+    [HideInInspector] public Rigidbody rbTarget;
 
     [Header("Attributes")]
     protected float timePrediction = 2f;
     protected virtual void Awake()
     {
+        target = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        rbTarget = GameObject.FindWithTag("Player").GetComponent<Rigidbody>();
         obstacleAvoidance = GetComponent<ObstacleAvoidance>();
         look = GetComponent<ILook>();
         attack = GetComponent<IAttack>();

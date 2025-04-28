@@ -102,10 +102,6 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
             var prevRoute = waypoints;
             waypoints = patrolRoute.SetRoutes();
         }
-        else
-        {
-            Debug.LogError("Patrol route not found" + gameObject.name);
-        }
     }
     public void Attack()
     {

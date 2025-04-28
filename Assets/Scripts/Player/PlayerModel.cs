@@ -51,12 +51,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 
     public void ManagePlayerLoss()
     {
-#if UNITY_EDITOR
-
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        GameManager.Instance.onGameEnd?.Invoke(false); //Invoca el evento de fin de juego en derrota
     }
 
 
@@ -224,11 +219,11 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
             }
 
         }
-        if (other.gameObject.CompareTag("Key"))
+        if (other.gameObject.CompareTag("Door"))
         {
             if (Input.GetKeyDown(KeyCode.E) && GameManager.Instance.playerHasKey)
             {
-                
+                GameManager.Instance.onGameEnd?.Invoke(true); // Invoca el evento de fin de juego en victoria
             }
 
         }

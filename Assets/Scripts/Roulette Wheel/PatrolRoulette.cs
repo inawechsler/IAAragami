@@ -19,8 +19,6 @@ public class PatrolRoulette : MonoBehaviour
             }
             patrolRoutes[patrolPoint.rarity] = patrolPoint;
 
-            Debug.Log(patrolRoutes[patrolPoint.rarity].name + ", " + patrolRoutes[patrolPoint.rarity].weight);
-
         }
     }
 

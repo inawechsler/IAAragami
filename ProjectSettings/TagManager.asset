@@ -10,6 +10,9 @@ TagManager:
   - KeyText
   - Door
   - DoorText
+  - WinText
+  - RestartButton
+  - DoorCanvas
   layers:
   - Default
   - TransparentFX
