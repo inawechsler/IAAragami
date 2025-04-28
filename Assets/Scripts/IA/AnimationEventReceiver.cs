@@ -9,14 +9,9 @@ public class AnimationEventReceiver : MonoBehaviour
 
         aiModel = GetComponentInParent<MeleeModel>();
 
-        if (aiModel == null)
-        {
-            
-        }
-
     }
 
-    // Estos métodos serán llamados por los eventos de animación
+    // Estos métodos se llaman por los eventos en la animación
     public void EnableAttackCollider()
     {
         if (aiModel != null)

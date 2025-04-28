@@ -63,7 +63,57 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
         rb.linearVelocity = input;
     }
 
-    private void ManageLostSight()
+    public void LookDir(Vector3 inputDir)
+    {
+        inputDir.Normalize();
+        inputDir.y = 0;
+
+        // verifico si la dirección cambió
+        bool directionChanged = (targetDirection == Vector3.zero) ||
+                                (Vector3.Dot(targetDirection, inputDir) < 0.966f); // 15 grados masomenos
+
+        if (directionChanged)
+        {
+            //nueva dirección objetivo
+            targetDirection = inputDir;
+
+
+            if (rotationCoroutine != null)
+            {
+                StopCoroutine(rotationCoroutine);
+            }
+
+            rotationCoroutine = StartCoroutine(RotateToTarget());
+        }
+
+    }
+
+    public void Attack()
+    {
+        onAttack?.Invoke();//Al ser llamado invoca onAttack
+    }
+
+    public bool LastAttackHit()
+    {
+        return _lastAttackHit;
+    }
+    private IEnumerator RotateToTarget()
+    {
+        // Mientras no estemos cerca de la dirección objetivo
+        while (Vector3.Dot(transform.forward, targetDirection) < 0.996f)
+        {
+            // roto hacia la dirección objetivo
+            transform.forward = Vector3.Slerp(
+                transform.forward,
+                targetDirection,
+                Time.deltaTime * rotationSpeed);
+
+            yield return null;
+        }
+
+        rotationCoroutine = null;
+    }
+    private void ManageLostSight()//Corrutina encargada de setear el bool que se lee desede la Question qHasLostRecently en Controller
     {
 
         if (lostSightCor != null)
@@ -71,22 +121,19 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
             StopCoroutine(HasLostSightRecently());
         }
         lostSightCor = StartCoroutine(HasLostSightRecently());
-
-        //Debug.Log("Event:" + hasLostRecently);
     }
 
     private IEnumerator HasLostSightRecently()
     {
-        //if (hasLostRecently) yield return null;
         hasLostRecently = true;
-        yield return new WaitForSeconds(lostSightDuration);
+        yield return new WaitForSeconds(lostSightDuration);// tiempo que tarda en volver a patrulla
         hasLostRecently = false;
         lostSightCor = null;
     }
 
     public bool GetHasLostSighRecently() { return hasLostRecently; }
 
-    private void ManageWaitOnIdle()
+    private void ManageWaitOnIdle() //Corrutina encargada de setear bool que lee la pregunta QHasToWait en Controller
     {
         if (waitOnIdleCor != null)
         {
@@ -124,31 +171,6 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
     }
 
 
-    public void LookDir(Vector3 inputDir)
-    {
-        inputDir.Normalize();
-        inputDir.y = 0;
-
-        // verifico si la dirección cambió
-        bool directionChanged = (targetDirection == Vector3.zero) ||
-                                (Vector3.Dot(targetDirection, inputDir) < 0.966f); // 15 grados masomenos
-
-        if (directionChanged)
-        {
-            //nueva dirección objetivo
-            targetDirection = inputDir;
-
-
-            if (rotationCoroutine != null)
-            {
-                StopCoroutine(rotationCoroutine);
-            }
-
-            rotationCoroutine = StartCoroutine(RotateToTarget());
-        }
-
-    }
-
     public void LookDirWithLerp(Vector3 target, float speed)
     {
         target.y = 0;
@@ -158,30 +180,6 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
             target,
             Time.deltaTime * speed);
     }
-    private IEnumerator RotateToTarget()
-    {
-        // Mientras no estemos cerca de la dirección objetivo
-        while (Vector3.Dot(transform.forward, targetDirection) < 0.996f)
-        {
-            // roto hacia la dirección objetivo
-            transform.forward = Vector3.Slerp(
-                transform.forward,
-                targetDirection,
-                Time.deltaTime * rotationSpeed);
 
-            yield return null;
-        }
 
-        rotationCoroutine = null;
-    }
-
-    public void Attack()
-    {
-        onAttack?.Invoke();
-    }
-
-    public bool LastAttackHit()
-    {
-        return _lastAttackHit;
-    }
 }

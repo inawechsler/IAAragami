@@ -55,14 +55,14 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.3354232
+      - time: 0.4098418
         functionName: EnableAttackCollider
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 121b181d02f0c8745a2f3b8bc73fc5b5, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.81140196
+      - time: 0.8137275
         functionName: DisableAttackCollider
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 121b181d02f0c8745a2f3b8bc73fc5b5, type: 3}

@@ -43,11 +43,7 @@ public class InputController : MonoBehaviour, PlayerControls.IPlayerLocomotionMa
     {
         if (context.performed)
         {
-            //if(moveInput != Vector2.zero)
-            //{
-            //    return;
-            //}
-            isCrouched = !isCrouched;
+            isCrouched = !isCrouched; //Si estaba agachado se desagacha, si no, se agacha
         }
     }
     public void OnMove(InputAction.CallbackContext context)

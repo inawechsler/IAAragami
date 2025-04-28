@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
+//RAISAttack = Range AI State Attack 
 
 public class RAISSteering<T> : AISBase<T>
 {

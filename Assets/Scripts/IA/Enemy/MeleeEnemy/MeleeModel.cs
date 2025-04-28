@@ -12,7 +12,7 @@ public class MeleeModel : AIModel
     {
         base.Awake();
         lostSightDuration = 3f;
-
+        attackCollider.enabled = false;
     }
 
     public void EnableAttackCollider()
@@ -29,13 +29,14 @@ public class MeleeModel : AIModel
 
     private void OnTriggerEnter(Collider player)
     {
-        // Che, verificamos si el collider está activo y si golpeamos al jugador
+        //Si el trigger está activo y el objeto tiene el tag del player
         if (attackCollider.enabled && player.CompareTag("Player"))
         {
             if (lastAttackHitSCor != null)
                 StopCoroutine(lastAttackHitSet());
 
-            onHitPlayer?.Invoke();
+            PlayerModel.RegisterEnemyHit();
+            onHitPlayer?.Invoke(); //Invoco al evento de hit acertado
             lastAttackHitSCor = StartCoroutine(lastAttackHitSet());
         }
     }

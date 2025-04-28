@@ -1,5 +1,7 @@
 using UnityEngine;
 
+//RAISAttack = Range AI State Attack 
+
 public class RAISIdle<T> : AISBase<T>
 {
 

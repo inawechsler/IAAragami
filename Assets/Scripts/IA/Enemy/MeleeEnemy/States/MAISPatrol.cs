@@ -4,23 +4,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-
+// MAISPatrol = Melee AI State Patrol
 public class MAISPatrol<T> : AISBase<T>
 {
-    private List<PatrolPoint> waypoints = new();
-    public int _currentWaypointIndex = 0;
+    private List<PatrolPoint> _waypoints = new();
+    private int _currentWaypointIndex = 0;
     private bool _isWaiting = false;
-    private float stopDistance = 1f;
-    private float minWaitTime = 1f;
-    private float maxWaitTime = 1.3f;
-    private int lapsCompleted = 0;
-    private int lapsToWaitOnIdle = 2;
-    private Coroutine waitCoroutine;
-    public MAISPatrol(List<PatrolPoint> patrolPoints)
-    {   
-        waypoints = patrolPoints;
+    private float _stopDistance = 1f;
+    private float _minWaitTime = 1f;
+    private float _maxWaitTime = 1.3f;
+    private int _lapsCompleted = 0;
+    private int _lapsToWaitOnIdle = 2;
+    private Coroutine _waitCoroutine;
+
+    public MAISPatrol(List<PatrolPoint> waypoints)
+    {
+        _waypoints = waypoints;
     }
-    
+
     public override void Enter()
     {
         base.Enter();
@@ -32,48 +33,46 @@ public class MAISPatrol<T> : AISBase<T>
     {
         base.Execute();
 
-        if (waypoints.Count == 0 || _isWaiting) return;
+        if (_waypoints.Count == 0 || _isWaiting) return;
 
-        Vector3 target = waypoints[_currentWaypointIndex].Position;
+        Vector3 target = _waypoints[_currentWaypointIndex].Position;
         Vector3 direction = (target - controller.transform.position).normalized;
         move.Move(direction);
 
         look.LookDir(direction);
-        controller.model.LookDirWithLerp(target, 1);
 
-
-        if (Vector3.Distance(controller.transform.position, target) < stopDistance)
+        if (Vector3.Distance(controller.transform.position, target) < _stopDistance)
         {
             _isWaiting = true;
             controller.StartCoroutine(WaitAndMoveToNext());
         }
     }
+
     public IEnumerator WaitAndMoveToNext()
     {
-        float waitTime = UnityEngine.Random.Range(minWaitTime, maxWaitTime);
+        float waitTime = UnityEngine.Random.Range(_minWaitTime, _maxWaitTime);
         yield return new WaitForSeconds(waitTime);
 
-
-        if (_currentWaypointIndex == waypoints.Capacity - 1)
+        if (_currentWaypointIndex == _waypoints.Count - 1)
         {
-            lapsCompleted++;
-            if (lapsCompleted == lapsToWaitOnIdle)
+            _lapsCompleted++;
+            if (_lapsCompleted == _lapsToWaitOnIdle)
             {
-                lapsCompleted = 0;
+                _lapsCompleted = 0;
                 controller.model.waitOnIdleAction?.Invoke();
             }
         }
-        _currentWaypointIndex = (_currentWaypointIndex + 1) % waypoints.Count;
+        _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Count;
         _isWaiting = false;
-        Debug.Log("Laps Complete: " + lapsCompleted);
+        Debug.Log("Laps Complete: " + _lapsCompleted);
     }
 
     public override void Exit()
     {
-        if (waitCoroutine != null)
+        if (_waitCoroutine != null)
         {
-            controller.StopCoroutine(waitCoroutine);
-            waitCoroutine = null;
+            controller.StopCoroutine(_waitCoroutine);
+            _waitCoroutine = null;
         }
     }
 }

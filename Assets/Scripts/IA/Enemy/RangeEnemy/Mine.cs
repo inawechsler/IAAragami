@@ -17,7 +17,7 @@ public class Mine : MonoBehaviour
 
     private void Awake()
     {
-        attack = GameObject.FindWithTag("Range").GetComponent<IAttack>();
+        attack = GameObject.FindWithTag("Range").GetComponent<IAttack>(); //Enemigo que lanza la mina   
     }
     private void Start()
     {
@@ -40,40 +40,40 @@ public class Mine : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (!isActive || !IsInLayerMask(collider.gameObject.layer, targetLayers))
+        if (!isActive || !IsInLayerMask(collider.gameObject.layer, targetLayers)) //Si la bomba no está activa o no está en la capa de los targets, no hace nada
             return;
 
-        // Explotamos
         Explode();
     }
 
     private void Explode()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius, targetLayers);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius, targetLayers);//Agarro todos los colliders que están dentro del radio de la mina
 
         foreach (var hitCollider in hitColliders)
         {
 
-            if (hitCollider.gameObject.CompareTag("Player"))
+            if (hitCollider.gameObject.CompareTag("Player"))//Chequeo por cada uno si tiene tag del player
             {
-                Debug.Log("jdpaosda");
-                attack.onHitPlayer?.Invoke();
+                attack.onHitPlayer?.Invoke(); //Invoco el evento hiteo al player
+                PlayerModel.RegisterEnemyHit();
+
             }
         }
 
         if (explosionEffectPrefab != null)
         {
-            Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+            Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity); //Instancio el prefab de la explosión
         }
 
-        Destroy(gameObject);
+        Destroy(gameObject); 
     }
 
     
 
     private bool IsInLayerMask(int layer, LayerMask layerMask)
     {
-        return layerMask == (layerMask | (1 << layer));
+        return layerMask == (layerMask | (1 << layer));//Compara el layer del GO que haya chocado con la mina sea del layerMask deseado: Player
     }
 
     private void OnDrawGizmosSelected()

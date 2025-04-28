@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Windows;
 
+//MAISAttack = Melee AI State Attack    
 public class MAISAttack<T> : AISBase<T>
 {
     Transform _transform;

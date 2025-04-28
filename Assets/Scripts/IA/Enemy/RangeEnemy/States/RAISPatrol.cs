@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+//RAISAttack = Range AI State Attack 
 
 public class RAISPatrol<T> : AISBase<T>
 {
@@ -37,9 +38,6 @@ public class RAISPatrol<T> : AISBase<T>
         Vector3 target = waypoints[_currentWaypointIndex].Position;
         Vector3 direction = (target - controller.transform.position).normalized;
         move.Move(direction);
-
-        look.LookDir(direction);
-        controller.model.LookDirWithLerp(target, 1);
 
 
         if (Vector3.Distance(controller.transform.position, target) < stopDistance)

@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Windows;
 
+
+//RAISAttack = Range AI State Attack 
 public class RAISAttack<T> : AISBase<T>
 {
     Transform _transform;

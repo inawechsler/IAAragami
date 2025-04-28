@@ -33,17 +33,17 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
     InputController inputController;
     [SerializeField] private Camera mainCamera;
 
+    public static event Action onEnemyHitPlayer; 
     public Transform Position { get; set; }
     public Action onCrouch { get; set; }
 
     void Awake()
     {
-        GameObject.FindWithTag("Melee").GetComponent<AIModel>().onHitPlayer += ManagePlayerLoss;
-        GameObject.FindWithTag("Range").GetComponent<AIModel>().onHitPlayer += ManagePlayerLoss;
+        onEnemyHitPlayer += ManagePlayerLoss;
         rb = GetComponent<Rigidbody>();
         inputController = GetComponent<InputController>();
         Position = transform;
-        onCrouch += ToggleCrouch;
+        onCrouch += ToggleCrouch; //Cuando se invoque crouch se invocará ToggleCrouch
         characterCollider = GetComponent<CapsuleCollider>();
         SetCapsuleParam();
     }
@@ -58,11 +58,16 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 #endif
     }
 
-    public void SetCapsuleParam()
+
+    public static void RegisterEnemyHit()
+    {
+        onEnemyHitPlayer?.Invoke();
+    }
+    public void SetCapsuleParam()//Seteo los valores para el crouch
     {
         if (characterCollider != null)
         {
-            originalHeight = characterCollider.height;
+            originalHeight = characterCollider.height;  
             originalCenter = characterCollider.center;
 
             // Calcular el centro cuando está agachado
@@ -119,7 +124,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
         if (inputDir == Vector3.zero) return;
 
         bool directionChanged = (targetDirection == Vector3.zero) ||
-                               (Vector3.Dot(transform.forward, inputDir) < 0.966f); // 15 grados masomenos
+                               (Vector3.Dot(transform.forward, inputDir) < 0.966f); // si el input es cero o el angulo entre forward y el input es mayor a 15°
 
         if (directionChanged)
         {
@@ -136,11 +141,11 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 
     private IEnumerator RotateToTarget()
     {
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection); //Obtengo quaternion de la dirección objetivo
 
-        while (Quaternion.Angle(transform.rotation, targetRotation) > 2f)
+        while (Quaternion.Angle(transform.rotation, targetRotation) > 2f) //Mientras el angulo sea mayor a 2  
         {
-            transform.rotation = Quaternion.Slerp(
+            transform.rotation = Quaternion.Slerp(//Spherical Lerp entre targetRotation y la rotación actual, Spherical porque emula una interpolación en base a una esfera, (rotacion en el eje Z)
                 transform.rotation,
                 targetRotation,
                 Time.deltaTime * rotationSpeed);
@@ -158,13 +163,14 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 
     public void ToggleCrouch()
     {
-        moveSpeed = inputController.isCrouched ? crouchSpeed : originalMoveSpeed;
+        moveSpeed = inputController.isCrouched ? crouchSpeed : originalMoveSpeed; //La velocidad de MoveSpeed se asigna en
+                                                                                  //base al valor de isCrouched, si es true la velocidad es crouchSpeed, si no es originalMoveSpeed
 
         // Alternamos entre agachado y de pie
-        targetHeight = inputController.isCrouched ?
+        targetHeight = inputController.isCrouched ? //Lo mismo que en moveSpeed pero con la altura
             originalHeight - crouchHeightReduction : originalHeight;
 
-        Vector3 targetCenter = inputController.isCrouched ?
+        Vector3 targetCenter = inputController.isCrouched ? 
             crouchCenter : originalCenter;
 
         StartCoroutine(TransitionCrouch(targetHeight, targetCenter));
@@ -179,17 +185,17 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 
         while (elapsedTime < 1f)
         {
-            elapsedTime += Time.deltaTime * crouchTransitionSpeed;
+            elapsedTime += Time.deltaTime * crouchTransitionSpeed; //Timer
             float t = Mathf.Clamp01(elapsedTime);
 
             // interpolar entre la altura actual y la objetivo
-            characterCollider.height = Mathf.Lerp(startHeight, targetHeight, t);
+            characterCollider.height = Mathf.Lerp(startHeight, targetHeight, t); //Lerp en altura en base a su valor inicial y el target, en t segundos
             characterCollider.center = Vector3.Lerp(startCenter, targetCenter, t);
 
             yield return null;
         }
 
-        characterCollider.height = targetHeight;
+        characterCollider.height = targetHeight;//Aseguro que sea esa efectivamente la altura
         characterCollider.center = targetCenter;
 
     }

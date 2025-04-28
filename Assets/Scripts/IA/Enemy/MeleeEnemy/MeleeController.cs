@@ -23,11 +23,11 @@ public class MeleeController : AIController
         var evadeAct = new ActionNode(() => fsm.Transition(MAIEnum.Evade));
         var patrolAct = new ActionNode(() => fsm.Transition(MAIEnum.Patrol));
 
-        var qHitTarget = new QuestionNode(QHitTarget, idleAct, attackAct);
-        var qCanAttack = new QuestionNode(QPlayerInRange, qHitTarget, chaseAct);
-        var qHasToWaitOnPatrol = new QuestionNode(QAIHasToWait, idleAct, patrolAct);
-        var qHasLostPlayerRecently = new QuestionNode(QHasLostPlayer, chaseAct, qHasToWaitOnPatrol);
-        var qCanWatchPlayer = new QuestionNode(QLineOfSight, qCanAttack, qHasLostPlayerRecently);
+        var qHitTarget = new QuestionNode(QHitTarget, idleAct, attackAct);//Si le pegó al jugador, vuelve a idle, si no, ataca
+        var qCanAttack = new QuestionNode(QPlayerInRange, qHitTarget, chaseAct);//Si puede atacar, chequea si le pegó, si no, lo persigue
+        var qHasToWaitOnPatrol = new QuestionNode(QAIHasToWait, idleAct, patrolAct);//Si tiene que esperar ejecuta idle, si no, patrol
+        var qHasLostPlayerRecently = new QuestionNode(QHasLostPlayer, chaseAct, qHasToWaitOnPatrol);//Si lo perdió hace poco lo sigue persiguiendo, si no, chequea si debe esperar en el patrol
+        var qCanWatchPlayer = new QuestionNode(QLineOfSight, qCanAttack, qHasLostPlayerRecently);//Si puede ver al jugador, intentará atacarlo, si no, chequeará que lo dejó de ver hace poco
 
         rootNode = qCanWatchPlayer;
     }
@@ -81,8 +81,7 @@ public class MeleeController : AIController
 
     private bool QHitTarget()
     {
-        Debug.Log(attack.LastAttackHit());
-        return attack.LastAttackHit();
+        return attack.LastAttackHit(); //Chequea si el último ataque le pegó al jugador
     }
 
    

@@ -61,9 +61,8 @@ public abstract class AIController : MonoBehaviour
     {
         return LineOfSight.LOS(transform, target, model.range, model.angle, model.obsMask, model);
     }
+    protected abstract void InitFSM(); //Son abstractas porque cada AI tiene su propio FSM, acá declaro la función pero no la implemento y lo mismo en las tres de abajo
     protected abstract void ExecuteFSM();
-    //Estos tres se definen en las clases hijas
-    protected abstract void InitFSM();
     protected abstract void InitTree();
     protected abstract void InitSteering();
 

@@ -18,7 +18,7 @@ public class RangeModel : AIModel
         lostSightDuration = 10f;
     }
 
-    public void DropMine()
+    public void DropMine()//Método que se ejecuta en onAttack recibido
     {
         if (minePrefab != null)
         {
@@ -26,16 +26,9 @@ public class RangeModel : AIModel
             mine.transform.forward = Position.forward;
             mine.gameObject.SetActive(true);
         }
-        else
-        {
-            Debug.LogError("Mine prefab is not assigned in the inspector.");
-        }
     }
-    private void Update()
-    {
-        Debug.Log(isTimeToDropMine);
-    }
-    public void ManageMine()
+
+    public void ManageMine()//Corrutina que maneja el dropeo de la mina
     {
         mineDropCor = StartCoroutine(ManageMineDropBool());
     }

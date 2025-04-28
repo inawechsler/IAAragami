@@ -7,6 +7,7 @@ public class RangeController : AIController
     [Header("Range Components")]
     private FSM<RAIEnum> fsm;
     ISteering evade;
+    //No necesito que se vea, por eso lo pongo en HideInInspector
     [HideInInspector] public RangeModel rangeModel;
 
     protected override void Awake()
@@ -22,10 +23,10 @@ public class RangeController : AIController
         var patrolAct = new ActionNode(() => fsm.Transition(RAIEnum.Patrol));
 
 
-        var qCanDropMine = new QuestionNode(QTimeToDropMine, mineDropAct, evadeAct);
-        var qHasToWaitOnPatrol = new QuestionNode(QAIHasToWait, idleAct, patrolAct);
-        var qHasLostPlayerRecently = new QuestionNode(QHasLostPlayer, qCanDropMine, qHasToWaitOnPatrol);
-        var qCanWatchPlayer = new QuestionNode(QLineOfSight, qCanDropMine, qHasLostPlayerRecently);
+        var qCanDropMine = new QuestionNode(QTimeToDropMine, mineDropAct, evadeAct);//Si puede dropear la mina, lo hace, si no, evade
+        var qHasToWaitOnPatrol = new QuestionNode(QAIHasToWait, idleAct, patrolAct);//Si debe esperar en el patrol, ejecuta idle, si no, patrol
+        var qHasLostPlayerRecently = new QuestionNode(QHasLostPlayer, qCanDropMine, qHasToWaitOnPatrol);//Si lo perdió hace poco lo sigue persiguiendo, si no, chequea si debe esperar en el patrol
+        var qCanWatchPlayer = new QuestionNode(QLineOfSight, qCanDropMine, qHasLostPlayerRecently);//Si puede ver al jugador, intentará dropear la mina, si no chequeará que lo dejó de ver hace poco
 
         rootNode = qCanWatchPlayer;
     }
@@ -74,13 +75,11 @@ public class RangeController : AIController
 
     private bool QTimeToDropMine()
     {
-     
-        return rangeModel.isTimeToDropMine;
+        return rangeModel.isTimeToDropMine;//La corrutina que maneja el tiempo de dropear la mina maneja el bool
     }
     protected override void ExecuteFSM()
     {
         fsm.OnExecute();
-        Debug.Log("QTE: " + QTimeToDropMine());
     }
 
     protected override void InitSteering()

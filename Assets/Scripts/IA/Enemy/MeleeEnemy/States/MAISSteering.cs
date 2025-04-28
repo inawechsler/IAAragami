@@ -1,21 +1,21 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
-
+//MAISAttack = Melee AI State Attack 
 public class MAISSteering<T> : AISBase<T>
 {
-    private ISteering steering;
+    private ISteering _steering;
     public MAISSteering(ISteering target)
     {
-        steering = target;
+        _steering = target;
     }
     public override void Execute()
     {
         base.Execute();
-        var dir = steering.GetDir();
+        var dir = _steering.GetDir();
         move.Move(dir.normalized);
 
-        Debug.Log(steering.GetType().Name);
+        Debug.Log(_steering.GetType().Name);
         //look.LookDir(dir.normalized);
     }
 
