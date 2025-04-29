@@ -20,7 +20,6 @@ public class MeleeController : AIController
         var chaseAct = new ActionNode(() => fsm.Transition(MAIEnum.Chase));
         var idleAct = new ActionNode(() => fsm.Transition(MAIEnum.Idle));
         var attackAct = new ActionNode(() => fsm.Transition(MAIEnum.Attack));
-        var evadeAct = new ActionNode(() => fsm.Transition(MAIEnum.Evade));
         var patrolAct = new ActionNode(() => fsm.Transition(MAIEnum.Patrol));
 
         var qHitTarget = new QuestionNode(QHitTarget, idleAct, attackAct);//Si le pegó al jugador, vuelve a idle, si no, ataca
@@ -39,26 +38,19 @@ public class MeleeController : AIController
         var stateList = new List<AISBase<MAIEnum>>();
         var idleSt = new AISIdle<MAIEnum>();
         var chaseSt = new AISSteering<MAIEnum>(pursuit);
-        var evadeSt = new AISSteering<MAIEnum>(evade);
         var patrolSt = new AISPatrol<MAIEnum>(model.waypoints);
         var attackSt = new AISAttack<MAIEnum>(target);
 
         idleSt.AddTransition(MAIEnum.Chase, chaseSt);
         idleSt.AddTransition(MAIEnum.Attack, attackSt);
-        idleSt.AddTransition(MAIEnum.Evade, evadeSt);
         idleSt.AddTransition(MAIEnum.Patrol, patrolSt);
 
         chaseSt.AddTransition(MAIEnum.Attack, attackSt);
         chaseSt.AddTransition(MAIEnum.Idle, idleSt);
-        chaseSt.AddTransition(MAIEnum.Evade, evadeSt);
         chaseSt.AddTransition(MAIEnum.Patrol, patrolSt);
-
-        evadeSt.AddTransition(MAIEnum.Idle, idleSt);
-        evadeSt.AddTransition(MAIEnum.Chase, chaseSt);
 
         attackSt.AddTransition(MAIEnum.Idle, idleSt);
         attackSt.AddTransition(MAIEnum.Chase, chaseSt);
-        attackSt.AddTransition(MAIEnum.Evade, evadeSt);
         attackSt.AddTransition(MAIEnum.Patrol, patrolSt);
 
         patrolSt.AddTransition(MAIEnum.Idle, idleSt);
@@ -69,7 +61,6 @@ public class MeleeController : AIController
         stateList.Add(idleSt);
         stateList.Add(chaseSt);
         stateList.Add(attackSt);
-        stateList.Add(evadeSt);
 
         for (int i = 0; i < stateList.Count; i++)
         {

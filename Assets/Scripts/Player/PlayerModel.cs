@@ -54,7 +54,6 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
         GameManager.Instance.onGameEnd?.Invoke(false); //Invoca el evento de fin de juego en derrota
     }
 
-
     public static void RegisterEnemyHit()
     {
         onEnemyHitPlayer?.Invoke();
@@ -236,6 +235,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
         }
         if (collider.gameObject.CompareTag("Door"))
         {
+           
             GameManager.Instance.onDoorZone?.Invoke();
         }
     }

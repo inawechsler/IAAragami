@@ -42,12 +42,12 @@ public class GameManager : MonoBehaviour
     private void InitializeUIElements()
     {
         // Ocultar elementos UI al inicio
-        UIManager.Instance.ToggleUI(KEY_CANVAS_ID);
+        UIManager.Instance.HideUI(KEY_CANVAS_ID);
         UIManager.Instance.HideUI(DOOR_CANVAS_ID);
 
-        // Conectar eventos
-        onKeyZone += KeyVisibility;
-        onDoorZone += DoorVisibility;
+
+        onKeyZone = KeyVisibility; //Igualo porque es la unica función que se suscribe
+        onDoorZone = DoorVisibility; //Igualo porque es la unica función que se suscribe
         onGameEnd += OnGameEnding;
     }
 
