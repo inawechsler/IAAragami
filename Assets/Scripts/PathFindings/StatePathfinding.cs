@@ -7,19 +7,19 @@ using static UnityEditor.PlayerSettings;
 
 public class StatePathfinding<T> : StateFollowPoints<T>
 {
-    IMove _move;
+    IMove2 _move;
     Animator _anim;
     public Node start;
     public Node goal;
     public Transform target;
 
-    public StatePathfinding(Transform entity, IMove move, Animator anim, Transform target, float distanceToPoint = 0.2F) : base(entity, distanceToPoint)
+    public StatePathfinding(Transform entity, IMove2 move, Animator anim, Transform target, float distanceToPoint = 0.2F) : base(entity, distanceToPoint)
     {
         _move = move;
         _anim = anim;
         this.target = target;
     }
-    public StatePathfinding(Transform entity, IMove move, Animator anim, List<Vector3> waypoints, float distanceToPoint = 0.2f) : base(entity, waypoints, distanceToPoint)
+    public StatePathfinding(Transform entity, IMove2 move, Animator anim, List<Vector3> waypoints, float distanceToPoint = 0.2f) : base(entity, waypoints, distanceToPoint)
     {
         _move = move;
         _anim = anim;
@@ -42,30 +42,30 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         base.OnFinishPath();
         _anim.SetFloat("Vel", 0);
     }
-    public void SetPathBFS()
-    {
-        List<Node> path = BFS.Run<Node>(start, IsSatisfied, GetConnections, 5000);
-        List<Vector3> pathVector = new List<Vector3>();
-        for (int i = 0; i < path.Count; i++)
-        {
-            pathVector.Add(path[i].transform.position);
-        }
-        Debug.Log("Path " + path.Count);
-        _move.SetPosition(start.transform.position);
-        SetWaypoints(pathVector);
-    }
-    public void SetPathDFS()
-    {
-        List<Node> path = DFS.Run<Node>(start, IsSatisfied, GetConnections, 5000);
-        List<Vector3> pathVector = new List<Vector3>();
-        for (int i = 0; i < path.Count; i++)
-        {
-            pathVector.Add(path[i].transform.position);
-        }
-        Debug.Log("Path " + path.Count);
-        _move.SetPosition(start.transform.position);
-        SetWaypoints(pathVector);
-    }
+    //public void SetPathBFS()
+    //{
+    //    List<Node> path = BFS.Run<Node>(start, IsSatisfied, GetConnections, 5000);
+    //    List<Vector3> pathVector = new List<Vector3>();
+    //    for (int i = 0; i < path.Count; i++)
+    //    {
+    //        pathVector.Add(path[i].transform.position);
+    //    }
+    //    Debug.Log("Path " + path.Count);
+    //    _move.SetPosition(start.transform.position);
+    //    SetWaypoints(pathVector);
+    //}
+    //public void SetPathDFS()
+    //{
+    //    List<Node> path = DFS.Run<Node>(start, IsSatisfied, GetConnections, 5000);
+    //    List<Vector3> pathVector = new List<Vector3>();
+    //    for (int i = 0; i < path.Count; i++)
+    //    {
+    //        pathVector.Add(path[i].transform.position);
+    //    }
+    //    Debug.Log("Path " + path.Count);
+    //    _move.SetPosition(start.transform.position);
+    //    SetWaypoints(pathVector);
+    //}
     public void SetPathDijkstra()
     {
         List<Node> path = DIJKSTRA.Run<Node>(start, IsSatisfied, GetConnections, GetCost);
@@ -76,6 +76,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         }
         Debug.Log("Path " + path.Count);
         _move.SetPosition(start.transform.position);
+
         SetWaypoints(pathVector);
     }
     public void SetPathAStar()
