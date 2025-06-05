@@ -66,19 +66,19 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     //    _move.SetPosition(start.transform.position);
     //    SetWaypoints(pathVector);
     //}
-    public void SetPathDijkstra()
-    {
-        List<Node> path = DIJKSTRA.Run<Node>(start, IsSatisfied, GetConnections, GetCost);
-        List<Vector3> pathVector = new List<Vector3>();
-        for (int i = 0; i < path.Count; i++)
-        {
-            pathVector.Add(path[i].transform.position);
-        }
-        Debug.Log("Path " + path.Count);
-        _move.SetPosition(start.transform.position);
+    //public void SetPathDijkstra()
+    //{
+    //    List<Node> path = DIJKSTRA.Run<Node>(start, IsSatisfied, GetConnections, GetCost);
+    //    List<Vector3> pathVector = new List<Vector3>();
+    //    for (int i = 0; i < path.Count; i++)
+    //    {
+    //        pathVector.Add(path[i].transform.position);
+    //    }
+    //    Debug.Log("Path " + path.Count);
+    //    _move.SetPosition(start.transform.position);
 
-        SetWaypoints(pathVector);
-    }
+    //    SetWaypoints(pathVector);
+    //}
     public void SetPathAStar()
     {
         var init = GetNearNode(_entity.transform.position);
@@ -109,7 +109,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         SetWaypoints(pathVector);
     }
 
-    public void SetPathAStarPlusVector()
+    public void SetPathAStarPlusVector() // grilla (creo)
     {
         //goal = Vector3Int.RoundToInt(target.transform.position);
         Vector3 init = Vector3Int.RoundToInt(_entity.transform.position);
@@ -174,7 +174,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         h += Vector3.Distance(current.transform.position, goal.transform.position) * distanceMultiplier;
         return h;
     }
-    float Heuristic(Vector3 current)
+    float Heuristic(Vector3 current) // grilla
     {
         float distanceMultiplier = 1;
 
@@ -192,7 +192,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         cost += child.hasTrap ? trapMultiplier : 0;
         return cost;
     }
-    float GetCost(Vector3 parent, Vector3 child)
+    float GetCost(Vector3 parent, Vector3 child) // grilla
     {
         float distanceMultiplier = 1;
 
@@ -204,7 +204,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     {
         return curr == goal;
     }
-    bool IsSatisfied(Vector3 curr)
+    bool IsSatisfied(Vector3 curr) // grilla
     {
         if (Vector3.Distance(curr, target.transform.position) > 1.25f) return false;
         return InView(curr, target.transform.position);
@@ -213,7 +213,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     {
         return curr.neightbourds;
     }
-    List<Vector3> GetConnections(Vector3 curr)
+    List<Vector3> GetConnections(Vector3 curr) // grilla 
     {
         var neightbourds = new List<Vector3>();
         for (int x = -1; x <= 1; x++)
