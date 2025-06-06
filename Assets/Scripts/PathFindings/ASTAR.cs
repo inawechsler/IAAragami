@@ -52,7 +52,7 @@ public class ASTAR : MonoBehaviour
 
         return new List<T>();
     }
-    public static List<T> CleanPath<T>(List<T> path, Func<T, T, bool> inView)
+    public static List<T> CleanPath<T>(List<T> path, Func<T, T, bool> inView)// Esto es lo que descarta nodos no necesarios volviendolo A*PLus
     {
         if (path == null) return path;
         if (path.Count <= 2) return path;

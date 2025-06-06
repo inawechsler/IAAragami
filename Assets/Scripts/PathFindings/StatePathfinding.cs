@@ -120,25 +120,25 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         SetWaypoints(path);
     }
 
-    public void SetPathThetaStar()
-    {
-        var init = GetNearNode(_entity.transform.position);
-        goal = GetNearNode(target.transform.position);
-        List<Node> path = THETA.Run<Node>(init, IsSatisfied, GetConnections, GetCost, Heuristic, InView);
-        List<Vector3> pathVector = new List<Vector3>();
-        for (int i = 0; i < path.Count; i++)
-        {
-            pathVector.Add(path[i].transform.position);
-        }
-        Debug.Log("Path " + path.Count);
-        //_move.SetPosition(start.transform.position);
-        SetWaypoints(pathVector);
-    }
+    //public void SetPathThetaStar()
+    //{
+    //    var init = GetNearNode(_entity.transform.position);
+    //    goal = GetNearNode(target.transform.position);
+    //    List<Node> path = THETA.Run<Node>(init, IsSatisfied, GetConnections, GetCost, Heuristic, InView);
+    //    List<Vector3> pathVector = new List<Vector3>();
+    //    for (int i = 0; i < path.Count; i++)
+    //    {
+    //        pathVector.Add(path[i].transform.position);
+    //    }
+    //    Debug.Log("Path " + path.Count);
+    //    //_move.SetPosition(start.transform.position);
+    //    SetWaypoints(pathVector);
+    //}
     bool InView(Node grandparent, Node child)
     {
         return InView(grandparent.transform.position, child.transform.position);
     }
-    bool InView(Vector3 grandparent, Vector3 child)
+    bool InView(Vector3 grandparent, Vector3 child) // grilla
     {
         Debug.Log("INVIEW");
         var diff = child - grandparent;

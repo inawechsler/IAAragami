@@ -14,7 +14,6 @@ public class MeleeController : AIController
         base.Awake();
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void InitTree()
     {
         var chaseAct = new ActionNode(() => fsm.Transition(MAIEnum.Chase));
