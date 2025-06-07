@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class FlockingBaseBehaviour : MonoBehaviour, IFlocking
 {
     public float multiplier = 1;
-    bool _isActive;
+    bool _isActive = true;
     public Vector3 GetDir(List<IBoid> boids, IBoid self)
     {
         if (_isActive)
