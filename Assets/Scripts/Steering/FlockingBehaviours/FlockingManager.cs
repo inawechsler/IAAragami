@@ -23,7 +23,8 @@ public class FlockingManager : MonoBehaviour, ISteering
   public Vector3 GetDir()
     {
         _boids.Clear();
-        int count = Physics.OverlapSphereNonAlloc(_self.Position, radius, _colls,boidMask );
+        int count = Physics.OverlapSphereNonAlloc(_self.Position, radius, _colls,boidMask );//crear mascara boid 
+                                                                                            //agregar cada behaviour al enemigo que use el flocking
 
         for(int i = 0; i < count; i++)
         {
@@ -44,4 +45,10 @@ public class FlockingManager : MonoBehaviour, ISteering
     }
 
     public IBoid SetSelf { set => _self = value; }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, radius);
+    }
 }

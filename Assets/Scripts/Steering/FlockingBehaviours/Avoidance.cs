@@ -19,5 +19,10 @@ public class Avoidance : FlockingBaseBehaviour
 
         return avoidance * multiplier;
     }
-   
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, personalArea);
+    }
 }
