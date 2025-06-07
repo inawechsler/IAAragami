@@ -5,5 +5,6 @@ public enum MAIEnum
     Idle,
     Attack,
     Chase,
-    Patrol
+    Patrol,
+    Pathfinding
 }

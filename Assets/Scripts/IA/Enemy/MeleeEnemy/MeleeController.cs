@@ -21,6 +21,8 @@ public class MeleeController : AIController
         var attackAct = new ActionNode(() => fsm.Transition(MAIEnum.Attack));
         var patrolAct = new ActionNode(() => fsm.Transition(MAIEnum.Patrol));
 
+        var pathfindingAct = new ActionNode(() =>fsm.Transition(MAIEnum.Pathfinding));// falta agregarlo dentro del arbol
+
         var qHitTarget = new QuestionNode(QHitTarget, idleAct, attackAct);//Si le pegó al jugador, vuelve a idle, si no, ataca
         var qCanAttack = new QuestionNode(QPlayerInRange, qHitTarget, chaseAct);//Si puede atacar, chequea si le pegó, si no, lo persigue
         var qHasToWaitOnPatrol = new QuestionNode(QAIHasToWait, idleAct, patrolAct);//Si tiene que esperar ejecuta idle, si no, patrol
@@ -39,6 +41,8 @@ public class MeleeController : AIController
         var chaseSt = new AISSteering<MAIEnum>(pursuit);
         var patrolSt = new AISPatrol<MAIEnum>(model.waypoints);
         var attackSt = new AISAttack<MAIEnum>(target);
+        
+        var goToSt = new AISPathfindind<MAIEnum>(/*Pathfinding*/);
 
         idleSt.AddTransition(MAIEnum.Chase, chaseSt);
         idleSt.AddTransition(MAIEnum.Attack, attackSt);
@@ -52,6 +56,10 @@ public class MeleeController : AIController
         attackSt.AddTransition(MAIEnum.Chase, chaseSt);
         attackSt.AddTransition(MAIEnum.Patrol, patrolSt);
 
+        goToSt.AddTransition(MAIEnum.Patrol, patrolSt);
+        goToSt.AddTransition(MAIEnum.Idle, idleSt);
+
+
         patrolSt.AddTransition(MAIEnum.Idle, idleSt);
         patrolSt.AddTransition(MAIEnum.Chase, chaseSt);
         patrolSt.AddTransition(MAIEnum.Attack, attackSt);
@@ -60,6 +68,8 @@ public class MeleeController : AIController
         stateList.Add(idleSt);
         stateList.Add(chaseSt);
         stateList.Add(attackSt);
+
+        stateList.Add(goToSt);
 
         for (int i = 0; i < stateList.Count; i++)
         {

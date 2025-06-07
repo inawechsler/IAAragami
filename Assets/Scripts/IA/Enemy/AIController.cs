@@ -12,6 +12,9 @@ public abstract class AIController : MonoBehaviour
     protected ObstacleAvoidance obstacleAvoidance;
     [HideInInspector] public AIModel model;
 
+    //public MeleeController controller;
+
+    public AISPathfindind<Vector3> pathF;
 
     [Header("References")]
     [HideInInspector] public Transform target;
@@ -30,6 +33,8 @@ public abstract class AIController : MonoBehaviour
         LineOfSight = GetComponent<LineOfSightMono>();
         model = GetComponent<AIModel>();
 
+        //controller = GetComponent<MeleeController>();
+        pathF = GetComponent<AISPathfindind<Vector3>>();
     }
     private void Start()
     {
@@ -46,6 +51,13 @@ public abstract class AIController : MonoBehaviour
         }
 
     }
+
+    //protected bool QIAInPath()
+    //{
+    //    if (target.transform.position - transform.position <= pathF._distanceToPoint)
+    //    return;
+    //}
+
     protected bool QAIHasToWait()
     {
         return model.GetHasToWaitOnIdle();
