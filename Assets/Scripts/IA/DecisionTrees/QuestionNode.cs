@@ -26,9 +26,4 @@ public class QuestionNode : ITreeNode
             falseNode.Execute();
         }
     }
-
-    public bool IsFinished()
-    {
-        return true;
-    }
 }

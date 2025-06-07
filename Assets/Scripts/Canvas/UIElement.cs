@@ -7,7 +7,6 @@ public class UIElement : MonoBehaviour, IUIElement
     private Canvas canvas;
 
     public string ElementID => elementID;
-    public bool IsVisible => canvas != null && canvas.enabled;
 
     private void Awake()
     {

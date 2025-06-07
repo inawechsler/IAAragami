@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 {
     [Header("Movement")]
-    private float moveSpeed = 4f;
+    private float moveSpeed = 5f;
     private float originalMoveSpeed => moveSpeed;
 
     [Header("Rotation")]
@@ -116,10 +116,9 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 
     public void LookDir(Vector3 inputDir)
     {
-        if (inputDir == Vector3.zero) return;
 
         bool directionChanged = (targetDirection == Vector3.zero) ||
-                               (Vector3.Dot(transform.forward, inputDir) < 0.966f); // si el input es cero o el angulo entre forward y el input es mayor a 15°
+                               (Vector3.Dot(transform.forward, inputDir) < 0.966f); // si el input es cero o el angulo entre forward y el input es mayor a cos 15°
 
         if (directionChanged)
         {
@@ -127,7 +126,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
             targetDirection = inputDir;
 
             if (rotationCoroutine != null)
-                StopCoroutine(rotationCoroutine);
+                StopCoroutine(rotationCoroutine); //Si llegó al final de la rotación anterior, la detengo para poder inciar una nueva rotación
 
             // nueva rotación
             rotationCoroutine = StartCoroutine(RotateToTarget());
@@ -163,7 +162,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 
         // Alternamos entre agachado y de pie
         targetHeight = inputController.isCrouched ? //Lo mismo que en moveSpeed pero con la altura
-            originalHeight - crouchHeightReduction : originalHeight;
+            originalHeight - crouchHeightReduction : originalHeight; 
 
         Vector3 targetCenter = inputController.isCrouched ? 
             crouchCenter : originalCenter;
@@ -207,18 +206,18 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay(Collider collider)
     {
-        if (other.gameObject.CompareTag("Key"))
+        if (collider.gameObject.CompareTag("Key"))
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
                 GameManager.Instance.SetPlayerHasKey();
-                Destroy(other.gameObject); // Destruye el objeto de la llave
+                Destroy(collider.gameObject); // Destruye el objeto de la llave
             }
 
         }
-        if (other.gameObject.CompareTag("Door"))
+        if (collider.gameObject.CompareTag("Door"))
         {
             if (Input.GetKeyDown(KeyCode.E) && GameManager.Instance.playerHasKey)
             {
@@ -235,7 +234,6 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
         }
         if (collider.gameObject.CompareTag("Door"))
         {
-           
             GameManager.Instance.onDoorZone?.Invoke();
         }
     }

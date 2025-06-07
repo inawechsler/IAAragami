@@ -46,6 +46,7 @@ public class UIManager : MonoBehaviour
         if (uiElements.TryGetValue(elementID, out IUIElement element))
         {
             element.Show();
+            
         }
     }
 
@@ -55,7 +56,7 @@ public class UIManager : MonoBehaviour
         {
             element.Hide();
         }
-    }
+    }   
 
     public void ToggleUI(string elementID)//Recibe ID y ejecuta toggle en el elemento con ese ID de key
     {
@@ -65,10 +66,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateUIText(string elementID, string message)//Recibe ID y mensaje a mostrar en el elemento con ese ID de key
+    public void UpdateUIText(string elementID, string message)//Recibe ID y mensaje a mostrar en el elemento con ese ID de key, 
     {
         if (uiElements.TryGetValue(elementID, out IUIElement element) &&
-            element is UIElement canvasElement)
+            element is UIElement canvasElement) //Verifico que el IUIElement sea un UIElement, que es el cual tiene upadtetext, algo que la interfaz no tiene   
         {
             canvasElement.UpdateText(message);
         }

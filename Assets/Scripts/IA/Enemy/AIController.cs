@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 
 public abstract class AIController : MonoBehaviour
@@ -52,8 +53,9 @@ public abstract class AIController : MonoBehaviour
     }
     protected bool QHasLostPlayer()
     {
-        return model.hasLostRecently; //Hay un get en el model pero no me funciona
+        return model.hasLostRecently;
     }
+
     protected bool QPlayerInRange()
     {
         return LineOfSight.CheckRange(target, model.attackRange);

@@ -32,7 +32,7 @@ public class AISPatrol<T> : AISBase<T>
     {
         base.Execute();
 
-        if (_waypoints.Count == 0 || _isWaiting) return;
+        if (_waypoints.Count == 0 || _waitCoroutine != null) return;
 
         Vector3 target = _waypoints[_currentWaypointIndex].Position; //Posición del waypoint
         Vector3 direction = (target - controller.transform.position).normalized; //Dirección hacia el waypoint
@@ -41,7 +41,7 @@ public class AISPatrol<T> : AISBase<T>
         if (Vector3.Distance(controller.transform.position, target) < _stopDistance)//Si la dist es menor a la stopDistance
         {
             _isWaiting = true; //Esperando en el wp true
-            controller.StartCoroutine(WaitAndMoveToNext()); //Inicia la corrutina para esperar  
+            _waitCoroutine = controller.StartCoroutine(WaitAndMoveToNext()); //Inicia la corrutina para esperar  
         }
     }
 
@@ -62,6 +62,7 @@ public class AISPatrol<T> : AISBase<T>
             }
         }
         _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Count;
+        _waitCoroutine = null;
         _isWaiting = false;
     }
 

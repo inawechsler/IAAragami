@@ -30,6 +30,7 @@ public class MeleeModel : AIModel
     private void OnTriggerEnter(Collider player)
     {
         //Si el trigger está activo y el objeto tiene el tag del player
+
         if (attackCollider.enabled && player.CompareTag("Player"))
         {
             if (lastAttackHitSCor != null)
