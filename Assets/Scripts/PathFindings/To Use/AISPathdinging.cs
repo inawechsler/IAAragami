@@ -113,7 +113,7 @@ public class AISPathfindind<T> : AISBase<T>
             {
                 if (x == 0 && z == 0) continue;
                 var candidate = pos + new Vector3(x, 0, z);
-                if (ObstacleManager.Instance.IsRightPos(candidate))
+                if (CollidersManager.instance.IsRightPos(candidate))
                     connections.Add(candidate);
             }
         }

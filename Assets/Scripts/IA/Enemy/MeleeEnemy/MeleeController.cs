@@ -29,7 +29,9 @@ public class MeleeController : AIController
         var qHasLostPlayerRecently = new QuestionNode(QHasLostPlayer, chaseAct, qHasToWaitOnPatrol);//Si lo perdió hace poco lo sigue persiguiendo, si no, chequea si debe esperar en el patrol
         var qCanWatchPlayer = new QuestionNode(QLineOfSight, qCanAttack, qHasLostPlayerRecently);//Si puede ver al jugador, intentará atacarlo, si no, chequeará que lo dejó de ver hace poco
 
-        rootNode = qCanWatchPlayer;
+        var qIsTooFar = new QuestionNode(QIsFarFromInitialWaypoint, pathfindingAct, qCanWatchPlayer);
+
+        rootNode = qIsTooFar;//CanWatchPlayer
     }
 
     protected override void InitFSM()

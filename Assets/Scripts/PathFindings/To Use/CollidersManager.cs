@@ -4,9 +4,9 @@ using UnityEngine;
 public class CollidersManager : MonoBehaviour
 {
     Dictionary<Vector3, int> _obs = new Dictionary<Vector3, int>();
-    static CollidersManager instance;
+    public static CollidersManager instance;
     public bool skipY = true;
-    public static CollidersManager Instance
+    /*public static CollidersManager Instance
     {
         get
         {
@@ -16,7 +16,7 @@ public class CollidersManager : MonoBehaviour
             }
             return instance;
         }
-    }
+    }*/
     private void Awake()
     {
         if (instance != null && instance != this)

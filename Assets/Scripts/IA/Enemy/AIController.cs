@@ -14,7 +14,7 @@ public abstract class AIController : MonoBehaviour
 
     //public MeleeController controller;
 
-    public AISPathfindind<Vector3> pathF;
+    //public AISPathfindind<Vector3> pathF;
 
     [Header("References")]
     [HideInInspector] public Transform target;
@@ -34,7 +34,7 @@ public abstract class AIController : MonoBehaviour
         model = GetComponent<AIModel>();
 
         //controller = GetComponent<MeleeController>();
-        pathF = GetComponent<AISPathfindind<Vector3>>();
+        //pathF = GetComponent<AISPathfindind<Vector3>>();
     }
     private void Start()
     {
@@ -52,6 +52,13 @@ public abstract class AIController : MonoBehaviour
 
     }
 
+    protected bool QIsFarFromInitialWaypoint()
+    {
+        Vector3 currentPos = transform.position;
+        Vector3 targetPos = model.waypoints[0].position;
+
+        return Vector3.Distance(currentPos, targetPos) > 1.25f;
+    }
     //protected bool QIAInPath()
     //{
     //    if (target.transform.position - transform.position <= pathF._distanceToPoint)
