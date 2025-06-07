@@ -1,16 +1,22 @@
 using UnityEngine;
+using System.Collections.Generic;
 
-public class Allignment : MonoBehaviour
+public class Allignment : FlockingBaseBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    
 
-    // Update is called once per frame
-    void Update()
+    protected override Vector3 GetRealDir(List<IBoid> boids, IBoid self)
     {
+        Vector3 alignment = Vector3.zero;
+
+        for (int i = 0; i < boids.Count; i++)
+        {
+            var currBoid = boids[i];
+            alignment += currBoid.Forward;
+        }
+
+        return alignment.normalized * multiplier;
         
+       
     }
 }
