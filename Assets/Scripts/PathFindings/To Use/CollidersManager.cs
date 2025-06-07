@@ -100,7 +100,7 @@ public class CollidersManager : MonoBehaviour
 
         return points;
     }
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         if (_obs == null) return;
         Gizmos.color = Color.red;
