@@ -4,7 +4,6 @@ public class ObjectsColliders : MonoBehaviour
 {
     private void Start()
     {
-        Debug.Log("Start ejecutado en " + gameObject.name);
 
         var coll = GetComponent<Collider>();
         if (coll == null)

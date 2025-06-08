@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ASTAR : MonoBehaviour
 {
-    public static List<T> Run<T>(T start, Func<T, bool> isSatisfied, Func<T, List<T>> getConnections, Func<T, T, float> getCost, Func<T, float> heuristic, int watchdog = 500, int watchdogPath = 500)
+    public static List<T> Run<T>(T start, Func<T, bool> isSatisfied, Func<T, List<T>> getConnections, Func<T, T, float> getCost, Func<T, float> heuristic, int watchdog = 1700, int watchdogPath = 1700)
     {
         Dictionary<T, T> parents = new Dictionary<T, T>();
         PriorityQueue<T> pending = new PriorityQueue<T>();
@@ -12,12 +12,13 @@ public class ASTAR : MonoBehaviour
         Dictionary<T, float> cost = new Dictionary<T, float>();
         cost[start] = 0;
         pending.Enqueue(start, 0);
+
         while (!pending.IsEmpty)
         {
+            
             watchdog--;
             if (watchdog <= 0) break;
             T current = pending.Dequeue();
-            Debug.Log("ASTAR");
             if (isSatisfied(current))
             {
                 List<T> path = new List<T>();
@@ -33,6 +34,7 @@ public class ASTAR : MonoBehaviour
             }
             else
             {
+                
                 visited.Add(current);
                 List<T> connections = getConnections(current);
 
@@ -48,8 +50,9 @@ public class ASTAR : MonoBehaviour
                     parents[child] = current;
                 }
             }
-        }
 
+    
+        }
         return new List<T>();
     }
     public static List<T> CleanPath<T>(List<T> path, Func<T, T, bool> inView)// Esto es lo que descarta nodos no necesarios volviendolo A*PLus

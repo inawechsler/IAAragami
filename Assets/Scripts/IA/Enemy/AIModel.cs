@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
+public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack, IPath
 {
 
 
@@ -17,6 +18,7 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
     public float waitOnIdleTime = 3f;
     public Action onPatrolCompleted { get; set; }
     public Action waitOnIdleAction { get; set; }
+
 
     public PatrolRandom patrolRoute;
 
@@ -46,6 +48,8 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
     public Transform Position { get; set; }
     protected bool _lastAttackHit = false;
     public Action onHitPlayer { get; set; }
+    public bool isFinishPath { get; set; } = true;
+    public bool isOnPathfinding { get; set; } = false;
 
     protected virtual void Awake()
     {
@@ -69,7 +73,6 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
 
         rb.linearVelocity = input;
     }
-
     public void LookDir(Vector3 inputDir)
     {
         inputDir.Normalize();
@@ -141,11 +144,10 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
     {
         hasLostRecently = true;
         yield return new WaitForSeconds(lostSightDuration);// tiempo que tarda en volver a patrulla
+        isOnPathfinding = true; // Marcar que está en pathfinding
         hasLostRecently = false;
         lostSightCor = null;
     }
-
-    public bool GetHasLostSighRecently() { return hasLostRecently; }
 
     private void ManageWaitOnIdle() //Corrutina encargada de setear bool que lee la pregunta QHasToWait en Controller
     {

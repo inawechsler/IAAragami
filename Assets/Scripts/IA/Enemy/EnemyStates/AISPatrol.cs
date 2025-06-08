@@ -15,9 +15,11 @@ public class AISPatrol<T> : AISBase<T>
     private int _lapsCompleted = 0;
     private int _lapsToWaitOnIdle = 2;
     private Coroutine _waitCoroutine;
+    private MonoBehaviour monoRef;
 
-    public AISPatrol(List<PatrolPoint> waypoints)
+    public AISPatrol(List<PatrolPoint> waypoints, MonoBehaviour monoBehaviourRef)
     {
+        monoRef = monoBehaviourRef;
         _waypoints = waypoints;
     }
 
@@ -41,8 +43,10 @@ public class AISPatrol<T> : AISBase<T>
         if (Vector3.Distance(controller.transform.position, target) < _stopDistance)//Si la dist es menor a la stopDistance
         {
             _isWaiting = true; //Esperando en el wp true
-            controller.StartCoroutine(WaitAndMoveToNext()); //Inicia la corrutina para esperar  
+            monoRef.StartCoroutine(WaitAndMoveToNext()); //Inicia la corrutina para esperar  
         }
+        if (controller is MeleeController)
+            Debug.Log("Patrol");
     }
 
     public IEnumerator WaitAndMoveToNext()

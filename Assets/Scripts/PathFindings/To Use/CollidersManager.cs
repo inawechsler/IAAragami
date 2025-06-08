@@ -34,7 +34,6 @@ public class CollidersManager : MonoBehaviour
         var points = GetPointsOnCollider(coll, skipY);
         for (int i = 0; i < points.Count; i++)
         {
-            Debug.Log("Registrando punto: " + points[i]);
             if (_obs.ContainsKey(points[i]))
             {
                 _obs[points[i]]++;
@@ -100,7 +99,7 @@ public class CollidersManager : MonoBehaviour
 
         return points;
     }
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         if (_obs == null) return;
         Gizmos.color = Color.red;

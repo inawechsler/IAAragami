@@ -41,7 +41,7 @@ public class RangeController : AIController
 
         var idleSt = new AISIdle<RAIEnum>();
         var evadeSt = new AISSteering<RAIEnum>(evade);
-        var patrolSt = new AISPatrol<RAIEnum>(model.waypoints);
+        var patrolSt = new AISPatrol<RAIEnum>(model.waypoints, this);
         var mineDropSt = new AISAttack<RAIEnum>(target);
 
         idleSt.AddTransition(RAIEnum.Evade, evadeSt);
@@ -67,7 +67,7 @@ public class RangeController : AIController
 
         for (int i = 0; i < stateList.Count; i++)
         {
-            stateList[i].Initialize(look, move, fsm, attack, LineOfSight, this, obstacleAvoidance);
+            stateList[i].Initialize(look, move, fsm, attack, LineOfSight, this, obstacleAvoidance, path);
         }
 
         fsm.SetInit(idleSt);
