@@ -40,6 +40,7 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack, IPath
     protected float lostSightDuration;
     public float attackRange;
     Coroutine lostSightCor;
+    
 
 
     [Header("Components")]
@@ -58,7 +59,7 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack, IPath
         rb = GetComponent<Rigidbody>();
         SelfPosition = transform;
         _obs = GetComponent<ObstacleAvoidance>();
-        onLostSight += ManageLostSight;
+        onLostSight += ManageLostSight;// esto no tiene q estar en el controller?
         waitOnIdleAction += ManageWaitOnIdle;
         onPatrolCompleted += SetNewPatrolRoute;
     }
