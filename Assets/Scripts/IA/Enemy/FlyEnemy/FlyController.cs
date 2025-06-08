@@ -18,7 +18,8 @@ public class FlyController : AIController
         var runAwayAct = new ActionNode(() => fsm.Transition(MAIEnum.RunAway));
 
         var qPlayerHasKey = new QuestionNode(QPlayerHasKey, evadeAct, chaseAct);//Si tiene la llave, idle, si no, persigue al jugador 
-        var qCanMove = new QuestionNode(QIsOnDeadZone, qPlayerHasKey, runAwayAct);//Si puede moverse, lo persigue, si no, se queda idle
+        var qIsOnPathFinding = new QuestionNode(QIsOnPathFinding, runAwayAct, idleAct);//Si esta en pathfinding, persigue al jugador, si no, idle
+        var qCanMove = new QuestionNode(QIsOnDeadZone, qPlayerHasKey, qIsOnPathFinding);//Si puede moverse, lo persigue, si no, se queda idle
 
         rootNode = qCanMove;//CanWatchPlayer
     }
@@ -27,12 +28,12 @@ public class FlyController : AIController
     {
         fsm = new FSM<MAIEnum>();
 
+
         var leaderBehaviour = GetComponent<LeaderBehaviour>();
         var flocking = GetComponent<FlockingManager>();
         var predatorBehaviour = GetComponent<PredatorBehaviour>();
         var pathFindingBehaviour = GetComponent<PathfindingBehaviour>();
 
-        var idleSt = new AISIdle<MAIEnum>();
         var stateList = new List<AISBase<MAIEnum>>();
 
         var idle = new AISIdle<MAIEnum>();
@@ -81,6 +82,13 @@ public class FlyController : AIController
     {
         return GameManager.Instance.playerHasKey;
     }   
+
+    private bool QIsOnPathFinding()
+    {
+        //print(path.isOnPathfinding);
+        //return path.isOnPathfinding;
+        return (transform.position - flyModel.safeSpot.position).magnitude > 3f;
+    }
     protected override void InitSteering()
     {
         

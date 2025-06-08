@@ -36,6 +36,7 @@ public class FAISRunAway<T> : AISBase<T>
     {
         base.Execute();
 
+        if (path.isFinishPath) return;
         // Verificar si el path está completo
         if (_pathfindingBehaviour.IsPathCompleted)
         {
