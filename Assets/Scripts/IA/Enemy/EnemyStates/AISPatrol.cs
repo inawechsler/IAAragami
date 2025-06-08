@@ -16,11 +16,13 @@ public class AISPatrol<T> : AISBase<T>
     private int _lapsToWaitOnIdle = 2;
     private Coroutine _waitCoroutine;
     private MonoBehaviour monoRef;
+    private PatrolRandom patrolRandom;
 
-    public AISPatrol(List<PatrolPoint> waypoints, MonoBehaviour monoBehaviourRef)
+    public AISPatrol(List<PatrolPoint> waypoints, MonoBehaviour monoBehaviourRef, PatrolRandom patrolRandom)
     {
         monoRef = monoBehaviourRef;
         _waypoints = waypoints;
+        this.patrolRandom = patrolRandom;
     }
 
     public override void Enter()
@@ -56,6 +58,7 @@ public class AISPatrol<T> : AISBase<T>
 
         if (_currentWaypointIndex == _waypoints.Count - 1) //Si el index es igual al ultimo waypoint
         {
+            patrolRandom.MarkLastPathFailed();
             _lapsCompleted++;
             controller.model.onPatrolCompleted?.Invoke(); //Invoco que se completó la vuelta de patrol
             _waypoints = controller.model.waypoints; //La lista de waypoints se actualiza

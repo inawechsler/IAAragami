@@ -39,7 +39,7 @@ public class MeleeController : AIController
         var stateList = new List<AISBase<MAIEnum>>();
         var idleSt = new AISIdle<MAIEnum>();
         var chaseSt = new AISSteering<MAIEnum>(pursuit);
-        var patrolSt = new AISPatrol<MAIEnum>(model.waypoints, this);
+        var patrolSt = new AISPatrol<MAIEnum>(model.waypoints, this,model.patrolRoute);
         var attackSt = new AISAttack<MAIEnum>(target);
         var goToSt = new AISPathfinding<MAIEnum>(model.waypoints[0].transform.position);
 
