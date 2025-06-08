@@ -224,6 +224,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
 
     ~@PlayerControls()
     {
+        UnityEngine.Debug.Assert(!m_PlayerLocomotionMap.enabled, "This will cause a leak and performance issues, PlayerControls.PlayerLocomotionMap.Disable() has not been called.");
     }
 
     /// <summary>
