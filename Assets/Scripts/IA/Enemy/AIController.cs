@@ -7,6 +7,7 @@ public abstract class AIController : MonoBehaviour
     protected IMove move;
     protected IAttack attack;
     protected ITreeNode rootNode;
+    protected IPath path;
     public ISteering steering;
     protected LineOfSightMono LineOfSight;
     protected ObstacleAvoidance obstacleAvoidance;
@@ -30,9 +31,9 @@ public abstract class AIController : MonoBehaviour
         look = GetComponent<ILook>();
         attack = GetComponent<IAttack>();
         move = GetComponent<IMove>();
+        path = GetComponent<IPath>();
         LineOfSight = GetComponent<LineOfSightMono>();
         model = GetComponent<AIModel>();
-
         //controller = GetComponent<MeleeController>();
         //pathF = GetComponent<AISPathfindind<Vector3>>();
     }
@@ -52,18 +53,6 @@ public abstract class AIController : MonoBehaviour
 
     }
 
-    protected bool QIsFarFromInitialWaypoint()
-    {
-        Vector3 currentPos = transform.position;
-        Vector3 targetPos = model.waypoints[0].position;
-
-        return Vector3.Distance(currentPos, targetPos) > 1.25f;
-    }
-    //protected bool QIAInPath()
-    //{
-    //    if (target.transform.position - transform.position <= pathF._distanceToPoint)
-    //    return;
-    //}
 
     protected bool QAIHasToWait()
     {

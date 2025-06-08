@@ -35,7 +35,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
     [SerializeField] private Camera mainCamera;
 
     public static event Action onEnemyHitPlayer; 
-    public Transform Position { get; set; }
+    public Transform SelfPosition { get; set; }
     public Action onCrouch { get; set; }
 
     void Awake()
@@ -43,7 +43,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
         onEnemyHitPlayer += ManagePlayerLoss;
         rb = GetComponent<Rigidbody>();
         inputController = GetComponent<InputController>();
-        Position = transform;
+        SelfPosition = transform;
         onCrouch += ToggleCrouch; //Cuando se invoque crouch se invocará ToggleCrouch
         characterCollider = GetComponent<CapsuleCollider>();
         SetCapsuleParam();
@@ -205,6 +205,11 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
         {
             GameManager.Instance.onDoorZone?.Invoke();
         }
+
+        if(collider.gameObject.CompareTag("DeathZone"))
+        {
+            GameManager.Instance.playerIsOnDeathZone = true; //El jugador entra en la zona de muerte
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -237,6 +242,10 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
         {
            
             GameManager.Instance.onDoorZone?.Invoke();
+        }
+        if (collider.gameObject.CompareTag("DeathZone"))
+        {
+            GameManager.Instance.playerIsOnDeathZone = false; //El jugador entra en la zona de muerte
         }
     }
 }

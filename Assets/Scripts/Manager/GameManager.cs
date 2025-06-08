@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public Action onDoorZone;
     public Action<bool> onGameEnd;
 
+    public bool playerIsOnDeathZone;
     public bool playerHasKey;
     private void Awake()
     {

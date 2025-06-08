@@ -22,8 +22,8 @@ public class RangeModel : AIModel
     {
         if (minePrefab != null)
         {
-            var mine = Instantiate(minePrefab.gameObject, Position.position, Quaternion.identity);
-            mine.transform.forward = Position.forward;
+            var mine = Instantiate(minePrefab.gameObject, SelfPosition.position, Quaternion.identity);
+            mine.transform.forward = SelfPosition.forward;
             mine.gameObject.SetActive(true);
         }
     }
