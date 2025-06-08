@@ -9,7 +9,7 @@ public class AISIdle<T> : AISBase<T>
     public override void Enter()
     {
         base.Enter();
-        move.Move(Vector3.zero);
+        //move.Move(Vector3.zero);
     }
 
 }

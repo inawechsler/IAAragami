@@ -45,7 +45,7 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack, IPath
     [Header("Components")]
     Rigidbody rb;
     public Action onAttack { get; set; }
-    public Transform Position { get; set; }
+    public Transform SelfPosition { get; set; }
     protected bool _lastAttackHit = false;
     public Action onHitPlayer { get; set; }
     public bool isFinishPath { get; set; } = true;
@@ -55,9 +55,8 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack, IPath
     {
  
         patrolRoute = GetComponent<PatrolRandom>();
-        
         rb = GetComponent<Rigidbody>();
-        Position = transform;
+        SelfPosition = transform;
         _obs = GetComponent<ObstacleAvoidance>();
         onLostSight += ManageLostSight;
         waitOnIdleAction += ManageWaitOnIdle;
