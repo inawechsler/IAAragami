@@ -1,21 +1,26 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class WinLoseScreenManager : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI text;
-    static string sceneText;
     [SerializeField] Button button;
+    [SerializeField] Image background;
+    [SerializeField] Sprite winSprite;
+    [SerializeField] Sprite loseSprite;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    static bool didWin;
+
     void Awake()
     {
-        text = GameObject.FindWithTag("WinText").GetComponent<TextMeshProUGUI>();
-        button = GameObject.FindWithTag("RestartButton").GetComponent<Button>();
+        if (button == null)
+            button = GameObject.FindWithTag("RestartButton").GetComponent<Button>();
 
-        text.text = sceneText;
+        if (background == null)
+            background = GameObject.FindWithTag("Background").GetComponent<Image>();
+
+        background.sprite = didWin ? winSprite : loseSprite;
+
         button.onClick.AddListener(OnButtonClicked);
     }
 
@@ -26,14 +31,6 @@ public class WinLoseScreenManager : MonoBehaviour
 
     public static void SetText(bool value)
     {
-
-        if (value)
-        {
-             sceneText = "You escaped successfully!";
-        }
-        else
-        {
-            sceneText = "You got caught!";
-        }
+        didWin = value;
     }
 }

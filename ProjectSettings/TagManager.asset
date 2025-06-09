@@ -15,6 +15,7 @@ TagManager:
   - DoorCanvas
   - DeathZone
   - Boid
+  - Background
   layers:
   - Default
   - TransparentFX
