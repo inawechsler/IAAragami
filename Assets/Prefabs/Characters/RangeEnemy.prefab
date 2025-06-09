@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: 3135503712476251513}
   - component: {fileID: 3393704205265351144}
   - component: {fileID: 7782711588729755966}
+  - component: {fileID: 2364186322448303030}
   m_Layer: 0
   m_Name: RangeEnemy
   m_TagString: Range
@@ -232,20 +233,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  waitOnIdleTime: 3
-  patrolRoute: {fileID: 0}
   rotationSpeed: 10
   angle: 148
   range: 3.21
   obsMask:
     serializedVersion: 2
     m_Bits: 64
-  hasLostRecently: 0
   attackRange: 0.34
   isTimeToDropMine: 0
   minePrefab: {fileID: 1034224813007499894, guid: f0efe229e97220948a8117e08ee31f05, type: 3}
@@ -278,6 +271,23 @@ MonoBehaviour:
   target: {fileID: 6743742031277289149, guid: ab462efddedbab0408bce6c8f3e58f18, type: 3}
   rbTarget: {fileID: 6659482131947657850, guid: ab462efddedbab0408bce6c8f3e58f18, type: 3}
   rangeModel: {fileID: 0}
+--- !u!114 &2364186322448303030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7656993911583351950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df7a07976a66f4d48b50b7a7c663cc4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lostSighDuration: 10
+  waypoints: []
+  waitOnIdleTime: 3
+  patrolRoute: {fileID: 0}
+  hasLostRecently: 0
 --- !u!1001 &8018424382565344489
 PrefabInstance:
   m_ObjectHideFlags: 0

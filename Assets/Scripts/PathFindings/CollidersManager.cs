@@ -19,7 +19,6 @@ public class CollidersManager : MonoBehaviour
     }*/
     private void Awake()
     {
-        Debug.Log("Awake de CollidersManager");
         if (instance != null && instance != this)
         {
             Destroy(this);

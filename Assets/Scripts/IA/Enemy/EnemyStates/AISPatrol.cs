@@ -21,13 +21,18 @@ public class AISPatrol<T> : AISBase<T>
     public AISPatrol(List<PatrolPoint> waypoints, MonoBehaviour monoBehaviourRef, PatrolRandom patrolRandom)
     {
         monoRef = monoBehaviourRef;
-        _waypoints = waypoints;
+        waypoints = _waypoints;
         this.patrolRandom = patrolRandom;
     }
 
     public override void Enter()
     {
         base.Enter();
+
+        if (patrolRandom != null)
+        {
+            patrolRandom.MarkLastPathCompleted(out _waypoints);
+        }
         _isWaiting = false;
         _currentWaypointIndex = 0;
     }
@@ -47,8 +52,6 @@ public class AISPatrol<T> : AISBase<T>
             _isWaiting = true; //Esperando en el wp true
             monoRef.StartCoroutine(WaitAndMoveToNext()); //Inicia la corrutina para esperar  
         }
-        if (controller is MeleeController)
-            Debug.Log("Patrol");
     }
 
     public IEnumerator WaitAndMoveToNext()
@@ -58,14 +61,15 @@ public class AISPatrol<T> : AISBase<T>
 
         if (_currentWaypointIndex == _waypoints.Count - 1) //Si el index es igual al ultimo waypoint
         {
-            patrolRandom.MarkLastPathFailed();
+            if(patrolRandom != null)
+            {
+                patrolRandom.MarkLastPathCompleted(out _waypoints);
+            }
             _lapsCompleted++;
-            controller.model.onPatrolCompleted?.Invoke(); //Invoco que se completó la vuelta de patrol
-            _waypoints = controller.model.waypoints; //La lista de waypoints se actualiza
             if (_lapsCompleted == _lapsToWaitOnIdle) //Si está en la vuelta para esperar
             {
                 _lapsCompleted = 0;
-                controller.model.waitOnIdleAction?.Invoke(); //Espera en idle
+                controller.behaviourManager.waitOnIdleAction?.Invoke(); //Espera en idle
             }
         }
         _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Count;

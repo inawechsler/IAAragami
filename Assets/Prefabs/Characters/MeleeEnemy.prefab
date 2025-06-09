@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4298388247720856815}
   - component: {fileID: 1813152165613731842}
   - component: {fileID: 6665889344439809304}
+  - component: {fileID: 3343683946211385980}
   m_Layer: 0
   m_Name: MeleeEnemy
   m_TagString: Melee
@@ -163,22 +164,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  waitOnIdleTime: 3
-  patrolRoute: {fileID: 0}
   rotationSpeed: 10
   angle: 193
   range: 2.88
   obsMask:
     serializedVersion: 2
     m_Bits: 64
-  hasLostRecently: 0
   attackRange: 1
   attackCollider: {fileID: 8776946968097271413}
+--- !u!114 &3343683946211385980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4130704623105064144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df7a07976a66f4d48b50b7a7c663cc4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lostSighDuration: 3
+  waypoints: []
+  waitOnIdleTime: 3
+  patrolRoute: {fileID: 0}
+  hasLostRecently: 0
 --- !u!1 &5651226524583729510
 GameObject:
   m_ObjectHideFlags: 0

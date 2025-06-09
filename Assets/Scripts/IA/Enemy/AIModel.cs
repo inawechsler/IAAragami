@@ -4,25 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack, IPath
+public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
 {
-
 
     [Header("Movement")]
     [HideInInspector] public float moveSpeed = 2f;
-
-    [Header("Waypoints/patrol")]
-    public List<PatrolPoint> waypoints = new List<PatrolPoint>();
-    Coroutine waitOnIdleCor;
-    private bool _hasToWaitOnIdle;
-    public float waitOnIdleTime = 3f;
-    public Action onPatrolCompleted { get; set; }
-    public Action waitOnIdleAction { get; set; }
-
-
-    public PatrolRandom patrolRoute;
-
-    private ObstacleAvoidance _obs;
 
     [Header("Rotation")]
     [SerializeField] private float rotationSpeed = 10f;
@@ -34,34 +20,24 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack, IPath
     public float angle;
     public float range;
     public LayerMask obsMask;
-    [HideInInspector] public bool hasLostRecently;
-    public Action onLostSight;
-    public Action onSightAcheived;
-    protected float lostSightDuration;
-    public float attackRange;
-    Coroutine lostSightCor;
-    
-
 
     [Header("Components")]
     Rigidbody rb;
     public Action onAttack { get; set; }
+    public float attackRange;
+
+    protected AIBehaviourManager behaviourManager;
     public Transform SelfPosition { get; set; }
     protected bool _lastAttackHit = false;
     public Action onHitPlayer { get; set; }
-    public bool isFinishPath { get; set; } = true;
-    public bool isOnPathfinding { get; set; } = false;
+    private ObstacleAvoidance _obs;
 
     protected virtual void Awake()
     {
- 
-        patrolRoute = GetComponent<PatrolRandom>();
+        _obs = GetComponent<ObstacleAvoidance>();
         rb = GetComponent<Rigidbody>();
         SelfPosition = transform;
-        _obs = GetComponent<ObstacleAvoidance>();
-        onLostSight += ManageLostSight;// esto no tiene q estar en el controller?
-        waitOnIdleAction += ManageWaitOnIdle;
-        onPatrolCompleted += SetNewPatrolRoute;
+        behaviourManager = GetComponent<AIBehaviourManager>();
     }
     public void Move(Vector3 input)
     {
@@ -98,13 +74,6 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack, IPath
 
     }
 
-    public void SetNewPatrolRoute()
-    {
-        if (patrolRoute != null)
-        {
-            waypoints = patrolRoute.SetRoutes();
-        }
-    }
     public void Attack()
     {
         onAttack?.Invoke();//Al ser llamado invoca onAttack
@@ -130,44 +99,7 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack, IPath
 
         rotationCoroutine = null;
     }
-    private void ManageLostSight()//Corrutina encargada de setear el bool que se lee desede la Question qHasLostRecently en Controller
-    {
-
-        if (lostSightCor != null)
-        {
-            StopCoroutine(HasLostSightRecently());
-        }
-        lostSightCor = StartCoroutine(HasLostSightRecently());
-    }
-
-    private IEnumerator HasLostSightRecently()
-    {
-        hasLostRecently = true;
-        yield return new WaitForSeconds(lostSightDuration);// tiempo que tarda en volver a patrulla
-        isOnPathfinding = true; // Marcar que está en pathfinding
-        hasLostRecently = false;
-        lostSightCor = null;
-    }
-
-    private void ManageWaitOnIdle() //Corrutina encargada de setear bool que lee la pregunta QHasToWait en Controller
-    {
-        if (waitOnIdleCor != null)
-        {
-            StopCoroutine(WaitOnIdle());
-        }
-        waitOnIdleCor = StartCoroutine(WaitOnIdle());
-    }
-
-    private IEnumerator WaitOnIdle()
-    {
-        _hasToWaitOnIdle = true;
-        yield return new WaitForSeconds(waitOnIdleTime);
-        _hasToWaitOnIdle = false;
-        waitOnIdleCor = null;
-    }
-
-    public bool GetHasToWaitOnIdle() { return _hasToWaitOnIdle; }
-
+   
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;

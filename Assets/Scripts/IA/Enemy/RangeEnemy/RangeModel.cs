@@ -14,8 +14,7 @@ public class RangeModel : AIModel
     {
         base.Awake();
         onAttack += DropMine;
-        onSightAcheived += ManageMine;
-        lostSightDuration = 10f;
+        behaviourManager.onSightAcheived += ManageMine;
     }
 
     public void DropMine()//Método que se ejecuta en onAttack recibido

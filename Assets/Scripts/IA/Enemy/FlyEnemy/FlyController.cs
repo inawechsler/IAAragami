@@ -19,9 +19,9 @@ public class FlyController : AIController
 
         var qPlayerHasKey = new QuestionNode(QPlayerHasKey, evadeAct, chaseAct);//Si tiene la llave, idle, si no, persigue al jugador 
         var qIsOnPathFinding = new QuestionNode(QIsOnPathFinding, runAwayAct, idleAct);//Si esta en pathfinding, persigue al jugador, si no, idle
-        var qCanMove = new QuestionNode(QIsOnDeadZone, qPlayerHasKey, qIsOnPathFinding);//Si puede moverse, lo persigue, si no, se queda idle
+        var qPlayerOnDeadZone = new QuestionNode(QIsOnDeadZone, qPlayerHasKey, qIsOnPathFinding);//Si puede moverse, lo persigue, si no, se queda idle
 
-        rootNode = qCanMove;//CanWatchPlayer
+        rootNode = qPlayerOnDeadZone;
     }
 
     protected override void InitFSM()
@@ -85,8 +85,6 @@ public class FlyController : AIController
 
     private bool QIsOnPathFinding()
     {
-        //print(path.isOnPathfinding);
-        //return path.isOnPathfinding;
         return (transform.position - flyModel.safeSpot.position).magnitude > 3f;
     }
     protected override void InitSteering()

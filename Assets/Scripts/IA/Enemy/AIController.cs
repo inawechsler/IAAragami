@@ -12,10 +12,8 @@ public abstract class AIController : MonoBehaviour
     protected LineOfSightMono LineOfSight;
     protected ObstacleAvoidance obstacleAvoidance;
     [HideInInspector] public AIModel model;
+    public AIBehaviourManager behaviourManager { get; private set; }
 
-    //public MeleeController controller;
-
-    //public AISPathfindind<Vector3> pathF;
 
     [Header("References")]
     [HideInInspector] public Transform target;
@@ -34,8 +32,7 @@ public abstract class AIController : MonoBehaviour
         path = GetComponent<IPath>();
         LineOfSight = GetComponent<LineOfSightMono>();
         model = GetComponent<AIModel>();
-        //controller = GetComponent<MeleeController>();
-        //pathF = GetComponent<AISPathfindind<Vector3>>();
+        behaviourManager = GetComponent<AIBehaviourManager>();
     }
     private void Start()
     {
@@ -56,11 +53,11 @@ public abstract class AIController : MonoBehaviour
 
     protected bool QAIHasToWait()
     {
-        return model.GetHasToWaitOnIdle();
+        return behaviourManager.GetHasToWaitOnIdle();
     }
     protected bool QHasLostPlayer()
     {
-        return model.hasLostRecently; //Hay un get en el model pero no me funciona
+        return behaviourManager.hasLostRecently; //Hay un get en el model pero no me funciona
     }
     protected bool QPlayerInRange()
     {
@@ -69,7 +66,7 @@ public abstract class AIController : MonoBehaviour
     }
     protected bool QLineOfSight()
     {
-        return LineOfSight.LOS(transform, target, model.range, model.angle, model.obsMask, model);
+        return LineOfSight.LOS(transform, target, model.range, model.angle, model.obsMask, behaviourManager);
     }
     protected abstract void InitFSM(); //Son abstractas porque cada AI tiene su propio FSM, acá declaro la función pero no la implemento y lo mismo en las tres de abajo
     protected abstract void ExecuteFSM();
