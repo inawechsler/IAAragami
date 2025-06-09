@@ -40,7 +40,6 @@ public class PathfindingBehaviour : FlockingBaseBehaviour
             else
             {
                 _pathCompleted = true;
-                Debug.Log("Pathfinding completado con flocking");
                 return Vector3.zero;
             }
         }

@@ -41,7 +41,7 @@ public class RangeController : AIController
 
         var idleSt = new AISIdle<RAIEnum>();
         var evadeSt = new AISSteering<RAIEnum>(evade);
-        var patrolSt = new AISPatrol<RAIEnum>(behaviourManager.waypoints, this, behaviourManager.patrolRoute);
+        var patrolSt = new AISPatrol<RAIEnum>(behaviourManager.waypoints, this, behaviourManager.patrolRandom);
         var mineDropSt = new AISAttack<RAIEnum>(target);
 
         idleSt.AddTransition(RAIEnum.Evade, evadeSt);

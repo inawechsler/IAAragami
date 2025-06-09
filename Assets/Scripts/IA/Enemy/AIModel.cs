@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnityEngine.InputSystem;
 public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
 {
 
@@ -36,8 +33,8 @@ public abstract class AIModel : MonoBehaviour, IMove, ILook, IAttack
     {
         _obs = GetComponent<ObstacleAvoidance>();
         rb = GetComponent<Rigidbody>();
-        SelfPosition = transform;
         behaviourManager = GetComponent<AIBehaviourManager>();
+        SelfPosition = transform;
     }
     public void Move(Vector3 input)
     {

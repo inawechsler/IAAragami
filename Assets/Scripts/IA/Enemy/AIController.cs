@@ -57,7 +57,7 @@ public abstract class AIController : MonoBehaviour
     }
     protected bool QHasLostPlayer()
     {
-        return behaviourManager.hasLostRecently; //Hay un get en el model pero no me funciona
+        return behaviourManager.hasLostRecently;
     }
     protected bool QPlayerInRange()
     {
@@ -68,7 +68,7 @@ public abstract class AIController : MonoBehaviour
     {
         return LineOfSight.LOS(transform, target, model.range, model.angle, model.obsMask, behaviourManager);
     }
-    protected abstract void InitFSM(); //Son abstractas porque cada AI tiene su propio FSM, acá declaro la función pero no la implemento y lo mismo en las tres de abajo
+    protected abstract void InitFSM();
     protected abstract void ExecuteFSM();
     protected abstract void InitTree();
     protected abstract void InitSteering();

@@ -43,33 +43,33 @@ public class AISPatrol<T> : AISBase<T>
 
         if (_waypoints.Count == 0 || _isWaiting) return;
 
-        Vector3 target = _waypoints[_currentWaypointIndex].Position; //Posición del waypoint
-        Vector3 direction = (target - controller.transform.position).normalized; //Dirección hacia el waypoint
+        Vector3 target = _waypoints[_currentWaypointIndex].Position; 
+        Vector3 direction = (target - controller.transform.position).normalized; 
         move.Move(direction);
 
-        if (Vector3.Distance(controller.transform.position, target) < _stopDistance)//Si la dist es menor a la stopDistance
+        if (Vector3.Distance(controller.transform.position, target) < _stopDistance)
         {
-            _isWaiting = true; //Esperando en el wp true
-            monoRef.StartCoroutine(WaitAndMoveToNext()); //Inicia la corrutina para esperar  
+            _isWaiting = true; 
+            monoRef.StartCoroutine(WaitAndMoveToNext()); 
         }
     }
 
     public IEnumerator WaitAndMoveToNext()
     {
-        float waitTime = UnityEngine.Random.Range(_minWaitTime, _maxWaitTime); //Random en espera
-        yield return new WaitForSeconds(waitTime); //Esperar el tiempo random
+        float waitTime = UnityEngine.Random.Range(_minWaitTime, _maxWaitTime);
+        yield return new WaitForSeconds(waitTime); 
 
-        if (_currentWaypointIndex == _waypoints.Count - 1) //Si el index es igual al ultimo waypoint
+        if (_currentWaypointIndex == _waypoints.Count - 1) 
         {
             if(patrolRandom != null)
             {
                 patrolRandom.MarkLastPathCompleted(out _waypoints);
             }
             _lapsCompleted++;
-            if (_lapsCompleted == _lapsToWaitOnIdle) //Si está en la vuelta para esperar
+            if (_lapsCompleted == _lapsToWaitOnIdle) 
             {
                 _lapsCompleted = 0;
-                controller.behaviourManager.waitOnIdleAction?.Invoke(); //Espera en idle
+                controller.behaviourManager.waitOnIdleAction?.Invoke(); 
             }
         }
         _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Count;

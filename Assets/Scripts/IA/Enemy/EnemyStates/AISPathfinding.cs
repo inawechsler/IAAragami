@@ -37,7 +37,6 @@ public class AISPathfinding<T> : AISBase<T>
         currentTarget.y = _entity.position.y;
         Vector3 dir = currentTarget - _entity.position;
 
-        // Si llegó al waypoint actual, avanzar al siguiente
         if (dir.magnitude < _distanceToPoint)
         {
             if (_index + 1 < _waypoints.Count)

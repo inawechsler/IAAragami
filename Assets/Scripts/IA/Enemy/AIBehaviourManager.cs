@@ -9,28 +9,26 @@ public class AIBehaviourManager : MonoBehaviour, IPath
     private bool _hasToWaitOnIdle;
     public bool isFinishPath { get; set; } = true;
     public bool isOnPathfinding { get; set; } = false;
-    public int lostSighDuration;
 
     [Header("Waypoints/patrol")]
     public List<PatrolPoint> waypoints = new List<PatrolPoint>();
     public float waitOnIdleTime = 3f;
 
-    public PatrolRandom patrolRoute;
+    public PatrolRandom patrolRandom { get; private set; }
     public Action waitOnIdleAction { get; set; }
 
     [HideInInspector] public bool hasLostRecently;
     public Action onLostSight;
     public Action onSightAcheived;
-    protected float lostSightDuration;
+    [SerializeField] protected float lostSightDuration;
     Coroutine lostSightCor;
     private void Awake()
     {
-        patrolRoute = GetComponent<PatrolRandom>();
-
-        onLostSight += ManageLostSight;// esto no tiene q estar en el controller?
+        onLostSight += ManageLostSight;
         waitOnIdleAction += ManageWaitOnIdle;
+        patrolRandom = GetComponent<PatrolRandom>();
     }
-    private void ManageLostSight()//Corrutina encargada de setear el bool que se lee desede la Question qHasLostRecently en Controller
+    private void ManageLostSight()
     {
 
         if (lostSightCor != null)
@@ -43,13 +41,13 @@ public class AIBehaviourManager : MonoBehaviour, IPath
     private IEnumerator HasLostSightRecently()
     {
         hasLostRecently = true;
-        yield return new WaitForSeconds(lostSightDuration);// tiempo que tarda en volver a patrulla
-        isOnPathfinding = true; // Marcar que está en pathfinding
+        yield return new WaitForSeconds(lostSightDuration);
+        isOnPathfinding = true;
         hasLostRecently = false;
         lostSightCor = null;
     }
 
-    private void ManageWaitOnIdle() //Corrutina encargada de setear bool que lee la pregunta QHasToWait en Controller
+    private void ManageWaitOnIdle()
     {
         if (waitOnIdleCor != null)
         {

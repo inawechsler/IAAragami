@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class MyRandom 
 {
-    public static float GetRandom(float min, float max) 
-    {
-        return min + (Random.value * (max-min));
-    }
-
     public static T Roulette<T>(Dictionary<T, float> items)
     {
         float total = 0f;

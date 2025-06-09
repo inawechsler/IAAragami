@@ -11,7 +11,6 @@ public class InputController : MonoBehaviour, PlayerControls.IPlayerLocomotionMa
 
     public bool isCrouched { get; private set; } = false;
 
-
     private void Awake()
     {
         playerModel = GetComponent<PlayerModel>();

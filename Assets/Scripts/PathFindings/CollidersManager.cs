@@ -6,17 +6,7 @@ public class CollidersManager : MonoBehaviour
     Dictionary<Vector3, int> _obs = new Dictionary<Vector3, int>();
     public static CollidersManager instance;
     public bool skipY = true;
-    /*public static CollidersManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new GameObject("CollidersManager").AddComponent<CollidersManager>();
-            }
-            return instance;
-        }
-    }*/
+
     private void Awake()
     {
         if (instance != null && instance != this)

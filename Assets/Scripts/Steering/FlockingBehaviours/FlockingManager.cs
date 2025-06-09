@@ -23,13 +23,7 @@ public class FlockingManager : MonoBehaviour, ISteering
   public Vector3 GetDir()
     {
         _boids.Clear();
-        int count = Physics.OverlapSphereNonAlloc(_self.Position, radius, _colls,boidMask );//crear mascara boid 
-                                                                                            //agregar cada behaviour al enemigo que use el flocking
-                                                                                            //en el initialize fsm de la entidad que utilize flocking colocamos como variable var flocking = GetComponent<FlockingManager>();
-                                                                                            //en la variable steering pasamos la  variable flocking
-                                                                                            //agrear la interfaz IBoid a la entidad que la necesite para el GetComponent (variable _self)
-                                                                                            //definimos dentro de la entidad public Vector3 Position => transform.position;
-                                                                                            //definimos dentro de la entidad public Vector3 Forward => transform.Forward;
+        int count = Physics.OverlapSphereNonAlloc(_self.Position, radius, _colls,boidMask );
 
         for (int i = 0; i < count; i++)
         {

@@ -7807,10 +7807,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patrolPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 282818313}
+  - {fileID: 557938012}
+  - {fileID: 911746670}
+  - {fileID: 343103325}
   rarity: 0
   weight: 1
 --- !u!1 &500938381

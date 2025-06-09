@@ -5,7 +5,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
-    private Dictionary<string, IUIElement> uiElements = new Dictionary<string, IUIElement>(); //Diccionario para linkear las keyWords con los elementos UI
+    private Dictionary<string, IUIElement> uiElements = new Dictionary<string, IUIElement>();
 
     private void Awake()
     {
@@ -26,11 +26,11 @@ public class UIManager : MonoBehaviour
     {
         uiElements.Clear();
 
-        IUIElement[] elements = FindObjectsByType<UIElement>(FindObjectsSortMode.None); //Obtengo todos los elementos UI
+        IUIElement[] elements = FindObjectsByType<UIElement>(FindObjectsSortMode.None); 
 
         foreach (IUIElement element in elements)
         {
-            RegisterUIElement(element); //Recorro todos los elementos del array y los registro en el diccionario
+            RegisterUIElement(element); 
         }
     }
 
@@ -38,10 +38,10 @@ public class UIManager : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(element.ElementID) && !uiElements.ContainsKey(element.ElementID))
         {
-            uiElements.Add(element.ElementID, element); //Si el ID no está vacío o no existe en el diccionario, lo añado
+            uiElements.Add(element.ElementID, element); 
         }
     }
-    public void ShowUI(string elementID) //Recibe ID y ejecuta show en el elemento con ese ID de key
+    public void ShowUI(string elementID) 
     {
         if (uiElements.TryGetValue(elementID, out IUIElement element))
         {
@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void HideUI(string elementID)//Recibe ID y ejecuta hide en el elemento con ese ID de key
+    public void HideUI(string elementID)
     {
         if (uiElements.TryGetValue(elementID, out IUIElement element))
         {
@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ToggleUI(string elementID)//Recibe ID y ejecuta toggle en el elemento con ese ID de key
+    public void ToggleUI(string elementID)
     {
         if (uiElements.TryGetValue(elementID, out IUIElement element))
         {
@@ -65,7 +65,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateUIText(string elementID, string message)//Recibe ID y mensaje a mostrar en el elemento con ese ID de key
+    public void UpdateUIText(string elementID, string message)
     {
         if (uiElements.TryGetValue(elementID, out IUIElement element) &&
             element is UIElement canvasElement)

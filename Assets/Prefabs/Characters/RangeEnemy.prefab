@@ -283,11 +283,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7a07976a66f4d48b50b7a7c663cc4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lostSighDuration: 10
   waypoints: []
   waitOnIdleTime: 3
   patrolRoute: {fileID: 0}
   hasLostRecently: 0
+  lostSightDuration: 10
 --- !u!1001 &8018424382565344489
 PrefabInstance:
   m_ObjectHideFlags: 0

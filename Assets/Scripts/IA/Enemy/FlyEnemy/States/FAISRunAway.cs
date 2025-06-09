@@ -5,7 +5,6 @@ public class FAISRunAway<T> : AISBase<T>
     private Vector3 _target;
     private ISteering _steering;
     private PathfindingBehaviour _pathfindingBehaviour;
-    
     public FAISRunAway(ISteering steering, Vector3 target, LeaderBehaviour leader, PathfindingBehaviour pathfindingBehaviour)
     {
         _steering = steering;
@@ -22,7 +21,6 @@ public class FAISRunAway<T> : AISBase<T>
 
         _pathfindingBehaviour.GeneratePathTo(_target);
 
-        // Resetear el estado del path
         if (path != null)
         {
             path.isFinishPath = false;
@@ -35,7 +33,6 @@ public class FAISRunAway<T> : AISBase<T>
         base.Execute();
 
         if (path.isFinishPath) return;
-        // Verificar si el path está completo
         if (_pathfindingBehaviour.IsPathCompleted)
         {
             if (path != null)
@@ -50,13 +47,11 @@ public class FAISRunAway<T> : AISBase<T>
         
 
         var steeringDir = _steering.GetDir();
-        steeringDir.y = 0; // Mantener en el plano horizontal
+        steeringDir.y = 0;
 
-        // Aplicar obstacle avoidance si está disponible
         var finalDir = obs.GetDir(steeringDir);
 
-        // Mover y mirar en la dirección calculada
-        if (finalDir.magnitude > 0.1f) // Solo mover si hay dirección válida
+        if (finalDir.magnitude > 0.1f)
         {
             move.Move(finalDir.normalized);
             look.LookDir(finalDir.normalized);
@@ -67,10 +62,7 @@ public class FAISRunAway<T> : AISBase<T>
     {
         base.Exit();
 
-        // Desactivar el comportamiento de pathfinding
         _pathfindingBehaviour.IsActive = false;
-
-        Debug.Log("Saliendo del pathfinding con flocking");
     }
 
     public void SetNewTarget(Vector3 newTarget)
@@ -81,8 +73,5 @@ public class FAISRunAway<T> : AISBase<T>
             _pathfindingBehaviour.GeneratePathTo(_target);
         }
     }
-
-    public Vector3 CurrentTarget => _target;
-    public bool IsPathCompleted => _pathfindingBehaviour.IsPathCompleted;
 }
 
