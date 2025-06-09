@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 5969326089707376563}
   m_Layer: 8
   m_Name: FlyEnemy
-  m_TagString: Untagged
+  m_TagString: Boid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

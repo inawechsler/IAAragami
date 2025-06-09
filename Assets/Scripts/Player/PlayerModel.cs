@@ -212,6 +212,14 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
         }
     }
 
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Boid"))
+        {
+            GameManager.Instance.onGameEnd?.Invoke(false); // Invoca el evento de fin de juego en victoria
+        }
+    }
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Key"))
