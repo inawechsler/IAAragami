@@ -24,36 +24,6 @@ public class PatrolRandom : MonoBehaviour
         }
     }
 
-    //public List<PatrolPoint> SetRoutes()
-    //{
-    //    RarityEnum rarity = MyRandom.Roulette(routes);
-    //    PatrolRoute patrolRoute = patrolRoulette.patrolRoutes[rarity]; //Obtengo el patrolRoute del diccionario de routes con la key obtenida (RarityEnum)
-    //    return patrolRoute.patrolPoints;
-    //}
-    //public List<PatrolPoint> SetRoutes()
-    //{
-    //    Dictionary<RarityEnum, float> dynamicWeights = new Dictionary<RarityEnum, float>(defaultWeights);
-
-    //    if (_lastPathFailed)
-    //    {
-    //        float boostTotal = 20f; // Cuánto boost total se reparte
-    //        int otherPaths = defaultWeights.Count - 1;
-    //        float boostPerPath = boostTotal / otherPaths;
-
-    //        foreach (var key in defaultWeights.Keys)
-    //        {
-    //            if (!key.Equals(_lastPathUsed))
-    //                dynamicWeights[key] += boostPerPath;
-    //        }
-
-    //        _lastPathFailed = false;
-    //    }
-
-    //    RarityEnum chosen = MyRandom.Roulette(dynamicWeights);
-    //    _lastPathUsed = chosen;
-    //    return patrolRoulette.patrolRoutes[chosen].patrolPoints;
-    //}
-
     public List<PatrolPoint> SetRoutes()
     {
         Dictionary<RarityEnum, float> dynamicWeights = new Dictionary<RarityEnum, float>(defaultWeights);
