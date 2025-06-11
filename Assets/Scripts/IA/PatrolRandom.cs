@@ -28,39 +28,38 @@ public class PatrolRandom : MonoBehaviour
     {
         Dictionary<RarityEnum, float> dynamicWeights = new Dictionary<RarityEnum, float>(defaultWeights);
 
-        if (_lastPathFailed)
-        {
-            float boostTotal = 20f; // Cuánto boost total se reparte
-            int otherPaths = defaultWeights.Count - 1;
-            float boostPerPath = boostTotal / otherPaths;
+        float boostTotal = 20f; // Cuánto boost total se reparte
+        float boostPerPath =  boostTotal;
 
-            foreach (var key in defaultWeights.Keys)
+        foreach (var key in defaultWeights.Keys)
+        {
+            if(!key.Equals(_lastPathUsed))
+                dynamicWeights[key] += boostPerPath;
+        }
+
+        if (gameObject.CompareTag("Melee"))
+        {
+            Debug.Log("=== Pesos actuales del Roulette ===");
+  
+            foreach (var kvp in dynamicWeights)
             {
-                if (!key.Equals(_lastPathUsed))
-                    dynamicWeights[key] += boostPerPath;
+                Debug.Log($"{kvp.Key}: {kvp.Value}");
             }
-
-            _lastPathFailed = false;
         }
-
-        //DEBUG: Mostrar pesos actuales antes de hacer la elección
-        Debug.Log("=== Pesos actuales del Roulette ===");
-        foreach (var kvp in dynamicWeights)
-        {
-            Debug.Log($"{kvp.Key}: {kvp.Value}");
-        }
+        
 
         RarityEnum chosen = MyRandom.Roulette(dynamicWeights);
         _lastPathUsed = chosen;
-
-        Debug.Log($"Elegido: {chosen}");
+        if (gameObject.CompareTag("Melee"))
+            Debug.Log($"Elegido: {chosen}");
+        
 
         return patrolRoulette.patrolRoutes[chosen].patrolPoints;
     }
 
-    public void MarkLastPathFailed()
+    public void MarkLastPathCompleted(out List<PatrolPoint> waypoints)
     {
-        _lastPathFailed = true;
+        waypoints = SetRoutes();
     } 
 
 }

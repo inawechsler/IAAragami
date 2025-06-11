@@ -48,7 +48,7 @@ public class LineOfSightMono : MonoBehaviour
 
     }
 
-    public bool LOS(Transform self, Transform target, float range, float angle, LayerMask obsMask, AIModel model)
+    public bool LOS(Transform self, Transform target, float range, float angle, LayerMask obsMask, AIBehaviourManager model)
     {
         bool inSight = CheckRange(target, range) && CheckAngle(target, angle) && CheckView(target, obsMask);
 

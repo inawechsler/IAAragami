@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     {
         UIManager.Instance.RegisterAllUIElements();
         InitializeUIElements();
+        playerIsOnDeathZone = false;
     }
 
     private void InitializeUIElements()

@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 3602172656563558235}
   - component: {fileID: 5884178340644360781}
   - component: {fileID: 5851697957639794809}
+  - component: {fileID: 5969326089707376563}
   m_Layer: 8
   m_Name: FlyEnemy
-  m_TagString: Untagged
+  m_TagString: Boid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -211,18 +212,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  waypoints: []
-  waitOnIdleTime: 3
-  patrolRoute: {fileID: 0}
   rotationSpeed: 10
   angle: 1
   range: 0
   obsMask:
     serializedVersion: 2
     m_Bits: 0
-  hasLostRecently: 0
   attackRange: 0
   Target: {fileID: 0}
+  safeSpot: {fileID: 0}
 --- !u!114 &5884178340644360781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,6 +253,23 @@ MonoBehaviour:
   predatorMask:
     serializedVersion: 2
     m_Bits: 8
+--- !u!114 &5969326089707376563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7656993911583351950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df7a07976a66f4d48b50b7a7c663cc4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lostSighDuration: 0
+  waypoints: []
+  waitOnIdleTime: 3
+  patrolRoute: {fileID: 0}
+  hasLostRecently: 0
 --- !u!1001 &8508664673402566035
 PrefabInstance:
   m_ObjectHideFlags: 0

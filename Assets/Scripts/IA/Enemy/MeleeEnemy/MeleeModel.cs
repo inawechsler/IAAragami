@@ -11,8 +11,6 @@ public class MeleeModel : AIModel
     protected override void Awake()
     {
         base.Awake();
-
-        lostSightDuration = 3f;
         attackCollider.enabled = false;
     }
 

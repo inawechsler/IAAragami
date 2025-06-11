@@ -28,14 +28,13 @@ public class FAISRunAway<T> : AISBase<T>
             path.isFinishPath = false;
             path.isOnPathfinding = true;
         }
-
-        Debug.Log("Iniciando pathfinding con flocking hacia: " + _target);
     }
 
     public override void Execute()
     {
         base.Execute();
 
+        if (path.isFinishPath) return;
         // Verificar si el path está completo
         if (_pathfindingBehaviour.IsPathCompleted)
         {

@@ -24,24 +24,21 @@ public class PathfindingBehaviour : FlockingBaseBehaviour
             return Vector3.zero;
 
         Vector3 currentTarget = _waypoints[_currentIndex];
-        currentTarget.y = _entity.position.y; // Mantener la altura
+        currentTarget.y = _entity.position.y;
 
         Vector3 dir = currentTarget - _entity.position;
 
-        // Verificar si llegamos al waypoint actual
         if (dir.magnitude < _distanceToPoint)
         {
             if (_currentIndex + 1 < _waypoints.Count)
             {
                 _currentIndex++;
-                // Recalcular dirección al nuevo waypoint
                 currentTarget = _waypoints[_currentIndex];
                 currentTarget.y = _entity.position.y;
                 dir = currentTarget - _entity.position;
             }
             else
             {
-                // Path completado
                 _pathCompleted = true;
                 Debug.Log("Pathfinding completado con flocking");
                 return Vector3.zero;
@@ -80,7 +77,6 @@ public class PathfindingBehaviour : FlockingBaseBehaviour
         _pathCompleted = false;
     }
 
-    // Métodos del A* copiados del pathfinding original
     private float Heuristic(Vector3 current)
     {
         return Vector3.Distance(current, _target);
@@ -116,8 +112,5 @@ public class PathfindingBehaviour : FlockingBaseBehaviour
         return connections;
     }
 
-    // Propiedades públicas para control externo
     public bool IsPathCompleted => _pathCompleted;
-    public float DistanceToPoint { get => _distanceToPoint; set => _distanceToPoint = value; }
-    public Vector3 Target => _target;
 }

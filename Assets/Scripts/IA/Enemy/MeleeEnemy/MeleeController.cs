@@ -19,7 +19,7 @@ public class MeleeController : AIController
         var idleAct = new ActionNode(() => fsm.Transition(MAIEnum.Idle));
         var attackAct = new ActionNode(() => fsm.Transition(MAIEnum.Attack));
         var patrolAct = new ActionNode(() => fsm.Transition(MAIEnum.Patrol));
-        var pathfindingAct = new ActionNode(() =>fsm.Transition(MAIEnum.Pathfinding));// falta agregarlo dentro del arbol
+        var pathfindingAct = new ActionNode(() =>fsm.Transition(MAIEnum.Pathfinding));
 
         var qHitTarget = new QuestionNode(QHitTarget, idleAct, attackAct);//Si le pegó al jugador, vuelve a idle, si no, ataca
         var qCanAttack = new QuestionNode(QPlayerInRange, qHitTarget, chaseAct);//Si puede atacar, chequea si le pegó, si no, lo persigue
@@ -29,7 +29,7 @@ public class MeleeController : AIController
         var qCanWatchPlayer = new QuestionNode(QLineOfSight, qCanAttack, qHasLostPlayerRecently);//Si puede ver al jugador, intentará atacarlo, si no, chequeará que lo dejó de ver hace poco
 
 
-        rootNode = qCanWatchPlayer;//CanWatchPlayer
+        rootNode = qCanWatchPlayer;
     }
 
     protected override void InitFSM()
@@ -39,9 +39,9 @@ public class MeleeController : AIController
         var stateList = new List<AISBase<MAIEnum>>();
         var idleSt = new AISIdle<MAIEnum>();
         var chaseSt = new AISSteering<MAIEnum>(pursuit);
-        var patrolSt = new AISPatrol<MAIEnum>(model.waypoints, this,model.patrolRoute);
+        var patrolSt = new AISPatrol<MAIEnum>(behaviourManager.waypoints, this, behaviourManager.patrolRoute);
         var attackSt = new AISAttack<MAIEnum>(target);
-        var goToSt = new AISPathfinding<MAIEnum>(model.waypoints[0].transform.position);
+        var goToSt = new AISPathfinding<MAIEnum>(behaviourManager.waypoints[0].transform.position);
 
         idleSt.AddTransition(MAIEnum.Chase, chaseSt);
         idleSt.AddTransition(MAIEnum.Attack, attackSt);
@@ -83,7 +83,7 @@ public class MeleeController : AIController
 
     private bool QHitTarget()
     {
-        return attack.LastAttackHit(); //Chequea si el último ataque le pegó al jugador
+        return attack.LastAttackHit();
     }
 
     private bool QIsOnPathfinding()
@@ -94,13 +94,10 @@ public class MeleeController : AIController
     protected override void ExecuteFSM()
     {
         fsm.OnExecute();
-
     }
 
     protected override void InitSteering()
     {
         pursuit = new Pursuit(transform, rbTarget, timePrediction);
-
-        steering = pursuit;
     }
 }
