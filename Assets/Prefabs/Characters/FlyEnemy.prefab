@@ -265,11 +265,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7a07976a66f4d48b50b7a7c663cc4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lostSighDuration: 0
   waypoints: []
   waitOnIdleTime: 3
-  patrolRoute: {fileID: 0}
   hasLostRecently: 0
+  lostSightDuration: 0
 --- !u!1001 &8508664673402566035
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -330,10 +329,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -63
       objectReference: {fileID: 0}
+    - target: {fileID: -7990857996552574126, guid: 998df75c7f0ebab4b8cb815275cc0a3b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 83e760c078f761042bb4465e7b304b50, type: 2}
+    - target: {fileID: -5034648335889825245, guid: 998df75c7f0ebab4b8cb815275cc0a3b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 83e760c078f761042bb4465e7b304b50, type: 2}
+    - target: {fileID: -2959755976285055021, guid: 998df75c7f0ebab4b8cb815275cc0a3b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 83e760c078f761042bb4465e7b304b50, type: 2}
     - target: {fileID: 919132149155446097, guid: 998df75c7f0ebab4b8cb815275cc0a3b, type: 3}
       propertyPath: m_Name
       value: Dragon Fly
       objectReference: {fileID: 0}
+    - target: {fileID: 5160120478887021305, guid: 998df75c7f0ebab4b8cb815275cc0a3b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 83e760c078f761042bb4465e7b304b50, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -49,7 +49,7 @@ public class CameraPostProcess : MonoBehaviour
         float closestEnemyDistance = Mathf.Infinity;
         foreach (Collider col in detectedEnemies)
         {
-            if(!col.CompareTag("Melee") && !col.CompareTag("Range")) continue;
+            if(!col.CompareTag("Melee") && !col.CompareTag("Range") && !col.CompareTag("Boid")) continue;
 
             //Me guardo la distancia al enemigo mas cercano
             float distance = Vector3.Distance(player.transform.position, col.transform.position);
@@ -62,6 +62,5 @@ public class CameraPostProcess : MonoBehaviour
         if (distortionIntensity < 0) distortionIntensity = 0;
 
         mat.SetFloat("_DistortionIntensity", distortionIntensity);
-        Debug.Log(distortionIntensity);
     }
 }

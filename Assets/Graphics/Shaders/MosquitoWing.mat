@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hologram
-  m_Shader: {fileID: 4800000, guid: 03b63be92fd75a74fb3f7e2260c7a258, type: 3}
+  m_Name: MosquitoWing
+  m_Shader: {fileID: 4800000, guid: e79dfa4532223354c90e282b64bf2ac4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 0
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -25,12 +25,17 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _EdgeLength: 15
-    - _FresnelBias: 0.1
-    - _FresnelPower: 10
-    - _FresnelScale: 10
-    - _Frquency: 30
-    - _Speed: 15
+    - _Frquency: 1
+    - _Frquency1: 2
+    - _Offset: 0
+    - _Speed: 17
+    - _Speed1: 2
+    - _TransAmbient: 0.2
+    - _TransDirect: 1
+    - _TransNormalDistortion: 0.1
+    - _TransScattering: 2
+    - _TransShadow: 0.9
+    - _Translucency: 1
     - __dirty: 1
     m_Colors: []
   m_BuildTextureStacks: []
