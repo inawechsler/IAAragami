@@ -55,9 +55,9 @@ Material:
     m_Floats:
     - _BrickAmount: 0.44
     - _CementAmount: 0.57
-    - _Float0: 0
+    - _Float0: 1
     - _Float1: 0
-    - _Float2: 0.201
+    - _Float2: 1
     - _GrungeAmount: 0.03
     - _ParallaxScale: 0
     - _Scale: 0

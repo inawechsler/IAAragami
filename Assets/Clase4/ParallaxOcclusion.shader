@@ -115,10 +115,11 @@ Shader "ParallaxOcclusion"
 
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
+			float2 uv_TexCoord2 = i.uv_texcoord * float2( 15,15 );
 			float3 ase_worldNormal = WorldNormalVector( i, float3( 0, 0, 1 ) );
 			float3 ase_worldPos = i.worldPos;
 			float3 ase_worldViewDir = normalize( UnityWorldSpaceViewDir( ase_worldPos ) );
-			float2 OffsetPOM1 = POM( _Texture0, i.uv_texcoord, ddx(i.uv_texcoord), ddy(i.uv_texcoord), ase_worldNormal, ase_worldViewDir, i.viewDir, 8, 8, _Scale, _Float0, _Texture0_ST.xy, float2(0,0), 0 );
+			float2 OffsetPOM1 = POM( _Texture0, uv_TexCoord2, ddx(uv_TexCoord2), ddy(uv_TexCoord2), ase_worldNormal, ase_worldViewDir, i.viewDir, 8, 8, _Scale, _Float0, _Texture0_ST.xy, float2(0,0), 0 );
 			o.Normal = UnpackScaleNormal( tex2D( _TextureSample1, OffsetPOM1 ), _NormalScale );
 			o.Albedo = ( float4( 0.5471698,0.1624747,0.05420078,0 ) * tex2D( _Texture0, OffsetPOM1 ) ).rgb;
 			o.Alpha = 1;
@@ -213,12 +214,12 @@ Shader "ParallaxOcclusion"
 }
 /*ASEBEGIN
 Version=18900
-696;73;628;440;530.425;228.944;1.669419;True;False
-Node;AmplifyShaderEditor.TextureCoordinatesNode;2;-1031.883,-51.70723;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+0;682;1332;304;1762.663;61.97087;1;True;False
 Node;AmplifyShaderEditor.RangedFloatNode;5;-972.8827,270.2928;Inherit;False;Property;_Scale;Scale;1;0;Create;True;0;0;0;False;0;False;0;0.05;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ViewDirInputsCoordNode;6;-995.8827,361.2928;Inherit;False;Tangent;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.TexturePropertyNode;3;-1067.383,74.09277;Inherit;True;Property;_Texture0;Texture 0;0;0;Create;True;0;0;0;False;0;False;None;58a921806dc28c84c8bb2f29d4899f69;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 Node;AmplifyShaderEditor.RangedFloatNode;8;-970.4757,528.1841;Inherit;False;Property;_Float0;Float 0;2;0;Create;True;0;0;0;False;0;False;0.8470588;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;2;-1031.883,-51.70723;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;15,15;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ParallaxOcclusionMappingNode;1;-677.4792,19.45688;Inherit;False;0;8;False;-1;16;False;-1;3;0.02;0;False;1,1;False;0,0;8;0;FLOAT2;0,0;False;1;SAMPLER2D;;False;7;SAMPLERSTATE;;False;2;FLOAT;0.02;False;3;FLOAT3;0,0,0;False;4;FLOAT;0;False;5;FLOAT2;0,0;False;6;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SamplerNode;7;-218.6903,-12.07675;Inherit;True;Property;_TextureSample0;Texture Sample 0;3;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;11;-513.0037,396.2784;Inherit;False;Property;_NormalScale;NormalScale;4;0;Create;True;0;0;0;False;0;False;1;1;0;1;0;1;FLOAT;0
@@ -238,4 +239,4 @@ WireConnection;12;1;7;0
 WireConnection;0;0;12;0
 WireConnection;0;1;10;0
 ASEEND*/
-//CHKSM=E384398F9D965535B541E9C6CD5734D792365A17
+//CHKSM=C1C96E5349710A14F90DD2F5B77153E25DDB3E6B
