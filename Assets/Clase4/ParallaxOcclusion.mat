@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: OldWall
-  m_Shader: {fileID: 4800000, guid: a3a48125a1d77a64ea03e2a31b260702, type: 3}
+  m_Name: ParallaxOcclusion
+  m_Shader: {fileID: 4800000, guid: b11d52e3d0c907340ae83cd45e0de61b, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,27 +24,15 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Texture0:
-        m_Texture: {fileID: 2800000, guid: 9eb325ff9e1bbf1458fbb010f59b7660, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Texture1:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 58a921806dc28c84c8bb2f29d4899f69, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
-        m_Texture: {fileID: 2800000, guid: 509a869d64f1c8248b77cf2a125160ef, type: 3}
-        m_Scale: {x: 3, y: 3}
-        m_Offset: {x: 0, y: 0}
-    - _TextureSample1:
-        m_Texture: {fileID: 2800000, guid: fab05878e86cc744bad81c0ed979d7ff, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7a25b27f30f285641b1d7be3aa5052a4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _TextureSample2:
-        m_Texture: {fileID: 2800000, guid: 9eb325ff9e1bbf1458fbb010f59b7660, type: 3}
-        m_Scale: {x: 3, y: 3}
-        m_Offset: {x: 0, y: 0}
-    - _TextureSample3:
-        m_Texture: {fileID: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: c2b016f6d853fd0488cb5be5c8c85578, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -53,15 +41,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BrickAmount: 0.44
-    - _CementAmount: 0.57
     - _Float0: 0
-    - _Float1: 0
-    - _Float2: 0.201
-    - _GrungeAmount: 0.03
-    - _ParallaxScale: 0
-    - _Scale: 0
-    - _Scale1: 0
+    - _NormalScale: 1
+    - _Scale: 0.05
     - __dirty: 0
     m_Colors: []
   m_BuildTextureStacks: []

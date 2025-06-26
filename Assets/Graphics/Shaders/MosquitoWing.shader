@@ -114,7 +114,7 @@ Shader "MosquitoWing"
 }
 /*ASEBEGIN
 Version=18900
-0;503;1400;491;1803.254;-343.3367;1;True;True
+-1920;678;1332;308;2286.667;-265.6404;2.008892;True;False
 Node;AmplifyShaderEditor.RangedFloatNode;4;-1250.771,474.8448;Inherit;False;Property;_Speed;Speed;9;0;Create;True;0;0;0;False;0;False;0;17;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;37;-1239.254,595.3367;Inherit;False;Property;_Offset;Offset;7;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.PosVertexDataNode;3;-1002.77,244.4568;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -125,8 +125,8 @@ Node;AmplifyShaderEditor.SimpleTimeNode;7;-895.1705,461.5248;Inherit;False;1;0;F
 Node;AmplifyShaderEditor.SimpleAddOpNode;8;-655.9275,301.4065;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SinOpNode;9;-522.3376,304.4689;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.PosVertexDataNode;18;-403.9407,773.8944;Inherit;True;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TFHCRemapNode;23;-366.9041,295.9117;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;-1;False;4;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TFHCRemapNode;19;-146.5736,768.642;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;23;-366.9041,295.9117;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;-1;False;4;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;20;-78.54895,300.796;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector3Node;22;-279.3371,125.041;Inherit;False;Constant;_Vector1;Vector 1;2;0;Create;True;0;0;0;False;0;False;0,0,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.Vector3Node;15;-10.14807,413.7547;Inherit;False;Constant;_Vector0;Vector 0;2;0;Create;True;0;0;0;False;0;False;0,0,1;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
@@ -144,8 +144,8 @@ WireConnection;7;0;31;0
 WireConnection;8;0;6;0
 WireConnection;8;1;7;0
 WireConnection;9;0;8;0
-WireConnection;23;0;9;0
 WireConnection;19;0;18;3
+WireConnection;23;0;9;0
 WireConnection;20;0;23;0
 WireConnection;20;1;19;0
 WireConnection;13;0;22;0
@@ -157,4 +157,4 @@ WireConnection;0;4;27;0
 WireConnection;0;7;28;0
 WireConnection;0;11;13;0
 ASEEND*/
-//CHKSM=10ADFE88568473544A066AD42C3DF8E0EA9FA4BD
+//CHKSM=CD09F7A406EEA5BA05A5E7BE2012DA8ABD452C1D
