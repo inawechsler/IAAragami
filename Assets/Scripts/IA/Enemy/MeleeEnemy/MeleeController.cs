@@ -19,7 +19,7 @@ public class MeleeController : AIController
         var idleAct = new ActionNode(() => fsm.Transition(MAIEnum.Idle));
         var attackAct = new ActionNode(() => fsm.Transition(MAIEnum.Attack));
         var patrolAct = new ActionNode(() => fsm.Transition(MAIEnum.Patrol));
-        var pathfindingAct = new ActionNode(() =>fsm.Transition(MAIEnum.Pathfinding));
+        var pathfindingAct = new ActionNode(() => fsm.Transition(MAIEnum.Pathfinding));
 
         var qHitTarget = new QuestionNode(QHitTarget, idleAct, attackAct);//Si le pegó al jugador, vuelve a idle, si no, ataca
         var qCanAttack = new QuestionNode(QPlayerInRange, qHitTarget, chaseAct);//Si puede atacar, chequea si le pegó, si no, lo persigue

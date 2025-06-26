@@ -47,12 +47,9 @@ public class AISPathfinding<T> : AISBase<T>
             {
                 path.isFinishPath = true;
                 path.isOnPathfinding = false;
-
-                Debug.Log("Pathfinding completado, llegó al destino");
                 return;
             }
         }
-        Debug.Log("Path");
         move.Move(dir.normalized);
         look.LookDir(dir.normalized);
     }
@@ -67,7 +64,6 @@ public class AISPathfinding<T> : AISBase<T>
     {
         if (_entity == null)
         {
-            Debug.LogWarning("Entity es null, no se puede generar path");
             return;
         }
 

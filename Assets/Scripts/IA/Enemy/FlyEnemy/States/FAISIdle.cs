@@ -20,7 +20,6 @@ public class FAISIdle<T> : AISBase<T>
         {
             _originalStates[i] = flockingBehaviours[i].IsActive;
             flockingBehaviours[i].IsActive = false;
-            Debug.Log(flockingBehaviours[i].GetType().Name);
         }
     }
     public override void Execute()

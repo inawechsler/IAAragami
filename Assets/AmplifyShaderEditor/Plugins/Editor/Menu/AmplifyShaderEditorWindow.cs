@@ -4722,6 +4722,7 @@ namespace AmplifyShaderEditor
 					m_genericMessageContent.text = "Error!!!\n" + message;
 					if( consoleLog )
 					{
+						Debug.LogError( message );
 					}
 				}
 				break;

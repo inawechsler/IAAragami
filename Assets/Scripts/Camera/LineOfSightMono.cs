@@ -34,12 +34,11 @@ public class LineOfSightMono : MonoBehaviour
         Vector3 dir = target.position - transform.position;
 
         //Primero tira ray normal (altura de pies)
-        if (!Physics.Raycast(transform.position, dir.normalized, dir.magnitude, obsMask)) //Lo niego porque el ray devuelve verdadero cuando choca, 
-            return true;                                                                  //nosotros queremos que sea verdadero cuando nada lo bloquea.
+        if (!Physics.Raycast(transform.position, dir.normalized, dir.magnitude, obsMask)) 
+            return true;                                                                  
         
         
-        //Dibujar rayo desde cabeza del jugador para saber si no está parado detrás de un obstáculo bajo
-        Vector3 headPlayer = headPos.transform.position; // Altura de la cabeza del PJ
+        Vector3 headPlayer = headPos.transform.position; 
 
         Vector3 headPosition = transform.position + Vector3.up * 1.8f; // Altura aproximada de una cabeza
         Vector3 dirFromHead = headPlayer - headPosition;
@@ -55,15 +54,15 @@ public class LineOfSightMono : MonoBehaviour
         if (wasInRange && !inSight && !eventFired)
         {
             model.onLostSight?.Invoke();
-            eventFired = true; // evita que el evento se vuelva a ejecutar
+            eventFired = true; 
         }
         if (!wasInRange && inSight && !gainSightEventFired)
         {
             model.onSightAcheived?.Invoke();
-            gainSightEventFired = true; // evita que el evento se vuelva a ejecutar
+            gainSightEventFired = true; 
         }
 
-        // si vuelve a estar en rango, resetea el flag para que pueda dispararse de nuevo cuando salga del rango
+       
         if (inSight)
         {
             wasInRange = true;
@@ -73,7 +72,6 @@ public class LineOfSightMono : MonoBehaviour
         {
             wasInRange = false;
         }
-        //Debug.Log("LOS:" + wasInRange);
         return inSight;
     }
 }
