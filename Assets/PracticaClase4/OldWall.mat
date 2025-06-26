@@ -25,7 +25,7 @@ Material:
     m_TexEnvs:
     - _Texture0:
         m_Texture: {fileID: 2800000, guid: 9eb325ff9e1bbf1458fbb010f59b7660, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 3, y: 3}
         m_Offset: {x: 0, y: 0}
     - _Texture1:
         m_Texture: {fileID: 0}
@@ -37,7 +37,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _TextureSample1:
         m_Texture: {fileID: 2800000, guid: fab05878e86cc744bad81c0ed979d7ff, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 3, y: 3}
         m_Offset: {x: 0, y: 0}
     - _TextureSample2:
         m_Texture: {fileID: 2800000, guid: 9eb325ff9e1bbf1458fbb010f59b7660, type: 3}
@@ -60,7 +60,7 @@ Material:
     - _Float2: 1
     - _GrungeAmount: 0.03
     - _ParallaxScale: 0
-    - _Scale: 0
+    - _Scale: 0.01
     - _Scale1: 0
     - __dirty: 0
     m_Colors: []
