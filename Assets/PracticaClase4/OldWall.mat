@@ -62,7 +62,7 @@ Material:
     - _ParallaxScale: 0
     - _Scale: 0.01
     - _Scale1: 0
-    - __dirty: 0
+    - __dirty: 1
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
