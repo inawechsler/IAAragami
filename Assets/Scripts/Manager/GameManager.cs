@@ -36,7 +36,9 @@ public class GameManager : MonoBehaviour
     {
 
         canvas = GameObject.FindWithTag("Canvas").GetComponent<Canvas>();
-        if(canvas == null)
+        //image = canvas.GetComponentInChildren<Image>();
+        canvasText = canvas.GetComponentInChildren<TextMeshProUGUI>();
+        if (canvas == null)
         {
             return;
         }
