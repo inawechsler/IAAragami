@@ -1,20 +1,23 @@
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    // IDs para canvas (en lugar de referencias directas)
-    private const string KEY_CANVAS_ID = "KeyCanvas";
-    private const string DOOR_CANVAS_ID = "DoorCanvas";
     public Action onKeyZone; 
     public Action onDoorZone;
     public Action<bool> onGameEnd;
 
     public bool playerIsOnDeathZone;
     public bool playerHasKey;
+    public Canvas canvas;
+    public TextMeshProUGUI canvasText;
+    public Image image;
+
     private void Awake()
     {
         if (Instance == null)
@@ -29,33 +32,44 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
 
     }
+    void Init()
+    {
+
+        canvas = GameObject.FindWithTag("Canvas").GetComponent<Canvas>();
+        if(canvas == null)
+        {
+            return;
+        }
+        //canvasText = GameObject.FindWithTag("Canvas").GetComponentInChildren<TextMeshProUGUI>();
+        InitializeUIElements();
+        playerIsOnDeathZone = false;
+        playerHasKey = false;
+    }
 
     private void Start()
     {
-        InitializeUIElements();
+        Init();
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        UIManager.Instance.RegisterAllUIElements();
-        InitializeUIElements();
-        playerIsOnDeathZone = false;
+        Init();
     }
 
     private void InitializeUIElements()
     {
-        // Ocultar elementos UI al inicio
-        UIManager.Instance.HideUI(KEY_CANVAS_ID);
-        UIManager.Instance.HideUI(DOOR_CANVAS_ID);
+        image.gameObject.SetActive(false);
 
 
-        onKeyZone = KeyVisibility; //Igualo porque es la unica función que se suscribe
+
+        onKeyZone += KeyVisibility; //Igualo porque es la unica función que se suscribe
         onDoorZone = DoorVisibility; //Igualo porque es la unica función que se suscribe
         onGameEnd += OnGameEnding;
     }
-
     public void KeyVisibility()
     {
-        UIManager.Instance.ToggleUI(KEY_CANVAS_ID);
+        Debug.Log("kasjdas");
+        string keyTextToUse = "Press \"E\" to pick up the key";
+        ChangeUIVisibility(true, keyTextToUse);
     }
     public void OnGameEnding(bool value)
     {
@@ -63,22 +77,34 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("WinScreen");
     }
 
+    public void ChangeUIVisibility(bool value, string text = null)
+    {
+        if (value)
+        {
+            canvasText.text = text;
+            image.gameObject.SetActive(true);
+        } else
+        {
+            canvasText.text = "";
+            image.gameObject.SetActive(false);
+        }
+    }
     public void DoorVisibility()
     {
-        UIManager.Instance.ToggleUI(DOOR_CANVAS_ID);
 
         // Actualizar texto según estado
         string doorMessage = playerHasKey ?
             "\"E\" to open the door" :
             "You need a key to open this door";
 
-        UIManager.Instance.UpdateUIText(DOOR_CANVAS_ID, doorMessage);
+        ChangeUIVisibility(true, doorMessage);
+
     }
 
     public void SetPlayerHasKey()
     {
         playerHasKey = true;
-        KeyVisibility();
+        canvasText.gameObject.SetActive(false);
     }
 
 }

@@ -16,6 +16,7 @@ TagManager:
   - DeathZone
   - Boid
   - Background
+  - Canvas
   layers:
   - Default
   - TransparentFX

@@ -199,6 +199,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
     {
         if (collider.gameObject.CompareTag("Key"))
         {
+            print("sadasdas");
             GameManager.Instance.onKeyZone?.Invoke();
         }
         if (collider.gameObject.CompareTag("Door"))
@@ -227,6 +228,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
             if (Input.GetKeyDown(KeyCode.E))
             {
                 GameManager.Instance.SetPlayerHasKey();
+                GameManager.Instance.ChangeUIVisibility(false);
                 Destroy(other.gameObject); // Destruye el objeto de la llave
             }
 
@@ -244,12 +246,13 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
     {
         if (collider.gameObject.CompareTag("Key"))
         {
-            GameManager.Instance.onKeyZone?.Invoke();
+            GameManager.Instance.ChangeUIVisibility(false);
+
         }
         if (collider.gameObject.CompareTag("Door"))
         {
            
-            GameManager.Instance.onDoorZone?.Invoke();
+            GameManager.Instance.ChangeUIVisibility(false);
         }
         if (collider.gameObject.CompareTag("DeathZone"))
         {
