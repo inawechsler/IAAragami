@@ -1,17 +1,23 @@
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public GameObject canvasKey;
-    public GameObject canvasDoor;
     public Action onKeyZone; 
     public Action onDoorZone;
-    [SerializeField] public TextMeshProUGUI doorText;
+    public Action<bool> onGameEnd;
 
+    public bool playerIsOnDeathZone;
     public bool playerHasKey;
+    public Canvas canvas;
+    public TextMeshProUGUI canvasText;
+    public Image image;
+
     private void Awake()
     {
         if (Instance == null)
@@ -23,54 +29,84 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
+    }
+    void Init()
+    {
 
+        canvas = GameObject.FindWithTag("Canvas").GetComponent<Canvas>();
+        //image = canvas.GetComponentInChildren<Image>();
+        canvasText = canvas.GetComponentInChildren<TextMeshProUGUI>();
+        if (canvas == null)
+        {
+            return;
+        }
+        //canvasText = GameObject.FindWithTag("Canvas").GetComponentInChildren<TextMeshProUGUI>();
+        InitializeUIElements();
+        playerIsOnDeathZone = false;
+        playerHasKey = false;
     }
 
     private void Start()
     {
-        canvasKey = GameObject.FindWithTag("KeyText");
-        canvasDoor = GameObject.FindWithTag("DoorText");
-        canvasDoor.SetActive(false);
-        canvasKey.SetActive(false);
-        onKeyZone += KeyVisibility;
-        onDoorZone += DoorVisibility;
+        Init();
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Init();
     }
 
+    private void InitializeUIElements()
+    {
+        image.gameObject.SetActive(false);
+
+
+
+        onKeyZone += KeyVisibility; //Igualo porque es la unica función que se suscribe
+        onDoorZone = DoorVisibility; //Igualo porque es la unica función que se suscribe
+        onGameEnd += OnGameEnding;
+    }
     public void KeyVisibility()
     {
-        CanvasVisibility(canvasKey);
+        Debug.Log("kasjdas");
+        string keyTextToUse = "Press \"E\" to pick up the key";
+        ChangeUIVisibility(true, keyTextToUse);
+    }
+    public void OnGameEnding(bool value)
+    {
+        WinLoseScreenManager.SetText(value);
+        SceneManager.LoadScene("WinScreen");
     }
 
-
-    public void DoorVisibility()
+    public void ChangeUIVisibility(bool value, string text = null)
     {
-        CanvasVisibility(canvasDoor);
-        if (playerHasKey)
+        if (value)
         {
-            doorText.text = "\"E\" to open the door";
+            canvasText.text = text;
+            image.gameObject.SetActive(true);
         } else
         {
-            doorText.text = "You need a key to open this door";
+            canvasText.text = "";
+            image.gameObject.SetActive(false);
         }
     }
-
-    public void CanvasVisibility(GameObject obj)
+    public void DoorVisibility()
     {
-        if (obj.activeSelf)
-        {
-            obj.SetActive(false);
-        }
-        else
-        {
-            obj.SetActive(true);
-        }
+
+        // Actualizar texto según estado
+        string doorMessage = playerHasKey ?
+            "\"E\" to open the door" :
+            "You need a key to open this door";
+
+        ChangeUIVisibility(true, doorMessage);
+
     }
 
     public void SetPlayerHasKey()
     {
         playerHasKey = true;
-        KeyVisibility();
+        canvasText.gameObject.SetActive(false);
     }
 
 }

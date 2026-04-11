@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 {
     [Header("Movement")]
-    private float moveSpeed = 3f;
+    private float moveSpeed = 4f;
     private float originalMoveSpeed => moveSpeed;
 
     [Header("Rotation")]
@@ -35,7 +35,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
     [SerializeField] private Camera mainCamera;
 
     public static event Action onEnemyHitPlayer; 
-    public Transform Position { get; set; }
+    public Transform SelfPosition { get; set; }
     public Action onCrouch { get; set; }
 
     void Awake()
@@ -43,7 +43,7 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
         onEnemyHitPlayer += ManagePlayerLoss;
         rb = GetComponent<Rigidbody>();
         inputController = GetComponent<InputController>();
-        Position = transform;
+        SelfPosition = transform;
         onCrouch += ToggleCrouch; //Cuando se invoque crouch se invocará ToggleCrouch
         characterCollider = GetComponent<CapsuleCollider>();
         SetCapsuleParam();
@@ -51,14 +51,8 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
 
     public void ManagePlayerLoss()
     {
-#if UNITY_EDITOR
-
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        GameManager.Instance.onGameEnd?.Invoke(false); //Invoca el evento de fin de juego en derrota
     }
-
 
     public static void RegisterEnemyHit()
     {
@@ -205,14 +199,28 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
     {
         if (collider.gameObject.CompareTag("Key"))
         {
+            print("sadasdas");
             GameManager.Instance.onKeyZone?.Invoke();
         }
         if (collider.gameObject.CompareTag("Door"))
         {
             GameManager.Instance.onDoorZone?.Invoke();
         }
+
+        if(collider.gameObject.CompareTag("DeathZone"))
+        {
+            GameManager.Instance.playerIsOnDeathZone = true; //El jugador entra en la zona de muerte
+        }
     }
 
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Boid"))
+        {
+            GameManager.Instance.onGameEnd?.Invoke(false); // Invoca el evento de fin de juego en victoria
+        }
+    }
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Key"))
@@ -220,15 +228,16 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
             if (Input.GetKeyDown(KeyCode.E))
             {
                 GameManager.Instance.SetPlayerHasKey();
+                GameManager.Instance.ChangeUIVisibility(false);
                 Destroy(other.gameObject); // Destruye el objeto de la llave
             }
 
         }
-        if (other.gameObject.CompareTag("Key"))
+        if (other.gameObject.CompareTag("Door"))
         {
             if (Input.GetKeyDown(KeyCode.E) && GameManager.Instance.playerHasKey)
             {
-                
+                GameManager.Instance.onGameEnd?.Invoke(true); // Invoca el evento de fin de juego en victoria
             }
 
         }
@@ -237,11 +246,17 @@ public class PlayerModel : MonoBehaviour, IMove, ILook, ICrouch
     {
         if (collider.gameObject.CompareTag("Key"))
         {
-            GameManager.Instance.onKeyZone?.Invoke();
+            GameManager.Instance.ChangeUIVisibility(false);
+
         }
         if (collider.gameObject.CompareTag("Door"))
         {
-            GameManager.Instance.onDoorZone?.Invoke();
+           
+            GameManager.Instance.ChangeUIVisibility(false);
+        }
+        if (collider.gameObject.CompareTag("DeathZone"))
+        {
+            GameManager.Instance.playerIsOnDeathZone = false; //El jugador entra en la zona de muerte
         }
     }
 }

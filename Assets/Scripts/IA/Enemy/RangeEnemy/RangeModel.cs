@@ -14,16 +14,15 @@ public class RangeModel : AIModel
     {
         base.Awake();
         onAttack += DropMine;
-        onSightAcheived += ManageMine;
-        lostSightDuration = 10f;
+        behaviourManager.onSightAcheived += ManageMine;
     }
 
     public void DropMine()//Método que se ejecuta en onAttack recibido
     {
         if (minePrefab != null)
         {
-            var mine = Instantiate(minePrefab.gameObject, Position.position, Quaternion.identity);
-            mine.transform.forward = Position.forward;
+            var mine = Instantiate(minePrefab.gameObject, SelfPosition.position, Quaternion.identity);
+            mine.transform.forward = SelfPosition.forward;
             mine.gameObject.SetActive(true);
         }
     }

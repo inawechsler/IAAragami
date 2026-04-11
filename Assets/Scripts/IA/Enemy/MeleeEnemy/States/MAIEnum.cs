@@ -5,6 +5,8 @@ public enum MAIEnum
     Idle,
     Attack,
     Chase,
+    Patrol,
+    Pathfinding,
     Evade,
-    Patrol
+    RunAway
 }

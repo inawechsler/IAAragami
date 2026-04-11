@@ -4,6 +4,7 @@ public class AISBase<T> : State<T>
 {
     protected ILook look;
     protected IMove move;
+    protected IPath path;
     protected LineOfSightMono LOS;
     protected AIController controller;
     protected IAttack attack;
@@ -20,6 +21,8 @@ public class AISBase<T> : State<T>
             LOS = args[4] as LineOfSightMono;
             controller = args[5] as AIController;
             obs = args[6] as ObstacleAvoidance;
+            if(args.Length > 7)
+                path = args[7] as IPath; 
             StateMachine = fsm;
         }
     }

@@ -17,7 +17,6 @@ public class PSWalk<T> : PSBase<T>
 
     public override void Execute()
     {
-        //base.Execute();
         if (controller != null)
         {
             move.Move(move.CalculateMovementDirection());

@@ -15,15 +15,24 @@ public class AISPatrol<T> : AISBase<T>
     private int _lapsCompleted = 0;
     private int _lapsToWaitOnIdle = 2;
     private Coroutine _waitCoroutine;
+    private MonoBehaviour monoRef;
+    private PatrolRandom patrolRandom;
 
-    public AISPatrol(List<PatrolPoint> waypoints)
+    public AISPatrol(List<PatrolPoint> waypoints, MonoBehaviour monoBehaviourRef, PatrolRandom patrolRandom)
     {
-        _waypoints = waypoints;
+        monoRef = monoBehaviourRef;
+        waypoints = _waypoints;
+        this.patrolRandom = patrolRandom;
     }
 
     public override void Enter()
     {
         base.Enter();
+
+        if (patrolRandom != null)
+        {
+            patrolRandom.MarkLastPathCompleted(out _waypoints);
+        }
         _isWaiting = false;
         _currentWaypointIndex = 0;
     }
@@ -34,36 +43,37 @@ public class AISPatrol<T> : AISBase<T>
 
         if (_waypoints.Count == 0 || _isWaiting) return;
 
-        Vector3 target = _waypoints[_currentWaypointIndex].Position; //Posición del waypoint
-        Vector3 direction = (target - controller.transform.position).normalized; //Dirección hacia el waypoint
+        Vector3 target = _waypoints[_currentWaypointIndex].Position; 
+        Vector3 direction = (target - controller.transform.position).normalized; 
         move.Move(direction);
 
-        if (Vector3.Distance(controller.transform.position, target) < _stopDistance)//Si la dist es menor a la stopDistance
+        if (Vector3.Distance(controller.transform.position, target) < _stopDistance)
         {
-            _isWaiting = true; //Esperando en el wp true
-            controller.StartCoroutine(WaitAndMoveToNext()); //Inicia la corrutina para esperar  
+            _isWaiting = true; 
+            monoRef.StartCoroutine(WaitAndMoveToNext()); 
         }
     }
 
     public IEnumerator WaitAndMoveToNext()
     {
-        float waitTime = UnityEngine.Random.Range(_minWaitTime, _maxWaitTime); //Random en espera
-        yield return new WaitForSeconds(waitTime); //Esperar el tiempo random
+        float waitTime = UnityEngine.Random.Range(_minWaitTime, _maxWaitTime);
+        yield return new WaitForSeconds(waitTime); 
 
-        if (_currentWaypointIndex == _waypoints.Count - 1) //Si el index es igual al ultimo waypoint
+        if (_currentWaypointIndex == _waypoints.Count - 1) 
         {
+            if(patrolRandom != null)
+            {
+                patrolRandom.MarkLastPathCompleted(out _waypoints);
+            }
             _lapsCompleted++;
-            controller.model.onPatrolCompleted?.Invoke(); //Invoco que se completó la vuelta de patrol
-            _waypoints = controller.model.waypoints; //La lista de waypoints se actualiza
-            if (_lapsCompleted == _lapsToWaitOnIdle) //Si está en la vuelta para esperar
+            if (_lapsCompleted == _lapsToWaitOnIdle) 
             {
                 _lapsCompleted = 0;
-                controller.model.waitOnIdleAction?.Invoke(); //Espera en idle
+                controller.behaviourManager.waitOnIdleAction?.Invoke(); 
             }
         }
         _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Count;
         _isWaiting = false;
-        Debug.Log("Laps Complete: " + _lapsCompleted);
     }
 
     public override void Exit()

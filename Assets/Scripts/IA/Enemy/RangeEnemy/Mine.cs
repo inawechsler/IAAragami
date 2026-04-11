@@ -46,6 +46,14 @@ public class Mine : MonoBehaviour
         Explode();
     }
 
+    private void OnTriggerStay(Collider collider)
+    {
+        if (!isActive || !IsInLayerMask(collider.gameObject.layer, targetLayers)) //Si la bomba no está activa o no está en la capa de los targets, no hace nada
+            return;
+
+        Explode();
+    }
+
     private void Explode()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius, targetLayers);//Agarro todos los colliders que están dentro del radio de la mina
